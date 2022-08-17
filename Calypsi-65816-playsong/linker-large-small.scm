@@ -1,0 +1,26 @@
+(define memories
+  '((memory flash (address (#x10000 . #x1ffff))
+            (section farcode cfar chuge switch))
+			     ;; Use bank 02 for vram initializers and code
+     (memory bank02  (address (#x20000 . #x29fff))
+             (section ivram farcode))
+	     ;; Use bank 03 for palette initializers
+	 (memory bank03  (address (#x2a000 . #x2ffff))
+             (section ipalette0))
+    (memory LoRAM (address (#x4000 . #x8fff))
+            (section stack data zdata data heap))
+    (memory LoCODE (address (#x9000 . #xefff))
+            (section code cdata data_init_table idata))
+    (memory FarRAM1 (address (#x30000 . #x3ffff))
+            (section zfar far zhuge huge))
+    (memory DirectPage (address (#xf000 . #xf0ff))
+            (section (registers ztiny)))
+    (memory Vector (address (#xfff0 . #xffff))
+            (section (reset #xfffc)))
+	(memory palettes (address (#xaf2000 . #xaf3fff))
+            (section palette0 palette1 palette2 palette3
+					 palette4 palette5 palette6 palette7))
+    (block stack (size #x1000))
+    (block heap (size #x1000))
+    (base-address _DirectPageStart DirectPage 0)
+    ))
