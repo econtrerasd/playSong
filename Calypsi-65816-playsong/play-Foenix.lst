@@ -1,7 +1,7 @@
 ###############################################################################
 #                                                                             #
 # Calypsi linker for 65816                                      version 3.6.6 #
-#                                                       17/Aug/2022  16:27:08 #
+#                                                       17/Aug/2022  23:46:32 #
 # Command line: --output-format=pgz --list-file=play-Foenix.lst               #
 #               --cross-reference --rtattr printf=float --rtattr              #
 #               cstartup=Foenix --verbose --copy-initialize palette0 -o       #
@@ -27,7 +27,7 @@ Vector     00fff0-00ffff 000010    0.0%  none      000010
 near-bank  010000-01ffff 010000    0.0%  none      010000
 bank02     020000-02ffff 010000    0.0%  none      010000
 bank03     030000-03ffff 010000    0.0%  none      010000
-bank#x04   040000-04ffff 010000   24.9%  none      00c05a
+bank#x04   040000-04ffff 010000   25.1%  none      00bfb5
 bank#x05   050000-05ffff 010000    0.0%  none      010000
 bank#x06   060000-06ffff 010000    0.0%  none      010000
 bank#x07   070000-07ffff 010000    0.0%  none      010000
@@ -113,7 +113,7 @@ data_init_table 0077c3-0077cc  00000a  LoCODE     1
 cdata           0077cd-0077e3  000017  LoCODE     3
 code            0077e4-0077e8  000005  LoCODE     1
 cdata           0077e9-0077fd  000015  LoCODE     6
-farcode         040000-043fa5  003fa6  bank#x04   107
+farcode         040000-04404a  00404b  bank#x04   108
 
 
 ################
@@ -126,10 +126,10 @@ Unit Filename               Archive
 -----------------------------------------------
   0  obj/main.o             -
           >  cdata   000201
-          >  farcode 000641
+          >  farcode 00067d
   1  obj/playsong.o         -
           >  cdata   0004f6
-          >  farcode 000e74
+          >  farcode 000edd
           >  switch  000018
   5  Foenix-startup-lc-sd.o Foenix-lc-sd.a
           # picked based on cstartup=Foenix
@@ -507,8 +507,8 @@ g_dtoa_scale_up in section 'cdata'
     Referenced from:
         __dtoa_engine (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 2)
 
-`?L188` in section 'switch'  placed at address 007732-007749 of size 000018
-(obj/playsong.o unit 1 section index 32)
+`?L200` in section 'switch'  placed at address 007732-007749 of size 000018
+(obj/playsong.o unit 1 section index 33)
     References:
         addTrack in (obj/playsong.o unit 1 section index 12)
 
@@ -715,7 +715,7 @@ __vsprintf in section 'farcode'  placed at address 040000-04143c of size 00143d
         (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 15)
         (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 16)
 
-addTrack in section 'farcode'  placed at address 04143d-041cb6 of size 00087a
+addTrack in section 'farcode'  placed at address 04143d-041cce of size 000892
 (obj/playsong.o unit 1 section index 12)
     Defines:
         addTrack = 04143d
@@ -742,12 +742,12 @@ addTrack in section 'farcode'  placed at address 04143d-041cb6 of size 00087a
         (obj/main.o unit 0 section index 11)
         (obj/main.o unit 0 section index 12)
         (obj/main.o unit 0 section index 13)
-        (obj/playsong.o unit 1 section index 32)
+        (obj/playsong.o unit 1 section index 33)
 
-main in section 'farcode'  placed at address 041cb7-042274 of size 0005be
+main in section 'farcode'  placed at address 041ccf-0422c8 of size 0005fa
 (obj/main.o unit 0 section index 2)
     Defines:
-        main = 041cb7
+        main = 041ccf
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         `_StringLiteral_I1D4B3BBD4B3BRRhD4CB3C4D4hD4B3BBD4B3BRRhD4qD#4RwRB3BBRD4D4D4F#3D4F#3D4G3BGBD4B3BBD4B3BRRhD4RRhG3` in (obj/main.o unit 0 section index 25)
@@ -776,10 +776,10 @@ main in section 'farcode'  placed at address 041cb7-042274 of size 0005be
         (Foenix-startup-lc-sd.o (from Foenix-lc-sd.a) unit 5 section index 6)
 
 __dtoa_engine in section 'farcode'
- placed at address 042275-0426a0 of size 00042c
+ placed at address 0422c9-0426f4 of size 00042c
 (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 2)
     Defines:
-        __dtoa_engine = 042275
+        __dtoa_engine = 0422c9
     References:
         _Const_000000000000000a in (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 9)
         _Const_00000000000f4240 in (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 10)
@@ -801,10 +801,10 @@ __dtoa_engine in section 'farcode'
         __vsprintf (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 6)
 
 playSongSID in section 'farcode'
- placed at address 0426a1-04295b of size 0002bb
+ placed at address 0426f5-0429f8 of size 000304
 (obj/playsong.o unit 1 section index 15)
     Defines:
-        playSongSID = 0426a1
+        playSongSID = 0426f5
     References:
         SidNotes in (obj/playsong.o unit 1 section index 4)
         _Div32 in (integer.o (from clib-lc-sd-Foenix.a) unit 29 section index 13)
@@ -817,10 +817,10 @@ playSongSID in section 'farcode'
         main (obj/main.o unit 0 section index 2)
 
 __lib_fwrite in section 'farcode'
- placed at address 04295c-042a9d of size 000142
+ placed at address 0429f9-042b3a of size 000142
 (lib_libfwrite.o (from clib-lc-sd-Foenix.a) unit 39 section index 2)
     Defines:
-        __lib_fwrite = 04295c
+        __lib_fwrite = 0429f9
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         _Stub_write in (stub_write-lc-sd.o (from Foenix-lc-sd.a) unit 36 section index 2)
@@ -830,10 +830,10 @@ __lib_fwrite in section 'farcode'
     Referenced from:
         fputc (lib_fputc.o (from clib-lc-sd-Foenix.a) unit 33 section index 2)
 
-_Float32LT in section 'farcode'  placed at address 042a9e-042add of size 000040
+_Float32LT in section 'farcode'  placed at address 042b3b-042b7a of size 000040
 (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 3)
     Defines:
-        _Float32LT = 042a9e
+        _Float32LT = 042b3b
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
@@ -841,42 +841,42 @@ _Float32LT in section 'farcode'  placed at address 042a9e-042add of size 000040
         __dtoa_engine (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 2)
 
 exitFloat32LT in section 'farcode'
- placed at address 042ade-042af9 of size 00001c
+ placed at address 042b7b-042b96 of size 00001c
 (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 4)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-_Float32GE in section 'farcode'  placed at address 042afa-042b3b of size 000042
+_Float32GE in section 'farcode'  placed at address 042b97-042bd8 of size 000042
 (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 5)
     Defines:
-        _Float32GE = 042afa
+        _Float32GE = 042b97
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         __dtoa_engine (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 2)
 
 _SInt32ToFloat32 in section 'farcode'
- placed at address 042b3c-042b52 of size 000017
+ placed at address 042bd9-042bef of size 000017
 (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 6)
     Defines:
-        _SInt32ToFloat32 = 042b3c
+        _SInt32ToFloat32 = 042bd9
     Referenced from:
         addTrack (obj/playsong.o unit 1 section index 12)
         playSongSID (obj/playsong.o unit 1 section index 15)
 
 _UInt32ToFloat32 in section 'farcode'
- placed at address 042b53-042bc7 of size 000075
+ placed at address 042bf0-042c64 of size 000075
 (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 7)
     Defines:
-        _UInt32ToFloat32 = 042b53
+        _UInt32ToFloat32 = 042bf0
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
 __lib_fflush in section 'farcode'
- placed at address 042bc8-042cdb of size 000114
+ placed at address 042c65-042d78 of size 000114
 (lib_libfflush.o (from clib-lc-sd-Foenix.a) unit 34 section index 2)
     Defines:
-        __lib_fflush = 042bc8
+        __lib_fflush = 042c65
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         _Stub_write in (stub_write-lc-sd.o (from Foenix-lc-sd.a) unit 36 section index 2)
@@ -888,10 +888,10 @@ __lib_fflush in section 'farcode'
         __lib_wrflush (lib_wrflush.o (from clib-lc-sd-Foenix.a) unit 44 section index 2)
 
 setInstrumentSID in section 'farcode'
- placed at address 042cdc-042dec of size 000111
+ placed at address 042d79-042e89 of size 000111
 (obj/playsong.o unit 1 section index 16)
     Defines:
-        setInstrumentSID = 042cdc
+        setInstrumentSID = 042d79
     References:
         SID_envelope in (obj/playsong.o unit 1 section index 5)
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
@@ -899,10 +899,10 @@ setInstrumentSID in section 'farcode'
         playSongSID (obj/playsong.o unit 1 section index 15)
 
 __ultoa_invert in section 'farcode'
- placed at address 042ded-042ef4 of size 000108
+ placed at address 042e8a-042f91 of size 000108
 (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 5)
     Defines:
-        __ultoa_invert = 042ded
+        __ultoa_invert = 042e8a
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         _UDiv64 in (integer.o (from clib-lc-sd-Foenix.a) unit 29 section index 15)
@@ -910,10 +910,10 @@ __ultoa_invert in section 'farcode'
     Referenced from:
         __vsprintf (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 6)
 
-malloc in section 'farcode'  placed at address 042ef5-042fe6 of size 0000f2
+malloc in section 'farcode'  placed at address 042f92-043083 of size 0000f2
 (malloc.o (from clib-lc-sd-Foenix.a) unit 51 section index 2)
     Defines:
-        malloc = 042ef5
+        malloc = 042f92
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __addfreechunk in (addfreechunk.o (from clib-lc-sd-Foenix.a) unit 15 section index 3)
@@ -922,10 +922,10 @@ malloc in section 'farcode'  placed at address 042ef5-042fe6 of size 0000f2
     Referenced from:
         main (obj/main.o unit 0 section index 2)
 
-free in section 'farcode'  placed at address 042fe7-0430c7 of size 0000e1
+free in section 'farcode'  placed at address 043084-043164 of size 0000e1
 (free.o (from clib-lc-sd-Foenix.a) unit 14 section index 2)
     Defines:
-        free = 042fe7
+        free = 043084
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __addfreechunk in (addfreechunk.o (from clib-lc-sd-Foenix.a) unit 15 section index 3)
@@ -934,63 +934,63 @@ free in section 'farcode'  placed at address 042fe7-0430c7 of size 0000e1
         main (obj/main.o unit 0 section index 2)
 
 __heap_addregion in section 'farcode'
- placed at address 0430c8-043185 of size 0000be
+ placed at address 043165-043222 of size 0000be
 (heap_initialize.o (from clib-lc-sd-Foenix.a) unit 16 section index 2)
     Defines:
-        __heap_addregion = 0430c8
+        __heap_addregion = 043165
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __addfreechunk in (addfreechunk.o (from clib-lc-sd-Foenix.a) unit 15 section index 3)
     Referenced from:
         __heap_initialize (heap_initialize.o (from clib-lc-sd-Foenix.a) unit 16 section index 3)
 
-_UDiv64 in section 'farcode'  placed at address 043186-043237 of size 0000b2
+_UDiv64 in section 'farcode'  placed at address 043223-0432d4 of size 0000b2
 (integer.o (from clib-lc-sd-Foenix.a) unit 29 section index 15)
     Defines:
-        _UMod64 = 043189
-        _UDiv64 = 043186
+        _UMod64 = 043226
+        _UDiv64 = 043223
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         __ultoa_invert (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 5)
         __dtoa_engine (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 2)
 
-DivMod32 in section 'farcode'  placed at address 043238-04325d of size 000026
+DivMod32 in section 'farcode'  placed at address 0432d5-0432fa of size 000026
 (integer.o (from clib-lc-sd-Foenix.a) unit 29 section index 10)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         _UDivMod32 in (integer.o (from clib-lc-sd-Foenix.a) unit 29 section index 11)
 
-_UDivMod32 in section 'farcode'  placed at address 04325e-0432a6 of size 000049
+_UDivMod32 in section 'farcode'  placed at address 0432fb-043343 of size 000049
 (integer.o (from clib-lc-sd-Foenix.a) unit 29 section index 11)
     Defines:
-        _UDivMod32 = 04325e
+        _UDivMod32 = 0432fb
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         (integer.o (from clib-lc-sd-Foenix.a) unit 29 section index 10)
 
-_Div32 in section 'farcode'  placed at address 0432a7-0432b3 of size 00000d
+_Div32 in section 'farcode'  placed at address 043344-043350 of size 00000d
 (integer.o (from clib-lc-sd-Foenix.a) unit 29 section index 13)
     Defines:
-        _Div32 = 0432a7
+        _Div32 = 043344
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         playSongSID (obj/playsong.o unit 1 section index 15)
 
 _DivModSign32 in section 'farcode'
- placed at address 0432b4-0432c9 of size 000016
+ placed at address 043351-043366 of size 000016
 (integer.o (from clib-lc-sd-Foenix.a) unit 29 section index 14)
     Defines:
-        _DivModSign32 = 0432b4
+        _DivModSign32 = 043351
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-showTracks in section 'farcode'  placed at address 0432ca-043355 of size 00008c
+showTracks in section 'farcode'  placed at address 043367-0433f2 of size 00008c
 (obj/playsong.o unit 1 section index 14)
     Defines:
-        showTracks = 0432ca
+        showTracks = 043367
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         `_StringLiteral_%d ` in (obj/playsong.o unit 1 section index 9)
@@ -999,10 +999,10 @@ showTracks in section 'farcode'  placed at address 0432ca-043355 of size 00008c
         printf in (lib_printf.o (from clib-lc-sd-Foenix.a) unit 18 section index 2)
 
 _ValueSwitch16 in section 'farcode'
- placed at address 043356-0433dd of size 000088
+ placed at address 0433f3-04347a of size 000088
 (vswitch16.o (from clib-lc-sd-Foenix.a) unit 25 section index 2)
     Defines:
-        _ValueSwitch16 = 043356
+        _ValueSwitch16 = 0433f3
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
@@ -1010,10 +1010,10 @@ _ValueSwitch16 in section 'farcode'
         __vsprintf (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 6)
 
 __initialize_sections in section 'farcode'
- placed at address 0433de-043464 of size 000087
+ placed at address 04347b-043501 of size 000087
 (initialize.o (from clib-lc-sd-Foenix.a) unit 52 section index 2)
     Defines:
-        __initialize_sections = 0433de
+        __initialize_sections = 04347b
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __memcpy_far in (memcpy_far.o (from clib-lc-sd-Foenix.a) unit 54 section index 2)
@@ -1022,10 +1022,10 @@ __initialize_sections in section 'farcode'
         __data_initialization_needed (Foenix-startup-lc-sd.o (from Foenix-lc-sd.a) unit 5 section index 3)
 
 __heap_initialize in section 'farcode'
- placed at address 043465-0434e5 of size 000081
+ placed at address 043502-043582 of size 000081
 (heap_initialize.o (from clib-lc-sd-Foenix.a) unit 16 section index 3)
     Defines:
-        __heap_initialize = 043465
+        __heap_initialize = 043502
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __heap_addregion in (heap_initialize.o (from clib-lc-sd-Foenix.a) unit 16 section index 2)
@@ -1034,16 +1034,16 @@ __heap_initialize in section 'farcode'
         __call_heap_initialize (Foenix-startup-lc-sd.o (from Foenix-lc-sd.a) unit 5 section index 5)
 
 floatToUInt64 in section 'farcode'
- placed at address 0434e6-043561 of size 00007c
+ placed at address 043583-0435fe of size 00007c
 (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 15)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
 __lib_rdflush in section 'farcode'
- placed at address 043562-0435d6 of size 000075
+ placed at address 0435ff-043673 of size 000075
 (lib_rdflush.o (from clib-lc-sd-Foenix.a) unit 40 section index 2)
     Defines:
-        __lib_rdflush = 043562
+        __lib_rdflush = 0435ff
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         errno in (errno.o (from clib-lc-sd-Foenix.a) unit 32 section index 2)
@@ -1053,10 +1053,10 @@ __lib_rdflush in section 'farcode'
         fseek (lib_fseek.o (from clib-lc-sd-Foenix.a) unit 41 section index 2)
 
 __addfreechunk in section 'farcode'
- placed at address 0435d7-043646 of size 000070
+ placed at address 043674-0436e3 of size 000070
 (addfreechunk.o (from clib-lc-sd-Foenix.a) unit 15 section index 3)
     Defines:
-        __addfreechunk = 0435d7
+        __addfreechunk = 043674
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __size2ndx in (addfreechunk.o (from clib-lc-sd-Foenix.a) unit 15 section index 2)
@@ -1065,18 +1065,18 @@ __addfreechunk in section 'farcode'
         __heap_addregion (heap_initialize.o (from clib-lc-sd-Foenix.a) unit 16 section index 2)
         malloc (malloc.o (from clib-lc-sd-Foenix.a) unit 51 section index 2)
 
-resetSID in section 'farcode'  placed at address 043647-0436b1 of size 00006b
+resetSID in section 'farcode'  placed at address 0436e4-04374e of size 00006b
 (obj/playsong.o unit 1 section index 18)
     Defines:
-        resetSID = 043647
+        resetSID = 0436e4
     Referenced from:
         main (obj/main.o unit 0 section index 2)
         playSongSID (obj/playsong.o unit 1 section index 15)
 
-fputc in section 'farcode'  placed at address 0436b2-043717 of size 000066
+fputc in section 'farcode'  placed at address 04374f-0437b4 of size 000066
 (lib_fputc.o (from clib-lc-sd-Foenix.a) unit 33 section index 2)
     Defines:
-        fputc = 0436b2
+        fputc = 04374f
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __lib_fflush in (lib_libfflush.o (from clib-lc-sd-Foenix.a) unit 34 section index 2)
@@ -1085,10 +1085,10 @@ fputc in section 'farcode'  placed at address 0436b2-043717 of size 000066
         (lib_stdoutstream.o (from clib-lc-sd-Foenix.a) unit 30 section index 2)
 
 _Stub_write in section 'farcode'
- placed at address 043718-043775 of size 00005e
+ placed at address 0437b5-043812 of size 00005e
 (stub_write-lc-sd.o (from Foenix-lc-sd.a) unit 36 section index 2)
     Defines:
-        _Stub_write = 043718
+        _Stub_write = 0437b5
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         _Stub_putchar in (stub_putchar-lc-sd.o (from Foenix-lc-sd.a) unit 38 section index 2)
@@ -1098,10 +1098,10 @@ _Stub_write in section 'farcode'
         __lib_fwrite (lib_libfwrite.o (from clib-lc-sd-Foenix.a) unit 39 section index 2)
 
 cleanTracks in section 'farcode'
- placed at address 043776-0437d2 of size 00005d
+ placed at address 043813-04386f of size 00005d
 (obj/playsong.o unit 1 section index 13)
     Defines:
-        cleanTracks = 043776
+        cleanTracks = 043813
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
@@ -1111,10 +1111,10 @@ cleanTracks in section 'farcode'
         (obj/main.o unit 0 section index 6)
         (obj/main.o unit 0 section index 7)
 
-fseek in section 'farcode'  placed at address 0437d3-04382e of size 00005c
+fseek in section 'farcode'  placed at address 043870-0438cb of size 00005c
 (lib_fseek.o (from clib-lc-sd-Foenix.a) unit 41 section index 2)
     Defines:
-        fseek = 0437d3
+        fseek = 043870
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         _Stub_lseek in (stub_lseek-lc-sd.o (from Foenix-lc-sd.a) unit 43 section index 2)
@@ -1124,42 +1124,42 @@ fseek in section 'farcode'  placed at address 0437d3-04382e of size 00005c
         __lib_rdflush (lib_rdflush.o (from clib-lc-sd-Foenix.a) unit 40 section index 2)
 
 floatToUInt32 in section 'farcode'
- placed at address 04382f-043883 of size 000055
+ placed at address 0438cc-043920 of size 000055
 (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 10)
 
-strcmp in section 'farcode'  placed at address 043884-0438d7 of size 000054
+strcmp in section 'farcode'  placed at address 043921-043974 of size 000054
 (lib_strcmp.o (from clib-lc-sd-Foenix.a) unit 48 section index 2)
     Defines:
-        strcmp = 043884
+        strcmp = 043921
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         addTrack (obj/playsong.o unit 1 section index 12)
 
 __memcpy_far in section 'farcode'
- placed at address 0438d8-043926 of size 00004f
+ placed at address 043975-0439c3 of size 00004f
 (memcpy_far.o (from clib-lc-sd-Foenix.a) unit 54 section index 2)
     Defines:
-        __memcpy_far = 0438d8
+        __memcpy_far = 043975
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         __initialize_sections (initialize.o (from clib-lc-sd-Foenix.a) unit 52 section index 2)
 
 __memset_far in section 'farcode'
- placed at address 043927-043973 of size 00004d
+ placed at address 0439c4-043a10 of size 00004d
 (memset_far.o (from clib-lc-sd-Foenix.a) unit 53 section index 2)
     Defines:
-        __memset_far = 043927
+        __memset_far = 0439c4
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         __initialize_sections (initialize.o (from clib-lc-sd-Foenix.a) unit 52 section index 2)
 
-exit in section 'farcode'  placed at address 043974-0439bc of size 000049
+exit in section 'farcode'  placed at address 043a11-043a59 of size 000049
 (exit.o (from clib-lc-sd-Foenix.a) unit 7 section index 3)
     Defines:
-        exit = 043974
+        exit = 043a11
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         _Exit in (exitC99.o (from clib-lc-sd-Foenix.a) unit 10 section index 3)
@@ -1170,10 +1170,10 @@ exit in section 'farcode'  placed at address 043974-0439bc of size 000049
         (Foenix-startup-lc-sd.o (from Foenix-lc-sd.a) unit 5 section index 6)
 
 __initialize_global_streams in section 'farcode'
- placed at address 0439bd-043a05 of size 000049
+ placed at address 043a5a-043aa2 of size 000049
 (streamlist.o (from clib-lc-sd-Foenix.a) unit 45 section index 3)
     Defines:
-        __initialize_global_streams = 0439bd
+        __initialize_global_streams = 043a5a
     References:
         _ExitCloseStreams in (exitC99.o (from clib-lc-sd-Foenix.a) unit 10 section index 2)
         __global_streams in (streamlist.o (from clib-lc-sd-Foenix.a) unit 45 section index 4)
@@ -1181,29 +1181,29 @@ __initialize_global_streams in section 'farcode'
         __call_initialize_global_streams (Foenix-startup-lc-sd.o (from Foenix-lc-sd.a) unit 5 section index 4)
 
 __lib_stdoutstream in section 'farcode'
- placed at address 043a06-043a4c of size 000047
+ placed at address 043aa3-043ae9 of size 000047
 (lib_stdoutstream.o (from clib-lc-sd-Foenix.a) unit 30 section index 4)
     Defines:
-        __lib_stdoutstream = 043a06
+        __lib_stdoutstream = 043aa3
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __lib_noflush in (lib_libnoflush.o (from clib-lc-sd-Foenix.a) unit 31 section index 2)
     Referenced from:
         vfprintf (lib_vfprintf.o (from clib-lc-sd-Foenix.a) unit 19 section index 2)
 
-strcpy in section 'farcode'  placed at address 043a4d-043a93 of size 000047
+strcpy in section 'farcode'  placed at address 043aea-043b30 of size 000047
 (lib_strcpy.o (from clib-lc-sd-Foenix.a) unit 50 section index 2)
     Defines:
-        strcpy = 043a4d
+        strcpy = 043aea
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         main (obj/main.o unit 0 section index 2)
 
-vfprintf in section 'farcode'  placed at address 043a94-043ad6 of size 000043
+vfprintf in section 'farcode'  placed at address 043b31-043b73 of size 000043
 (lib_vfprintf.o (from clib-lc-sd-Foenix.a) unit 19 section index 2)
     Defines:
-        vfprintf = 043a94
+        vfprintf = 043b31
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __lib_stdoutstream in (lib_stdoutstream.o (from clib-lc-sd-Foenix.a) unit 30 section index 4)
@@ -1211,28 +1211,28 @@ vfprintf in section 'farcode'  placed at address 043a94-043ad6 of size 000043
     Referenced from:
         printf (lib_printf.o (from clib-lc-sd-Foenix.a) unit 18 section index 2)
 
-memset in section 'farcode'  placed at address 043ad7-043b19 of size 000043
+memset in section 'farcode'  placed at address 043b74-043bb6 of size 000043
 (lib_memset.o (from clib-lc-sd-Foenix.a) unit 17 section index 2)
     Defines:
-        memset = 043ad7
+        memset = 043b74
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         __heap_initialize (heap_initialize.o (from clib-lc-sd-Foenix.a) unit 16 section index 3)
 
-_Float32EQ in section 'farcode'  placed at address 043b1a-043b5b of size 000042
+_Float32EQ in section 'farcode'  placed at address 043bb7-043bf8 of size 000042
 (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 2)
     Defines:
-        _Float32EQ = 043b1a
+        _Float32EQ = 043bb7
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         __dtoa_engine (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 2)
 
-delay in section 'farcode'  placed at address 043b5c-043b9b of size 000040
+delay in section 'farcode'  placed at address 043bf9-043c38 of size 000040
 (obj/playsong.o unit 1 section index 17)
     Defines:
-        delay = 043b5c
+        delay = 043bf9
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         _Float32Add in (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 16)
@@ -1241,13 +1241,13 @@ delay in section 'farcode'  placed at address 043b5c-043b9b of size 000040
         playSongSID (obj/playsong.o unit 1 section index 15)
 
 _Float32Add in section 'farcode'
- placed at address 043b9c-043bd9 of size 00003e
+ placed at address 043c39-043c76 of size 00003e
 (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 16)
     Defines:
-        _Float32Sub = 043ba1
-        _Float32Mul = 043ba6
-        _Float32Div = 043bab
-        _Float32Add = 043b9c
+        _Float32Sub = 043c3e
+        _Float32Mul = 043c43
+        _Float32Div = 043c48
+        _Float32Add = 043c39
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
@@ -1255,42 +1255,42 @@ _Float32Add in section 'farcode'
         delay (obj/playsong.o unit 1 section index 17)
         __dtoa_engine (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 2)
 
-`?L3` in section 'farcode'  placed at address 043bda-043c15 of size 00003c
+`?L3` in section 'farcode'  placed at address 043c77-043cb2 of size 00003c
 (lib_stdoutstream.o (from clib-lc-sd-Foenix.a) unit 30 section index 2)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         errno in (errno.o (from clib-lc-sd-Foenix.a) unit 32 section index 2)
         fputc in (lib_fputc.o (from clib-lc-sd-Foenix.a) unit 33 section index 2)
 
-`?L19` in section 'farcode'  placed at address 043c16-043c4d of size 000038
+`?L19` in section 'farcode'  placed at address 043cb3-043cea of size 000038
 (streamlist.o (from clib-lc-sd-Foenix.a) unit 45 section index 2)
     References:
         _Stub_close in (stub_close-lc-sd.o (from Foenix-lc-sd.a) unit 47 section index 2)
         __global_streams in (streamlist.o (from clib-lc-sd-Foenix.a) unit 45 section index 4)
 
-__size2ndx in section 'farcode'  placed at address 043c4e-043c7f of size 000032
+__size2ndx in section 'farcode'  placed at address 043ceb-043d1c of size 000032
 (addfreechunk.o (from clib-lc-sd-Foenix.a) unit 15 section index 2)
     Defines:
-        __size2ndx = 043c4e
+        __size2ndx = 043ceb
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         __addfreechunk (addfreechunk.o (from clib-lc-sd-Foenix.a) unit 15 section index 3)
         malloc (malloc.o (from clib-lc-sd-Foenix.a) unit 51 section index 2)
 
-strnlen in section 'farcode'  placed at address 043c80-043cb0 of size 000031
+strnlen in section 'farcode'  placed at address 043d1d-043d4d of size 000031
 (lib_strnlen.o (from clib-lc-sd-Foenix.a) unit 24 section index 2)
     Defines:
-        strnlen = 043c80
+        strnlen = 043d1d
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         __vsprintf (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 6)
 
-_Exit in section 'farcode'  placed at address 043cb1-043cdb of size 00002b
+_Exit in section 'farcode'  placed at address 043d4e-043d78 of size 00002b
 (exitC99.o (from clib-lc-sd-Foenix.a) unit 10 section index 3)
     Defines:
-        _Exit = 043cb1
+        _Exit = 043d4e
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         _ExitCloseStreams in (exitC99.o (from clib-lc-sd-Foenix.a) unit 10 section index 2)
@@ -1300,28 +1300,28 @@ _Exit in section 'farcode'  placed at address 043cb1-043cdb of size 00002b
         exit (exit.o (from clib-lc-sd-Foenix.a) unit 7 section index 3)
 
 _Float32ToSInt32 in section 'farcode'
- placed at address 043cdc-043cfd of size 000022
+ placed at address 043d79-043d9a of size 000022
 (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 9)
     Defines:
-        _Float32ToSInt32 = 043cdc
+        _Float32ToSInt32 = 043d79
     Referenced from:
         addTrack (obj/playsong.o unit 1 section index 12)
 
 __lib_wrflush in section 'farcode'
- placed at address 043cfe-043d1c of size 00001f
+ placed at address 043d9b-043db9 of size 00001f
 (lib_wrflush.o (from clib-lc-sd-Foenix.a) unit 44 section index 2)
     Defines:
-        __lib_wrflush = 043cfe
+        __lib_wrflush = 043d9b
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __lib_fflush in (lib_libfflush.o (from clib-lc-sd-Foenix.a) unit 34 section index 2)
     Referenced from:
         fseek (lib_fseek.o (from clib-lc-sd-Foenix.a) unit 41 section index 2)
 
-printf in section 'farcode'  placed at address 043d1d-043d37 of size 00001b
+printf in section 'farcode'  placed at address 043dba-043dd4 of size 00001b
 (lib_printf.o (from clib-lc-sd-Foenix.a) unit 18 section index 2)
     Defines:
-        printf = 043d1d
+        printf = 043dba
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __global_streams in (streamlist.o (from clib-lc-sd-Foenix.a) unit 45 section index 4)
@@ -1332,117 +1332,117 @@ printf in section 'farcode'  placed at address 043d1d-043d37 of size 00001b
         addTrack (obj/playsong.o unit 1 section index 12)
         showTracks (obj/playsong.o unit 1 section index 14)
 
-strlen in section 'farcode'  placed at address 043d38-043d4e of size 000017
+strlen in section 'farcode'  placed at address 043dd5-043deb of size 000017
 (lib_strlen.o (from clib-lc-sd-Foenix.a) unit 49 section index 2)
     Defines:
-        strlen = 043d38
+        strlen = 043dd5
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         addTrack (obj/playsong.o unit 1 section index 12)
 
-`?L122` in section 'farcode'  placed at address 043d4f-043d64 of size 000016
+`?L122` in section 'farcode'  placed at address 043dec-043e01 of size 000016
 (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 4)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L626` in section 'farcode'  placed at address 043d65-043d78 of size 000014
+`?L626` in section 'farcode'  placed at address 043e02-043e15 of size 000014
 (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 9)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L123` in section 'farcode'  placed at address 043d79-043d8b of size 000013
+`?L123` in section 'farcode'  placed at address 043e16-043e28 of size 000013
 (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 5)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
 _Float32ToUInt64 in section 'farcode'
- placed at address 043d8c-043d9e of size 000013
+ placed at address 043e29-043e3b of size 000013
 (float32.o (from clib-lc-sd-Foenix.a) unit 27 section index 13)
     Defines:
-        _Float32ToUInt64 = 043d8c
+        _Float32ToUInt64 = 043e29
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
         __dtoa_engine (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 2)
 
-`?L77` in section 'farcode'  placed at address 043d9f-043db1 of size 000013
+`?L87` in section 'farcode'  placed at address 043e3c-043e4e of size 000013
 (obj/main.o unit 0 section index 7)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         cleanTracks in (obj/playsong.o unit 1 section index 13)
 
-`?L76` in section 'farcode'  placed at address 043db2-043dc4 of size 000013
+`?L86` in section 'farcode'  placed at address 043e4f-043e61 of size 000013
 (obj/main.o unit 0 section index 6)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         cleanTracks in (obj/playsong.o unit 1 section index 13)
 
-`?L75` in section 'farcode'  placed at address 043dc5-043dd7 of size 000013
+`?L85` in section 'farcode'  placed at address 043e62-043e74 of size 000013
 (obj/main.o unit 0 section index 5)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         cleanTracks in (obj/playsong.o unit 1 section index 13)
 
-`?L72` in section 'farcode'  placed at address 043dd8-043dea of size 000013
+`?L82` in section 'farcode'  placed at address 043e75-043e87 of size 000013
 (obj/main.o unit 0 section index 3)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         cleanTracks in (obj/playsong.o unit 1 section index 13)
 
-`?L627` in section 'farcode'  placed at address 043deb-043dfc of size 000012
+`?L627` in section 'farcode'  placed at address 043e88-043e99 of size 000012
 (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 10)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L26` in section 'farcode'  placed at address 043dfd-043e0d of size 000011
+`?L26` in section 'farcode'  placed at address 043e9a-043eaa of size 000011
 (addfreechunk.o (from clib-lc-sd-Foenix.a) unit 15 section index 4)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L124` in section 'farcode'  placed at address 043e0e-043e1e of size 000011
+`?L124` in section 'farcode'  placed at address 043eab-043ebb of size 000011
 (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 6)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L288` in section 'farcode'  placed at address 043e1f-043e2f of size 000011
+`?L302` in section 'farcode'  placed at address 043ebc-043ecc of size 000011
 (obj/playsong.o unit 1 section index 24)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L283` in section 'farcode'  placed at address 043e30-043e40 of size 000011
+`?L297` in section 'farcode'  placed at address 043ecd-043edd of size 000011
 (obj/playsong.o unit 1 section index 19)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L285` in section 'farcode'  placed at address 043e41-043e50 of size 000010
+`?L299` in section 'farcode'  placed at address 043ede-043eed of size 000010
 (obj/playsong.o unit 1 section index 21)
 
-`?L284` in section 'farcode'  placed at address 043e51-043e60 of size 000010
+`?L298` in section 'farcode'  placed at address 043eee-043efd of size 000010
 (obj/playsong.o unit 1 section index 20)
 
-`?L286` in section 'farcode'  placed at address 043e61-043e6f of size 00000f
+`?L300` in section 'farcode'  placed at address 043efe-043f0c of size 00000f
 (obj/playsong.o unit 1 section index 22)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L624` in section 'farcode'  placed at address 043e70-043e7d of size 00000e
+`?L624` in section 'farcode'  placed at address 043f0d-043f1a of size 00000e
 (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 7)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
 stdoutstream_flush in section 'farcode'
- placed at address 043e7e-043e8b of size 00000e
+ placed at address 043f1b-043f28 of size 00000e
 (lib_stdoutstream.o (from clib-lc-sd-Foenix.a) unit 30 section index 3)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
         __lib_fflush in (lib_libfflush.o (from clib-lc-sd-Foenix.a) unit 34 section index 2)
 
 _JmpIndLong in section 'farcode'
- placed at address 043e8c-043e99 of size 00000e
+ placed at address 043f29-043f36 of size 00000e
 (controlFlow.o (from clib-lc-sd-Foenix.a) unit 9 section index 3)
     Defines:
-        _JmpIndLong = 043e8c
+        _JmpIndLong = 043f29
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
     Referenced from:
@@ -1450,160 +1450,163 @@ _JmpIndLong in section 'farcode'
         _Exit (exitC99.o (from clib-lc-sd-Foenix.a) unit 10 section index 3)
         __vsprintf (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 6)
 
-`?L630` in section 'farcode'  placed at address 043e9a-043ea6 of size 00000d
+`?L630` in section 'farcode'  placed at address 043f37-043f43 of size 00000d
 (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 12)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L126` in section 'farcode'  placed at address 043ea7-043eb3 of size 00000d
+`?L126` in section 'farcode'  placed at address 043f44-043f50 of size 00000d
 (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 8)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L125` in section 'farcode'  placed at address 043eb4-043ec0 of size 00000d
+`?L125` in section 'farcode'  placed at address 043f51-043f5d of size 00000d
 (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 7)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L291` in section 'farcode'  placed at address 043ec1-043ecd of size 00000d
+`?L305` in section 'farcode'  placed at address 043f5e-043f6a of size 00000d
 (obj/playsong.o unit 1 section index 27)
 
-`?L37` in section 'farcode'  placed at address 043ece-043ed9 of size 00000c
+`?L37` in section 'farcode'  placed at address 043f6b-043f76 of size 00000c
 (lib_libfflush.o (from clib-lc-sd-Foenix.a) unit 34 section index 3)
 
-`?L293` in section 'farcode'  placed at address 043eda-043ee5 of size 00000c
+`?L307` in section 'farcode'  placed at address 043f77-043f82 of size 00000c
 (obj/playsong.o unit 1 section index 29)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L23` in section 'farcode'  placed at address 043ee6-043ef0 of size 00000b
+`?L23` in section 'farcode'  placed at address 043f83-043f8d of size 00000b
 (heap_initialize.o (from clib-lc-sd-Foenix.a) unit 16 section index 5)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L22` in section 'farcode'  placed at address 043ef1-043efb of size 00000b
+`?L22` in section 'farcode'  placed at address 043f8e-043f98 of size 00000b
 (heap_initialize.o (from clib-lc-sd-Foenix.a) unit 16 section index 4)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L287` in section 'farcode'  placed at address 043efc-043f05 of size 00000a
+`?L301` in section 'farcode'  placed at address 043f99-043fa2 of size 00000a
 (obj/playsong.o unit 1 section index 23)
     References:
         SID_envelope in (obj/playsong.o unit 1 section index 5)
 
-`?L121` in section 'farcode'  placed at address 043f06-043f0e of size 000009
+`?L121` in section 'farcode'  placed at address 043fa3-043fab of size 000009
 (lib_dtoa_engine.o (from clib-lc-sd-Foenix.a) unit 26 section index 3)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
 _Stub_putchar in section 'farcode'
- placed at address 043f0f-043f16 of size 000008
+ placed at address 043fac-043fb3 of size 000008
 (stub_putchar-lc-sd.o (from Foenix-lc-sd.a) unit 38 section index 2)
     Defines:
-        _Stub_putchar = 043f0f
+        _Stub_putchar = 043fac
     Referenced from:
         _Stub_write (stub_write-lc-sd.o (from Foenix-lc-sd.a) unit 36 section index 2)
 
-`?L295` in section 'farcode'  placed at address 043f17-043f1e of size 000008
-(obj/playsong.o unit 1 section index 31)
+`?L310` in section 'farcode'  placed at address 043fb4-043fbb of size 000008
+(obj/playsong.o unit 1 section index 32)
 
-`?L290` in section 'farcode'  placed at address 043f1f-043f26 of size 000008
+`?L308` in section 'farcode'  placed at address 043fbc-043fc3 of size 000008
+(obj/playsong.o unit 1 section index 30)
+
+`?L304` in section 'farcode'  placed at address 043fc4-043fcb of size 000008
 (obj/playsong.o unit 1 section index 26)
 
-`?L289` in section 'farcode'  placed at address 043f27-043f2e of size 000008
+`?L303` in section 'farcode'  placed at address 043fcc-043fd3 of size 000008
 (obj/playsong.o unit 1 section index 25)
 
-`?L83` in section 'farcode'  placed at address 043f2f-043f36 of size 000008
+`?L93` in section 'farcode'  placed at address 043fd4-043fdb of size 000008
 (obj/main.o unit 0 section index 13)
     References:
         addTrack in (obj/playsong.o unit 1 section index 12)
 
-`?L82` in section 'farcode'  placed at address 043f37-043f3e of size 000008
+`?L92` in section 'farcode'  placed at address 043fdc-043fe3 of size 000008
 (obj/main.o unit 0 section index 12)
     References:
         addTrack in (obj/playsong.o unit 1 section index 12)
 
-`?L81` in section 'farcode'  placed at address 043f3f-043f46 of size 000008
+`?L91` in section 'farcode'  placed at address 043fe4-043feb of size 000008
 (obj/main.o unit 0 section index 11)
     References:
         addTrack in (obj/playsong.o unit 1 section index 12)
 
-`?L80` in section 'farcode'  placed at address 043f47-043f4e of size 000008
+`?L90` in section 'farcode'  placed at address 043fec-043ff3 of size 000008
 (obj/main.o unit 0 section index 10)
     References:
         addTrack in (obj/playsong.o unit 1 section index 12)
 
-`?L79` in section 'farcode'  placed at address 043f4f-043f56 of size 000008
+`?L89` in section 'farcode'  placed at address 043ff4-043ffb of size 000008
 (obj/main.o unit 0 section index 9)
     References:
         addTrack in (obj/playsong.o unit 1 section index 12)
 
-`?L78` in section 'farcode'  placed at address 043f57-043f5e of size 000008
+`?L88` in section 'farcode'  placed at address 043ffc-044003 of size 000008
 (obj/main.o unit 0 section index 8)
     References:
         addTrack in (obj/playsong.o unit 1 section index 12)
 
-`?L632` in section 'farcode'  placed at address 043f5f-043f65 of size 000007
+`?L632` in section 'farcode'  placed at address 044004-04400a of size 000007
 (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 14)
 
-`?L631` in section 'farcode'  placed at address 043f66-043f6c of size 000007
+`?L631` in section 'farcode'  placed at address 04400b-044011 of size 000007
 (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 13)
 
-`?L629` in section 'farcode'  placed at address 043f6d-043f73 of size 000007
+`?L629` in section 'farcode'  placed at address 044012-044018 of size 000007
 (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 11)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
-`?L24` in section 'farcode'  placed at address 043f74-043f7a of size 000007
+`?L24` in section 'farcode'  placed at address 044019-04401f of size 000007
 (heap_initialize.o (from clib-lc-sd-Foenix.a) unit 16 section index 6)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
 _Stub_lseek in section 'farcode'
- placed at address 043f7b-043f81 of size 000007
+ placed at address 044020-044026 of size 000007
 (stub_lseek-lc-sd.o (from Foenix-lc-sd.a) unit 43 section index 2)
     Defines:
-        _Stub_lseek = 043f7b
+        _Stub_lseek = 044020
     Referenced from:
         fseek (lib_fseek.o (from clib-lc-sd-Foenix.a) unit 41 section index 2)
 
-`?L294` in section 'farcode'  placed at address 043f82-043f88 of size 000007
-(obj/playsong.o unit 1 section index 30)
+`?L309` in section 'farcode'  placed at address 044027-04402d of size 000007
+(obj/playsong.o unit 1 section index 31)
 
-`?L292` in section 'farcode'  placed at address 043f89-043f8f of size 000007
+`?L306` in section 'farcode'  placed at address 04402e-044034 of size 000007
 (obj/playsong.o unit 1 section index 28)
 
-`?L73` in section 'farcode'  placed at address 043f90-043f96 of size 000007
+`?L83` in section 'farcode'  placed at address 044035-04403b of size 000007
 (obj/main.o unit 0 section index 4)
     References:
         printf in (lib_printf.o (from clib-lc-sd-Foenix.a) unit 18 section index 2)
 
-`?L625` in section 'farcode'  placed at address 043f97-043f9c of size 000006
+`?L625` in section 'farcode'  placed at address 04403c-044041 of size 000006
 (__vsprintf_float.o (from clib-lc-sd-Foenix.a) unit 20 section index 8)
     References:
         _Dp in (pseudoRegisters.o (from clib-lc-sd-Foenix.a) unit 6 section index 2)
 
 __lib_noflush in section 'farcode'
- placed at address 043f9d-043fa0 of size 000004
+ placed at address 044042-044045 of size 000004
 (lib_libnoflush.o (from clib-lc-sd-Foenix.a) unit 31 section index 2)
     Defines:
-        __lib_noflush = 043f9d
+        __lib_noflush = 044042
     Referenced from:
         __lib_stdoutstream (lib_stdoutstream.o (from clib-lc-sd-Foenix.a) unit 30 section index 4)
 
 _Stub_close in section 'farcode'
- placed at address 043fa1-043fa4 of size 000004
+ placed at address 044046-044049 of size 000004
 (stub_close-lc-sd.o (from Foenix-lc-sd.a) unit 47 section index 2)
     Defines:
-        _Stub_close = 043fa1
+        _Stub_close = 044046
     Referenced from:
         (streamlist.o (from clib-lc-sd-Foenix.a) unit 45 section index 2)
 
 __low_level_init in section 'farcode'
- placed at address 043fa5-043fa5 of size 000001
+ placed at address 04404a-04404a of size 000001
 (Foenix-startup-lc-sd.o (from Foenix-lc-sd.a) unit 5 section index 7)
     Defines:
-        __low_level_init = 043fa5
+        __low_level_init = 04404a
     Referenced from:
         __program_root_section (Foenix-startup-lc-sd.o (from Foenix-lc-sd.a) unit 5 section index 2)
 
@@ -1613,6 +1616,6 @@ __low_level_init in section 'farcode'
 #                        #
 ##########################
 
-Executable       (Text): 18340 bytes
+Executable       (Text): 18505 bytes
 Data                   :   316 bytes
 Non-initialized        :  4116 bytes

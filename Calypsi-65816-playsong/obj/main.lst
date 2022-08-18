@@ -1,7 +1,7 @@
 ###############################################################################
 #                                                                             #
 # Calypsi ISO C compiler for 65816                              version 3.6.6 #
-#                                                       17/Aug/2022  16:22:47 #
+#                                                       17/Aug/2022  23:18:58 #
 # Command line: --core=65816 --code-model=large --data-model=small            #
 #               --target=Foenix -I ./include --speed -O2 --debug              #
 #               --list-file=obj/main.lst -o obj/main.o src/main.c             #
@@ -153,7 +153,7 @@
     \ 00009a a20100               ldx     ##1
     \ 00009d 86..                 stx     dp:.tiny _Dp
     \ 00009f 3b                   tsc
-    \ 0000a0 22......             jsl     long:`?L79`
+    \ 0000a0 22......             jsl     long:`?L89`
     \ 0000a4 830b                 sta     11,s
 0049                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
     \ 0000a6 a311                 lda     17,s
@@ -165,7 +165,7 @@
     \ 0000b0 a20200               ldx     ##2
     \ 0000b3 86..                 stx     dp:.tiny _Dp
     \ 0000b5 3b                   tsc
-    \ 0000b6 22......             jsl     long:`?L81`
+    \ 0000b6 22......             jsl     long:`?L91`
     \ 0000ba 830f                 sta     15,s
 0050                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
     \ 0000bc a315                 lda     21,s
@@ -177,725 +177,757 @@
     \ 0000c6 a20300               ldx     ##3
     \ 0000c9 86..                 stx     dp:.tiny _Dp
     \ 0000cb 3b                   tsc
-    \ 0000cc 22......             jsl     long:`?L83`
+    \ 0000cc 22......             jsl     long:`?L93`
     \ 0000d0 8313                 sta     19,s
     \ 0000d2 3b                   tsc
     \ 0000d3 18                   clc
     \ 0000d4 691200               adc     ##18
     \ 0000d7 1b                   tcs
-0051                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-    \ 0000d8 f48c00               pea     ##140
-    \ 0000db a309                 lda     9,s
-    \ 0000dd 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0000df a307                 lda     7,s
-    \ 0000e1 85..                 sta     dp:.tiny _Dp
-    \ 0000e3 a303                 lda     3,s
-    \ 0000e5 22......             jsl     long:playSongSID
-0052                  // Play Tune w/piano
-0053                  	printf("\rPlaying with Accordion\r");	
-    \ 0000e9 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,65,99,99,111,114,100,105,111,110,13]`
-    \ 0000ec 22......             jsl     long:`?L73`
-0054                  	trk1[1]='2';
-    \ 0000f0 a932                 lda     #50
-    \ 0000f2 830c                 sta     12,s
-    \ 0000f4 c220                 rep     #32
-0055                  	trk2[1]='2';
-    \ 0000f6 3b                   tsc
-    \ 0000f7 18                   clc
-    \ 0000f8 690c01               adc     ##268
-    \ 0000fb aa                   tax
-    \ 0000fc e220                 sep     #32
-    \ 0000fe a932                 lda     #50
-    \ 000100 9d0000               sta     0,x
-    \ 000103 c220                 rep     #32
-0056                  	trk3[1]='2';
-    \ 000105 3b                   tsc
-    \ 000106 18                   clc
-    \ 000107 690c02               adc     ##524
-    \ 00010a aa                   tax
-    \ 00010b e220                 sep     #32
-    \ 00010d a932                 lda     #50
-0057                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
-    \ 00010f 22......             jsl     long:`?L72`
-0058                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 000113 a309                 lda     9,s
-    \ 000115 48                   pha
-    \ 000116 a309                 lda     9,s
-    \ 000118 48                   pha
+    \ 0000d8 a301                 lda     1,s
+0051                  	resetSID(); 	
+    \ 0000da 22......             jsl     long:resetSID
+0052                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
+    \ 0000de f48c00               pea     ##140
+    \ 0000e1 a309                 lda     9,s
+    \ 0000e3 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0000e5 a307                 lda     7,s
+    \ 0000e7 85..                 sta     dp:.tiny _Dp
+    \ 0000e9 a303                 lda     3,s
+    \ 0000eb 22......             jsl     long:playSongSID
+0053                  // Play Tune w/Accordion
+0054                  	printf("\rPlaying with Accordion\r");	
+    \ 0000ef a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,65,99,99,111,114,100,105,111,110,13]`
+    \ 0000f2 22......             jsl     long:`?L83`
+0055                  	trk1[1]='2';
+    \ 0000f6 a932                 lda     #50
+    \ 0000f8 830c                 sta     12,s
+    \ 0000fa c220                 rep     #32
+0056                  	trk2[1]='2';
+    \ 0000fc 3b                   tsc
+    \ 0000fd 18                   clc
+    \ 0000fe 690c01               adc     ##268
+    \ 000101 aa                   tax
+    \ 000102 e220                 sep     #32
+    \ 000104 a932                 lda     #50
+    \ 000106 9d0000               sta     0,x
+    \ 000109 c220                 rep     #32
+0057                  	trk3[1]='2';
+    \ 00010b 3b                   tsc
+    \ 00010c 18                   clc
+    \ 00010d 690c02               adc     ##524
+    \ 000110 aa                   tax
+    \ 000111 e220                 sep     #32
+    \ 000113 a932                 lda     #50
+0058                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
+    \ 000115 22......             jsl     long:`?L82`
+0059                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
     \ 000119 a309                 lda     9,s
-    \ 00011b 85..                 sta     dp:.tiny (_Dp+2)
-    \ 00011d a20100               ldx     ##1
-    \ 000120 86..                 stx     dp:.tiny _Dp
-    \ 000122 3b                   tsc
-    \ 000123 22......             jsl     long:`?L78`
-    \ 000127 8307                 sta     7,s
-0059                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 000129 a30d                 lda     13,s
-    \ 00012b 48                   pha
-    \ 00012c a30d                 lda     13,s
-    \ 00012e 48                   pha
+    \ 00011b 48                   pha
+    \ 00011c a309                 lda     9,s
+    \ 00011e 48                   pha
+    \ 00011f a309                 lda     9,s
+    \ 000121 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000123 a20100               ldx     ##1
+    \ 000126 86..                 stx     dp:.tiny _Dp
+    \ 000128 3b                   tsc
+    \ 000129 22......             jsl     long:`?L88`
+    \ 00012d 8307                 sta     7,s
+0060                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
     \ 00012f a30d                 lda     13,s
-    \ 000131 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000133 a20200               ldx     ##2
-    \ 000136 86..                 stx     dp:.tiny _Dp
-    \ 000138 3b                   tsc
-    \ 000139 22......             jsl     long:`?L80`
-    \ 00013d 830b                 sta     11,s
-0060                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 00013f a311                 lda     17,s
-    \ 000141 48                   pha
-    \ 000142 a311                 lda     17,s
-    \ 000144 48                   pha
+    \ 000131 48                   pha
+    \ 000132 a30d                 lda     13,s
+    \ 000134 48                   pha
+    \ 000135 a30d                 lda     13,s
+    \ 000137 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000139 a20200               ldx     ##2
+    \ 00013c 86..                 stx     dp:.tiny _Dp
+    \ 00013e 3b                   tsc
+    \ 00013f 22......             jsl     long:`?L90`
+    \ 000143 830b                 sta     11,s
+0061                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
     \ 000145 a311                 lda     17,s
-    \ 000147 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000149 a20300               ldx     ##3
-    \ 00014c 86..                 stx     dp:.tiny _Dp
-    \ 00014e 3b                   tsc
-    \ 00014f 22......             jsl     long:`?L82`
-    \ 000153 830f                 sta     15,s
-0061                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-    \ 000155 f48c00               pea     ##140
-    \ 000158 a317                 lda     23,s
-    \ 00015a 85..                 sta     dp:.tiny (_Dp+2)
-    \ 00015c a315                 lda     21,s
-    \ 00015e 85..                 sta     dp:.tiny _Dp
-    \ 000160 a311                 lda     17,s
-    \ 000162 22......             jsl     long:playSongSID
-0062                  // Play Tune w/piano	
-0063                  	printf("\rPlaying with Distorted Synth\r");	
-    \ 000166 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,68,105,115,116,111,114,116,101,100,32,83,121,110,116,104,13]`
-    \ 000169 22......             jsl     long:`?L73`
-0064                  	trk1[1]='3';
-    \ 00016d a933                 lda     #51
-    \ 00016f 831a                 sta     26,s
-    \ 000171 c220                 rep     #32
-0065                  	trk2[1]='3';
-    \ 000173 3b                   tsc
-    \ 000174 18                   clc
-    \ 000175 691a01               adc     ##282
-    \ 000178 aa                   tax
-    \ 000179 e220                 sep     #32
-    \ 00017b a933                 lda     #51
-    \ 00017d 9d0000               sta     0,x
-    \ 000180 c220                 rep     #32
-0066                  	trk3[1]='3';
-    \ 000182 3b                   tsc
-    \ 000183 18                   clc
-    \ 000184 691a02               adc     ##538
-    \ 000187 aa                   tax
-    \ 000188 e220                 sep     #32
-    \ 00018a a933                 lda     #51
-0067                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
-    \ 00018c 22......             jsl     long:`?L77`
-0068                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 000190 a317                 lda     23,s
-    \ 000192 48                   pha
-    \ 000193 a317                 lda     23,s
-    \ 000195 48                   pha
-    \ 000196 a317                 lda     23,s
-    \ 000198 85..                 sta     dp:.tiny (_Dp+2)
-    \ 00019a a20100               ldx     ##1
-    \ 00019d 86..                 stx     dp:.tiny _Dp
-    \ 00019f 3b                   tsc
-    \ 0001a0 18                   clc
-    \ 0001a1 691d00               adc     ##29
-    \ 0001a4 22......             jsl     long:addTrack
-    \ 0001a8 8315                 sta     21,s
-    \ 0001aa 3b                   tsc
-    \ 0001ab 18                   clc
-    \ 0001ac 691400               adc     ##20
-    \ 0001af 1b                   tcs
-0069                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 0001b0 a307                 lda     7,s
-    \ 0001b2 48                   pha
-    \ 0001b3 a307                 lda     7,s
-    \ 0001b5 48                   pha
-    \ 0001b6 a307                 lda     7,s
-    \ 0001b8 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0001ba a20200               ldx     ##2
-    \ 0001bd 86..                 stx     dp:.tiny _Dp
-    \ 0001bf 3b                   tsc
-    \ 0001c0 18                   clc
-    \ 0001c1 690d01               adc     ##269
-    \ 0001c4 22......             jsl     long:addTrack
-    \ 0001c8 8305                 sta     5,s
-0070                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 0001ca a30b                 lda     11,s
-    \ 0001cc 48                   pha
-    \ 0001cd a30b                 lda     11,s
-    \ 0001cf 48                   pha
-    \ 0001d0 a30b                 lda     11,s
-    \ 0001d2 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0001d4 a20300               ldx     ##3
-    \ 0001d7 86..                 stx     dp:.tiny _Dp
-    \ 0001d9 3b                   tsc
-    \ 0001da 18                   clc
-    \ 0001db 691102               adc     ##529
-    \ 0001de 22......             jsl     long:addTrack
-    \ 0001e2 8309                 sta     9,s
-0071                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-    \ 0001e4 f48c00               pea     ##140
-    \ 0001e7 a311                 lda     17,s
-    \ 0001e9 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0001eb a30f                 lda     15,s
-    \ 0001ed 85..                 sta     dp:.tiny _Dp
-    \ 0001ef a30b                 lda     11,s
-    \ 0001f1 22......             jsl     long:playSongSID
-0072                  // Play Tune w/piano
-0073                  	printf("\rPlaying with Gun Shots!\r");	
-    \ 0001f5 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,71,117,110,32,83,104,111,116,115,33,13]`
-    \ 0001f8 22......             jsl     long:`?L73`
-0074                  	trk1[1]='4';
-    \ 0001fc a934                 lda     #52
-    \ 0001fe 8314                 sta     20,s
-    \ 000200 c220                 rep     #32
-0075                  	trk2[1]='4';
-    \ 000202 3b                   tsc
-    \ 000203 18                   clc
-    \ 000204 691401               adc     ##276
-    \ 000207 aa                   tax
-    \ 000208 e220                 sep     #32
-    \ 00020a a934                 lda     #52
-    \ 00020c 9d0000               sta     0,x
-    \ 00020f c220                 rep     #32
-0076                  	trk3[1]='4';
-    \ 000211 3b                   tsc
-    \ 000212 18                   clc
-    \ 000213 691402               adc     ##532
-    \ 000216 aa                   tax
-    \ 000217 e220                 sep     #32
-    \ 000219 a934                 lda     #52
-0077                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
-    \ 00021b 22......             jsl     long:`?L76`
-0078                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 00021f a311                 lda     17,s
-    \ 000221 48                   pha
-    \ 000222 a311                 lda     17,s
-    \ 000224 48                   pha
-    \ 000225 a311                 lda     17,s
-    \ 000227 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000229 a20100               ldx     ##1
-    \ 00022c 86..                 stx     dp:.tiny _Dp
-    \ 00022e 3b                   tsc
-    \ 00022f 18                   clc
-    \ 000230 691700               adc     ##23
-    \ 000233 22......             jsl     long:addTrack
-    \ 000237 830f                 sta     15,s
-0079                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 000239 a315                 lda     21,s
-    \ 00023b 48                   pha
-    \ 00023c a315                 lda     21,s
-    \ 00023e 48                   pha
-    \ 00023f a315                 lda     21,s
-    \ 000241 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000243 a20200               ldx     ##2
-    \ 000246 86..                 stx     dp:.tiny _Dp
-    \ 000248 3b                   tsc
-    \ 000249 18                   clc
-    \ 00024a 691b01               adc     ##283
-    \ 00024d 22......             jsl     long:addTrack
-    \ 000251 8313                 sta     19,s
-    \ 000253 3b                   tsc
-    \ 000254 18                   clc
-    \ 000255 691200               adc     ##18
-    \ 000258 1b                   tcs
-0080                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 000259 a307                 lda     7,s
-    \ 00025b 48                   pha
-    \ 00025c a307                 lda     7,s
-    \ 00025e 48                   pha
-    \ 00025f a307                 lda     7,s
-    \ 000261 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000263 a20300               ldx     ##3
-    \ 000266 86..                 stx     dp:.tiny _Dp
-    \ 000268 3b                   tsc
-    \ 000269 18                   clc
-    \ 00026a 690d02               adc     ##525
-    \ 00026d 22......             jsl     long:addTrack
-    \ 000271 8305                 sta     5,s
-0081                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-    \ 000273 f48c00               pea     ##140
-    \ 000276 a30d                 lda     13,s
-    \ 000278 85..                 sta     dp:.tiny (_Dp+2)
-    \ 00027a a30b                 lda     11,s
-    \ 00027c 85..                 sta     dp:.tiny _Dp
-    \ 00027e a307                 lda     7,s
-    \ 000280 22......             jsl     long:playSongSID
-0082                  // Play Tune w/piano
-0083                  	printf("\rPlaying with Flute\r");	
-    \ 000284 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,70,108,117,116,101,13]`
-    \ 000287 22......             jsl     long:`?L73`
-0084                  	trk1[1]='5';
-    \ 00028b a935                 lda     #53
-    \ 00028d 8310                 sta     16,s
-    \ 00028f c220                 rep     #32
-0085                  	trk2[1]='5';
-    \ 000291 3b                   tsc
-    \ 000292 18                   clc
-    \ 000293 691001               adc     ##272
-    \ 000296 aa                   tax
-    \ 000297 e220                 sep     #32
-    \ 000299 a935                 lda     #53
-    \ 00029b 9d0000               sta     0,x
-    \ 00029e c220                 rep     #32
-0086                  	trk3[1]='5';
-    \ 0002a0 3b                   tsc
-    \ 0002a1 18                   clc
-    \ 0002a2 691002               adc     ##528
-    \ 0002a5 aa                   tax
-    \ 0002a6 e220                 sep     #32
-    \ 0002a8 a935                 lda     #53
-0087                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
-    \ 0002aa 22......             jsl     long:`?L75`
-0088                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 0002ae a30d                 lda     13,s
-    \ 0002b0 48                   pha
-    \ 0002b1 a30d                 lda     13,s
-    \ 0002b3 48                   pha
-    \ 0002b4 a30d                 lda     13,s
-    \ 0002b6 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0002b8 a20100               ldx     ##1
-    \ 0002bb 86..                 stx     dp:.tiny _Dp
-    \ 0002bd 3b                   tsc
-    \ 0002be 22......             jsl     long:`?L79`
-    \ 0002c2 830b                 sta     11,s
-0089                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 0002c4 a311                 lda     17,s
-    \ 0002c6 48                   pha
-    \ 0002c7 a311                 lda     17,s
-    \ 0002c9 48                   pha
-    \ 0002ca a311                 lda     17,s
-    \ 0002cc 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0002ce a20200               ldx     ##2
-    \ 0002d1 86..                 stx     dp:.tiny _Dp
-    \ 0002d3 3b                   tsc
-    \ 0002d4 22......             jsl     long:`?L81`
-    \ 0002d8 830f                 sta     15,s
-0090                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 0002da a315                 lda     21,s
-    \ 0002dc 48                   pha
-    \ 0002dd a315                 lda     21,s
-    \ 0002df 48                   pha
-    \ 0002e0 a315                 lda     21,s
-    \ 0002e2 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0002e4 a20300               ldx     ##3
-    \ 0002e7 86..                 stx     dp:.tiny _Dp
-    \ 0002e9 3b                   tsc
-    \ 0002ea 22......             jsl     long:`?L83`
-    \ 0002ee 8313                 sta     19,s
-    \ 0002f0 3b                   tsc
-    \ 0002f1 18                   clc
-    \ 0002f2 691200               adc     ##18
-    \ 0002f5 1b                   tcs
-0091                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-    \ 0002f6 f48c00               pea     ##140
-    \ 0002f9 a309                 lda     9,s
-    \ 0002fb 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0002fd a307                 lda     7,s
-    \ 0002ff 85..                 sta     dp:.tiny _Dp
-    \ 000301 a303                 lda     3,s
-    \ 000303 22......             jsl     long:playSongSID
-0092                  // Play Tune w/piano
-0093                  	printf("\rPlaying with Guitar\r");	
-    \ 000307 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,71,117,105,116,97,114,13]`
-    \ 00030a 22......             jsl     long:`?L73`
-0094                  	trk1[1]='6';
-    \ 00030e a936                 lda     #54
-    \ 000310 830c                 sta     12,s
-    \ 000312 c220                 rep     #32
-0095                  	trk2[1]='6';
-    \ 000314 3b                   tsc
-    \ 000315 18                   clc
-    \ 000316 690c01               adc     ##268
-    \ 000319 aa                   tax
-    \ 00031a e220                 sep     #32
-    \ 00031c a936                 lda     #54
-    \ 00031e 9d0000               sta     0,x
-    \ 000321 c220                 rep     #32
-0096                  	trk3[1]='6';
-    \ 000323 3b                   tsc
-    \ 000324 18                   clc
-    \ 000325 690c02               adc     ##524
-    \ 000328 aa                   tax
-    \ 000329 e220                 sep     #32
-    \ 00032b a936                 lda     #54
-0097                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
-    \ 00032d 22......             jsl     long:`?L72`
-0098                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 000331 a309                 lda     9,s
-    \ 000333 48                   pha
-    \ 000334 a309                 lda     9,s
-    \ 000336 48                   pha
-    \ 000337 a309                 lda     9,s
-    \ 000339 85..                 sta     dp:.tiny (_Dp+2)
-    \ 00033b a20100               ldx     ##1
-    \ 00033e 86..                 stx     dp:.tiny _Dp
-    \ 000340 3b                   tsc
-    \ 000341 22......             jsl     long:`?L78`
-    \ 000345 8307                 sta     7,s
-0099                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 000347 a30d                 lda     13,s
-    \ 000349 48                   pha
-    \ 00034a a30d                 lda     13,s
-    \ 00034c 48                   pha
-    \ 00034d a30d                 lda     13,s
-    \ 00034f 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000351 a20200               ldx     ##2
-    \ 000354 86..                 stx     dp:.tiny _Dp
-    \ 000356 3b                   tsc
-    \ 000357 22......             jsl     long:`?L80`
-    \ 00035b 830b                 sta     11,s
-0100                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 00035d a311                 lda     17,s
-    \ 00035f 48                   pha
-    \ 000360 a311                 lda     17,s
-    \ 000362 48                   pha
-    \ 000363 a311                 lda     17,s
-    \ 000365 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000367 a20300               ldx     ##3
-    \ 00036a 86..                 stx     dp:.tiny _Dp
-    \ 00036c 3b                   tsc
-    \ 00036d 22......             jsl     long:`?L82`
-    \ 000371 830f                 sta     15,s
-0101                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-    \ 000373 f48c00               pea     ##140
-    \ 000376 a317                 lda     23,s
-    \ 000378 85..                 sta     dp:.tiny (_Dp+2)
-    \ 00037a a315                 lda     21,s
-    \ 00037c 85..                 sta     dp:.tiny _Dp
+    \ 000147 48                   pha
+    \ 000148 a311                 lda     17,s
+    \ 00014a 48                   pha
+    \ 00014b a311                 lda     17,s
+    \ 00014d 85..                 sta     dp:.tiny (_Dp+2)
+    \ 00014f a20300               ldx     ##3
+    \ 000152 86..                 stx     dp:.tiny _Dp
+    \ 000154 3b                   tsc
+    \ 000155 22......             jsl     long:`?L92`
+    \ 000159 830f                 sta     15,s
+    \ 00015b a30f                 lda     15,s
+0062                  	resetSID(); 	
+    \ 00015d 22......             jsl     long:resetSID
+0063                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
+    \ 000161 f48c00               pea     ##140
+    \ 000164 a317                 lda     23,s
+    \ 000166 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000168 a315                 lda     21,s
+    \ 00016a 85..                 sta     dp:.tiny _Dp
+    \ 00016c a311                 lda     17,s
+    \ 00016e 22......             jsl     long:playSongSID
+0064                  // Play Tune w/Distorted Synth	
+0065
+0066                  	printf("\rPlaying with Distorted Synth\r");	
+    \ 000172 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,68,105,115,116,111,114,116,101,100,32,83,121,110,116,104,13]`
+    \ 000175 22......             jsl     long:`?L83`
+0067                  	trk1[1]='3';
+    \ 000179 a933                 lda     #51
+    \ 00017b 831a                 sta     26,s
+    \ 00017d c220                 rep     #32
+0068                  	trk2[1]='3';
+    \ 00017f 3b                   tsc
+    \ 000180 18                   clc
+    \ 000181 691a01               adc     ##282
+    \ 000184 aa                   tax
+    \ 000185 e220                 sep     #32
+    \ 000187 a933                 lda     #51
+    \ 000189 9d0000               sta     0,x
+    \ 00018c c220                 rep     #32
+0069                  	trk3[1]='3';
+    \ 00018e 3b                   tsc
+    \ 00018f 18                   clc
+    \ 000190 691a02               adc     ##538
+    \ 000193 aa                   tax
+    \ 000194 e220                 sep     #32
+    \ 000196 a933                 lda     #51
+0070                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
+    \ 000198 22......             jsl     long:`?L87`
+0071                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 00019c a317                 lda     23,s
+    \ 00019e 48                   pha
+    \ 00019f a317                 lda     23,s
+    \ 0001a1 48                   pha
+    \ 0001a2 a317                 lda     23,s
+    \ 0001a4 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0001a6 a20100               ldx     ##1
+    \ 0001a9 86..                 stx     dp:.tiny _Dp
+    \ 0001ab 3b                   tsc
+    \ 0001ac 18                   clc
+    \ 0001ad 691d00               adc     ##29
+    \ 0001b0 22......             jsl     long:addTrack
+    \ 0001b4 8315                 sta     21,s
+    \ 0001b6 3b                   tsc
+    \ 0001b7 18                   clc
+    \ 0001b8 691400               adc     ##20
+    \ 0001bb 1b                   tcs
+0072                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 0001bc a307                 lda     7,s
+    \ 0001be 48                   pha
+    \ 0001bf a307                 lda     7,s
+    \ 0001c1 48                   pha
+    \ 0001c2 a307                 lda     7,s
+    \ 0001c4 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0001c6 a20200               ldx     ##2
+    \ 0001c9 86..                 stx     dp:.tiny _Dp
+    \ 0001cb 3b                   tsc
+    \ 0001cc 18                   clc
+    \ 0001cd 690d01               adc     ##269
+    \ 0001d0 22......             jsl     long:addTrack
+    \ 0001d4 8305                 sta     5,s
+0073                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 0001d6 a30b                 lda     11,s
+    \ 0001d8 48                   pha
+    \ 0001d9 a30b                 lda     11,s
+    \ 0001db 48                   pha
+    \ 0001dc a30b                 lda     11,s
+    \ 0001de 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0001e0 a20300               ldx     ##3
+    \ 0001e3 86..                 stx     dp:.tiny _Dp
+    \ 0001e5 3b                   tsc
+    \ 0001e6 18                   clc
+    \ 0001e7 691102               adc     ##529
+    \ 0001ea 22......             jsl     long:addTrack
+    \ 0001ee 8309                 sta     9,s
+    \ 0001f0 a309                 lda     9,s
+0074                  	resetSID(); 	
+    \ 0001f2 22......             jsl     long:resetSID
+0075                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
+    \ 0001f6 f48c00               pea     ##140
+    \ 0001f9 a311                 lda     17,s
+    \ 0001fb 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0001fd a30f                 lda     15,s
+    \ 0001ff 85..                 sta     dp:.tiny _Dp
+    \ 000201 a30b                 lda     11,s
+    \ 000203 22......             jsl     long:playSongSID
+0076
+0077                  // Play Tune w/Gun Shots
+0078                  	printf("\rPlaying with Gun Shots!\r");	
+    \ 000207 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,71,117,110,32,83,104,111,116,115,33,13]`
+    \ 00020a 22......             jsl     long:`?L83`
+0079                  	trk1[1]='4';
+    \ 00020e a934                 lda     #52
+    \ 000210 8314                 sta     20,s
+    \ 000212 c220                 rep     #32
+0080                  	trk2[1]='4';
+    \ 000214 3b                   tsc
+    \ 000215 18                   clc
+    \ 000216 691401               adc     ##276
+    \ 000219 aa                   tax
+    \ 00021a e220                 sep     #32
+    \ 00021c a934                 lda     #52
+    \ 00021e 9d0000               sta     0,x
+    \ 000221 c220                 rep     #32
+0081                  	trk3[1]='4';
+    \ 000223 3b                   tsc
+    \ 000224 18                   clc
+    \ 000225 691402               adc     ##532
+    \ 000228 aa                   tax
+    \ 000229 e220                 sep     #32
+    \ 00022b a934                 lda     #52
+0082                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
+    \ 00022d 22......             jsl     long:`?L86`
+0083                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 000231 a311                 lda     17,s
+    \ 000233 48                   pha
+    \ 000234 a311                 lda     17,s
+    \ 000236 48                   pha
+    \ 000237 a311                 lda     17,s
+    \ 000239 85..                 sta     dp:.tiny (_Dp+2)
+    \ 00023b a20100               ldx     ##1
+    \ 00023e 86..                 stx     dp:.tiny _Dp
+    \ 000240 3b                   tsc
+    \ 000241 18                   clc
+    \ 000242 691700               adc     ##23
+    \ 000245 22......             jsl     long:addTrack
+    \ 000249 830f                 sta     15,s
+0084                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 00024b a315                 lda     21,s
+    \ 00024d 48                   pha
+    \ 00024e a315                 lda     21,s
+    \ 000250 48                   pha
+    \ 000251 a315                 lda     21,s
+    \ 000253 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000255 a20200               ldx     ##2
+    \ 000258 86..                 stx     dp:.tiny _Dp
+    \ 00025a 3b                   tsc
+    \ 00025b 18                   clc
+    \ 00025c 691b01               adc     ##283
+    \ 00025f 22......             jsl     long:addTrack
+    \ 000263 8313                 sta     19,s
+    \ 000265 3b                   tsc
+    \ 000266 18                   clc
+    \ 000267 691200               adc     ##18
+    \ 00026a 1b                   tcs
+0085                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 00026b a307                 lda     7,s
+    \ 00026d 48                   pha
+    \ 00026e a307                 lda     7,s
+    \ 000270 48                   pha
+    \ 000271 a307                 lda     7,s
+    \ 000273 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000275 a20300               ldx     ##3
+    \ 000278 86..                 stx     dp:.tiny _Dp
+    \ 00027a 3b                   tsc
+    \ 00027b 18                   clc
+    \ 00027c 690d02               adc     ##525
+    \ 00027f 22......             jsl     long:addTrack
+    \ 000283 8305                 sta     5,s
+    \ 000285 a305                 lda     5,s
+0086                  	resetSID(); 	
+    \ 000287 22......             jsl     long:resetSID
+0087                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
+    \ 00028b f48c00               pea     ##140
+    \ 00028e a30d                 lda     13,s
+    \ 000290 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000292 a30b                 lda     11,s
+    \ 000294 85..                 sta     dp:.tiny _Dp
+    \ 000296 a307                 lda     7,s
+    \ 000298 22......             jsl     long:playSongSID
+0088                  // Play Tune w/Flute
+0089                  	printf("\rPlaying with Flute\r");	
+    \ 00029c a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,70,108,117,116,101,13]`
+    \ 00029f 22......             jsl     long:`?L83`
+0090                  	trk1[1]='5';
+    \ 0002a3 a935                 lda     #53
+    \ 0002a5 8310                 sta     16,s
+    \ 0002a7 c220                 rep     #32
+0091                  	trk2[1]='5';
+    \ 0002a9 3b                   tsc
+    \ 0002aa 18                   clc
+    \ 0002ab 691001               adc     ##272
+    \ 0002ae aa                   tax
+    \ 0002af e220                 sep     #32
+    \ 0002b1 a935                 lda     #53
+    \ 0002b3 9d0000               sta     0,x
+    \ 0002b6 c220                 rep     #32
+0092                  	trk3[1]='5';
+    \ 0002b8 3b                   tsc
+    \ 0002b9 18                   clc
+    \ 0002ba 691002               adc     ##528
+    \ 0002bd aa                   tax
+    \ 0002be e220                 sep     #32
+    \ 0002c0 a935                 lda     #53
+0093                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
+    \ 0002c2 22......             jsl     long:`?L85`
+0094                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 0002c6 a30d                 lda     13,s
+    \ 0002c8 48                   pha
+    \ 0002c9 a30d                 lda     13,s
+    \ 0002cb 48                   pha
+    \ 0002cc a30d                 lda     13,s
+    \ 0002ce 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0002d0 a20100               ldx     ##1
+    \ 0002d3 86..                 stx     dp:.tiny _Dp
+    \ 0002d5 3b                   tsc
+    \ 0002d6 22......             jsl     long:`?L89`
+    \ 0002da 830b                 sta     11,s
+0095                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 0002dc a311                 lda     17,s
+    \ 0002de 48                   pha
+    \ 0002df a311                 lda     17,s
+    \ 0002e1 48                   pha
+    \ 0002e2 a311                 lda     17,s
+    \ 0002e4 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0002e6 a20200               ldx     ##2
+    \ 0002e9 86..                 stx     dp:.tiny _Dp
+    \ 0002eb 3b                   tsc
+    \ 0002ec 22......             jsl     long:`?L91`
+    \ 0002f0 830f                 sta     15,s
+0096                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 0002f2 a315                 lda     21,s
+    \ 0002f4 48                   pha
+    \ 0002f5 a315                 lda     21,s
+    \ 0002f7 48                   pha
+    \ 0002f8 a315                 lda     21,s
+    \ 0002fa 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0002fc a20300               ldx     ##3
+    \ 0002ff 86..                 stx     dp:.tiny _Dp
+    \ 000301 3b                   tsc
+    \ 000302 22......             jsl     long:`?L93`
+    \ 000306 8313                 sta     19,s
+    \ 000308 3b                   tsc
+    \ 000309 18                   clc
+    \ 00030a 691200               adc     ##18
+    \ 00030d 1b                   tcs
+    \ 00030e a301                 lda     1,s
+0097                  	resetSID(); 	
+    \ 000310 22......             jsl     long:resetSID
+0098                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
+    \ 000314 f48c00               pea     ##140
+    \ 000317 a309                 lda     9,s
+    \ 000319 85..                 sta     dp:.tiny (_Dp+2)
+    \ 00031b a307                 lda     7,s
+    \ 00031d 85..                 sta     dp:.tiny _Dp
+    \ 00031f a303                 lda     3,s
+    \ 000321 22......             jsl     long:playSongSID
+0099                  // Play Tune w/Guitar
+0100                  	printf("\rPlaying with Guitar\r");	
+    \ 000325 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,71,117,105,116,97,114,13]`
+    \ 000328 22......             jsl     long:`?L83`
+0101                  	trk1[1]='6';
+    \ 00032c a936                 lda     #54
+    \ 00032e 830c                 sta     12,s
+    \ 000330 c220                 rep     #32
+0102                  	trk2[1]='6';
+    \ 000332 3b                   tsc
+    \ 000333 18                   clc
+    \ 000334 690c01               adc     ##268
+    \ 000337 aa                   tax
+    \ 000338 e220                 sep     #32
+    \ 00033a a936                 lda     #54
+    \ 00033c 9d0000               sta     0,x
+    \ 00033f c220                 rep     #32
+0103                  	trk3[1]='6';
+    \ 000341 3b                   tsc
+    \ 000342 18                   clc
+    \ 000343 690c02               adc     ##524
+    \ 000346 aa                   tax
+    \ 000347 e220                 sep     #32
+    \ 000349 a936                 lda     #54
+0104                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
+    \ 00034b 22......             jsl     long:`?L82`
+0105                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 00034f a309                 lda     9,s
+    \ 000351 48                   pha
+    \ 000352 a309                 lda     9,s
+    \ 000354 48                   pha
+    \ 000355 a309                 lda     9,s
+    \ 000357 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000359 a20100               ldx     ##1
+    \ 00035c 86..                 stx     dp:.tiny _Dp
+    \ 00035e 3b                   tsc
+    \ 00035f 22......             jsl     long:`?L88`
+    \ 000363 8307                 sta     7,s
+0106                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 000365 a30d                 lda     13,s
+    \ 000367 48                   pha
+    \ 000368 a30d                 lda     13,s
+    \ 00036a 48                   pha
+    \ 00036b a30d                 lda     13,s
+    \ 00036d 85..                 sta     dp:.tiny (_Dp+2)
+    \ 00036f a20200               ldx     ##2
+    \ 000372 86..                 stx     dp:.tiny _Dp
+    \ 000374 3b                   tsc
+    \ 000375 22......             jsl     long:`?L90`
+    \ 000379 830b                 sta     11,s
+0107                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 00037b a311                 lda     17,s
+    \ 00037d 48                   pha
     \ 00037e a311                 lda     17,s
-    \ 000380 22......             jsl     long:playSongSID
-0102                  // Play Tune w/piano
-0103                  	printf("\rPlaying with Harpsichord\r");	
-    \ 000384 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,72,97,114,112,115,105,99,104,111,114,100,13]`
-    \ 000387 22......             jsl     long:`?L73`
-0104                  	trk1[1]='7';
-    \ 00038b a937                 lda     #55
-    \ 00038d 831a                 sta     26,s
-    \ 00038f c220                 rep     #32
-0105                  	trk2[1]='7';
-    \ 000391 3b                   tsc
-    \ 000392 18                   clc
-    \ 000393 691a01               adc     ##282
-    \ 000396 aa                   tax
-    \ 000397 e220                 sep     #32
-    \ 000399 a937                 lda     #55
-    \ 00039b 9d0000               sta     0,x
-    \ 00039e c220                 rep     #32
-0106                  	trk3[1]='7';
-    \ 0003a0 3b                   tsc
-    \ 0003a1 18                   clc
-    \ 0003a2 691a02               adc     ##538
-    \ 0003a5 aa                   tax
-    \ 0003a6 e220                 sep     #32
-    \ 0003a8 a937                 lda     #55
-0107                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
-    \ 0003aa 22......             jsl     long:`?L77`
-0108                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 0003ae a317                 lda     23,s
-    \ 0003b0 48                   pha
-    \ 0003b1 a317                 lda     23,s
-    \ 0003b3 48                   pha
-    \ 0003b4 a317                 lda     23,s
-    \ 0003b6 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0003b8 a20100               ldx     ##1
-    \ 0003bb 86..                 stx     dp:.tiny _Dp
-    \ 0003bd 3b                   tsc
-    \ 0003be 18                   clc
-    \ 0003bf 691d00               adc     ##29
-    \ 0003c2 22......             jsl     long:addTrack
-    \ 0003c6 8315                 sta     21,s
-    \ 0003c8 3b                   tsc
-    \ 0003c9 18                   clc
-    \ 0003ca 691400               adc     ##20
-    \ 0003cd 1b                   tcs
-0109                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 0003ce a307                 lda     7,s
-    \ 0003d0 48                   pha
-    \ 0003d1 a307                 lda     7,s
-    \ 0003d3 48                   pha
-    \ 0003d4 a307                 lda     7,s
-    \ 0003d6 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0003d8 a20200               ldx     ##2
-    \ 0003db 86..                 stx     dp:.tiny _Dp
-    \ 0003dd 3b                   tsc
-    \ 0003de 18                   clc
-    \ 0003df 690d01               adc     ##269
-    \ 0003e2 22......             jsl     long:addTrack
-    \ 0003e6 8305                 sta     5,s
-0110                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 0003e8 a30b                 lda     11,s
-    \ 0003ea 48                   pha
-    \ 0003eb a30b                 lda     11,s
-    \ 0003ed 48                   pha
-    \ 0003ee a30b                 lda     11,s
-    \ 0003f0 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0003f2 a20300               ldx     ##3
-    \ 0003f5 86..                 stx     dp:.tiny _Dp
-    \ 0003f7 3b                   tsc
-    \ 0003f8 18                   clc
-    \ 0003f9 691102               adc     ##529
-    \ 0003fc 22......             jsl     long:addTrack
-    \ 000400 8309                 sta     9,s
-0111                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-    \ 000402 f48c00               pea     ##140
-    \ 000405 a311                 lda     17,s
-    \ 000407 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000409 a30f                 lda     15,s
-    \ 00040b 85..                 sta     dp:.tiny _Dp
-    \ 00040d a30b                 lda     11,s
-    \ 00040f 22......             jsl     long:playSongSID
-0112                  // Play Tune w/piano
-0113                  	printf("\rPlaying with Organ\r");	
-    \ 000413 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,79,114,103,97,110,13]`
-    \ 000416 22......             jsl     long:`?L73`
-0114                  	trk1[1]='8';
-    \ 00041a a938                 lda     #56
-    \ 00041c 8314                 sta     20,s
-    \ 00041e c220                 rep     #32
-0115                  	trk2[1]='8';
-    \ 000420 3b                   tsc
-    \ 000421 18                   clc
-    \ 000422 691401               adc     ##276
-    \ 000425 aa                   tax
-    \ 000426 e220                 sep     #32
-    \ 000428 a938                 lda     #56
-    \ 00042a 9d0000               sta     0,x
-    \ 00042d c220                 rep     #32
-0116                  	trk3[1]='8';
-    \ 00042f 3b                   tsc
-    \ 000430 18                   clc
-    \ 000431 691402               adc     ##532
-    \ 000434 aa                   tax
-    \ 000435 e220                 sep     #32
-    \ 000437 a938                 lda     #56
-0117                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
-    \ 000439 22......             jsl     long:`?L76`
-0118                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 00043d a311                 lda     17,s
-    \ 00043f 48                   pha
-    \ 000440 a311                 lda     17,s
-    \ 000442 48                   pha
-    \ 000443 a311                 lda     17,s
-    \ 000445 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000447 a20100               ldx     ##1
-    \ 00044a 86..                 stx     dp:.tiny _Dp
-    \ 00044c 3b                   tsc
-    \ 00044d 18                   clc
-    \ 00044e 691700               adc     ##23
-    \ 000451 22......             jsl     long:addTrack
-    \ 000455 830f                 sta     15,s
-0119                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 000457 a315                 lda     21,s
-    \ 000459 48                   pha
-    \ 00045a a315                 lda     21,s
-    \ 00045c 48                   pha
-    \ 00045d a315                 lda     21,s
-    \ 00045f 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000461 a20200               ldx     ##2
-    \ 000464 86..                 stx     dp:.tiny _Dp
-    \ 000466 3b                   tsc
-    \ 000467 18                   clc
-    \ 000468 691b01               adc     ##283
-    \ 00046b 22......             jsl     long:addTrack
-    \ 00046f 8313                 sta     19,s
-    \ 000471 3b                   tsc
-    \ 000472 18                   clc
-    \ 000473 691200               adc     ##18
-    \ 000476 1b                   tcs
-0120                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 000477 a307                 lda     7,s
-    \ 000479 48                   pha
-    \ 00047a a307                 lda     7,s
-    \ 00047c 48                   pha
-    \ 00047d a307                 lda     7,s
-    \ 00047f 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000481 a20300               ldx     ##3
-    \ 000484 86..                 stx     dp:.tiny _Dp
-    \ 000486 3b                   tsc
-    \ 000487 18                   clc
-    \ 000488 690d02               adc     ##525
-    \ 00048b 22......             jsl     long:addTrack
-    \ 00048f 8305                 sta     5,s
-0121                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-    \ 000491 f48c00               pea     ##140
-    \ 000494 a30d                 lda     13,s
-    \ 000496 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000498 a30b                 lda     11,s
-    \ 00049a 85..                 sta     dp:.tiny _Dp
-    \ 00049c a307                 lda     7,s
-    \ 00049e 22......             jsl     long:playSongSID
-0122                  // Play Tune w/piano
-0123                  	printf("\rPlaying with Oboe\r");	
-    \ 0004a2 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,79,98,111,101,13]`
-    \ 0004a5 22......             jsl     long:`?L73`
-0124                  	trk1[1]='9';
-    \ 0004a9 a939                 lda     #57
-    \ 0004ab 8310                 sta     16,s
-    \ 0004ad c220                 rep     #32
-0125                  	trk2[1]='9';
-    \ 0004af 3b                   tsc
-    \ 0004b0 18                   clc
-    \ 0004b1 691001               adc     ##272
-    \ 0004b4 aa                   tax
-    \ 0004b5 e220                 sep     #32
-    \ 0004b7 a939                 lda     #57
-    \ 0004b9 9d0000               sta     0,x
-    \ 0004bc c220                 rep     #32
-0126                  	trk3[1]='9';
-    \ 0004be 3b                   tsc
-    \ 0004bf 18                   clc
-    \ 0004c0 691002               adc     ##528
-    \ 0004c3 aa                   tax
-    \ 0004c4 e220                 sep     #32
-    \ 0004c6 a939                 lda     #57
-0127                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
-    \ 0004c8 22......             jsl     long:`?L75`
-0128                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 0004cc a30d                 lda     13,s
-    \ 0004ce 48                   pha
-    \ 0004cf a30d                 lda     13,s
-    \ 0004d1 48                   pha
-    \ 0004d2 a30d                 lda     13,s
-    \ 0004d4 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0004d6 a20100               ldx     ##1
-    \ 0004d9 86..                 stx     dp:.tiny _Dp
-    \ 0004db 3b                   tsc
-    \ 0004dc 22......             jsl     long:`?L79`
-    \ 0004e0 830b                 sta     11,s
-0129                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 0004e2 a311                 lda     17,s
-    \ 0004e4 48                   pha
-    \ 0004e5 a311                 lda     17,s
-    \ 0004e7 48                   pha
-    \ 0004e8 a311                 lda     17,s
-    \ 0004ea 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0004ec a20200               ldx     ##2
-    \ 0004ef 86..                 stx     dp:.tiny _Dp
-    \ 0004f1 3b                   tsc
-    \ 0004f2 22......             jsl     long:`?L81`
-    \ 0004f6 830f                 sta     15,s
-0130                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 0004f8 a315                 lda     21,s
-    \ 0004fa 48                   pha
-    \ 0004fb a315                 lda     21,s
-    \ 0004fd 48                   pha
-    \ 0004fe a315                 lda     21,s
-    \ 000500 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000502 a20300               ldx     ##3
-    \ 000505 86..                 stx     dp:.tiny _Dp
-    \ 000507 3b                   tsc
-    \ 000508 22......             jsl     long:`?L83`
-    \ 00050c 8313                 sta     19,s
-    \ 00050e 3b                   tsc
-    \ 00050f 18                   clc
-    \ 000510 691200               adc     ##18
-    \ 000513 1b                   tcs
+    \ 000380 48                   pha
+    \ 000381 a311                 lda     17,s
+    \ 000383 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000385 a20300               ldx     ##3
+    \ 000388 86..                 stx     dp:.tiny _Dp
+    \ 00038a 3b                   tsc
+    \ 00038b 22......             jsl     long:`?L92`
+    \ 00038f 830f                 sta     15,s
+    \ 000391 a30f                 lda     15,s
+0108                  	resetSID(); 	
+    \ 000393 22......             jsl     long:resetSID
+0109                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
+    \ 000397 f48c00               pea     ##140
+    \ 00039a a317                 lda     23,s
+    \ 00039c 85..                 sta     dp:.tiny (_Dp+2)
+    \ 00039e a315                 lda     21,s
+    \ 0003a0 85..                 sta     dp:.tiny _Dp
+    \ 0003a2 a311                 lda     17,s
+    \ 0003a4 22......             jsl     long:playSongSID
+0110                  // Play Tune w/Harpsichord
+0111                  	printf("\rPlaying with Harpsichord\r");	
+    \ 0003a8 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,72,97,114,112,115,105,99,104,111,114,100,13]`
+    \ 0003ab 22......             jsl     long:`?L83`
+0112                  	trk1[1]='7';
+    \ 0003af a937                 lda     #55
+    \ 0003b1 831a                 sta     26,s
+    \ 0003b3 c220                 rep     #32
+0113                  	trk2[1]='7';
+    \ 0003b5 3b                   tsc
+    \ 0003b6 18                   clc
+    \ 0003b7 691a01               adc     ##282
+    \ 0003ba aa                   tax
+    \ 0003bb e220                 sep     #32
+    \ 0003bd a937                 lda     #55
+    \ 0003bf 9d0000               sta     0,x
+    \ 0003c2 c220                 rep     #32
+0114                  	trk3[1]='7';
+    \ 0003c4 3b                   tsc
+    \ 0003c5 18                   clc
+    \ 0003c6 691a02               adc     ##538
+    \ 0003c9 aa                   tax
+    \ 0003ca e220                 sep     #32
+    \ 0003cc a937                 lda     #55
+0115                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
+    \ 0003ce 22......             jsl     long:`?L87`
+0116                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 0003d2 a317                 lda     23,s
+    \ 0003d4 48                   pha
+    \ 0003d5 a317                 lda     23,s
+    \ 0003d7 48                   pha
+    \ 0003d8 a317                 lda     23,s
+    \ 0003da 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0003dc a20100               ldx     ##1
+    \ 0003df 86..                 stx     dp:.tiny _Dp
+    \ 0003e1 3b                   tsc
+    \ 0003e2 18                   clc
+    \ 0003e3 691d00               adc     ##29
+    \ 0003e6 22......             jsl     long:addTrack
+    \ 0003ea 8315                 sta     21,s
+    \ 0003ec 3b                   tsc
+    \ 0003ed 18                   clc
+    \ 0003ee 691400               adc     ##20
+    \ 0003f1 1b                   tcs
+0117                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 0003f2 a307                 lda     7,s
+    \ 0003f4 48                   pha
+    \ 0003f5 a307                 lda     7,s
+    \ 0003f7 48                   pha
+    \ 0003f8 a307                 lda     7,s
+    \ 0003fa 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0003fc a20200               ldx     ##2
+    \ 0003ff 86..                 stx     dp:.tiny _Dp
+    \ 000401 3b                   tsc
+    \ 000402 18                   clc
+    \ 000403 690d01               adc     ##269
+    \ 000406 22......             jsl     long:addTrack
+    \ 00040a 8305                 sta     5,s
+0118                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 00040c a30b                 lda     11,s
+    \ 00040e 48                   pha
+    \ 00040f a30b                 lda     11,s
+    \ 000411 48                   pha
+    \ 000412 a30b                 lda     11,s
+    \ 000414 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000416 a20300               ldx     ##3
+    \ 000419 86..                 stx     dp:.tiny _Dp
+    \ 00041b 3b                   tsc
+    \ 00041c 18                   clc
+    \ 00041d 691102               adc     ##529
+    \ 000420 22......             jsl     long:addTrack
+    \ 000424 8309                 sta     9,s
+    \ 000426 a309                 lda     9,s
+0119                  	resetSID(); 	
+    \ 000428 22......             jsl     long:resetSID
+0120                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
+    \ 00042c f48c00               pea     ##140
+    \ 00042f a311                 lda     17,s
+    \ 000431 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000433 a30f                 lda     15,s
+    \ 000435 85..                 sta     dp:.tiny _Dp
+    \ 000437 a30b                 lda     11,s
+    \ 000439 22......             jsl     long:playSongSID
+0121                  // Play Tune w/Organ
+0122                  	printf("\rPlaying with Organ\r");	
+    \ 00043d a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,79,114,103,97,110,13]`
+    \ 000440 22......             jsl     long:`?L83`
+0123                  	trk1[1]='8';
+    \ 000444 a938                 lda     #56
+    \ 000446 8314                 sta     20,s
+    \ 000448 c220                 rep     #32
+0124                  	trk2[1]='8';
+    \ 00044a 3b                   tsc
+    \ 00044b 18                   clc
+    \ 00044c 691401               adc     ##276
+    \ 00044f aa                   tax
+    \ 000450 e220                 sep     #32
+    \ 000452 a938                 lda     #56
+    \ 000454 9d0000               sta     0,x
+    \ 000457 c220                 rep     #32
+0125                  	trk3[1]='8';
+    \ 000459 3b                   tsc
+    \ 00045a 18                   clc
+    \ 00045b 691402               adc     ##532
+    \ 00045e aa                   tax
+    \ 00045f e220                 sep     #32
+    \ 000461 a938                 lda     #56
+0126                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
+    \ 000463 22......             jsl     long:`?L86`
+0127                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 000467 a311                 lda     17,s
+    \ 000469 48                   pha
+    \ 00046a a311                 lda     17,s
+    \ 00046c 48                   pha
+    \ 00046d a311                 lda     17,s
+    \ 00046f 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000471 a20100               ldx     ##1
+    \ 000474 86..                 stx     dp:.tiny _Dp
+    \ 000476 3b                   tsc
+    \ 000477 18                   clc
+    \ 000478 691700               adc     ##23
+    \ 00047b 22......             jsl     long:addTrack
+    \ 00047f 830f                 sta     15,s
+0128                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 000481 a315                 lda     21,s
+    \ 000483 48                   pha
+    \ 000484 a315                 lda     21,s
+    \ 000486 48                   pha
+    \ 000487 a315                 lda     21,s
+    \ 000489 85..                 sta     dp:.tiny (_Dp+2)
+    \ 00048b a20200               ldx     ##2
+    \ 00048e 86..                 stx     dp:.tiny _Dp
+    \ 000490 3b                   tsc
+    \ 000491 18                   clc
+    \ 000492 691b01               adc     ##283
+    \ 000495 22......             jsl     long:addTrack
+    \ 000499 8313                 sta     19,s
+    \ 00049b 3b                   tsc
+    \ 00049c 18                   clc
+    \ 00049d 691200               adc     ##18
+    \ 0004a0 1b                   tcs
+0129                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 0004a1 a307                 lda     7,s
+    \ 0004a3 48                   pha
+    \ 0004a4 a307                 lda     7,s
+    \ 0004a6 48                   pha
+    \ 0004a7 a307                 lda     7,s
+    \ 0004a9 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0004ab a20300               ldx     ##3
+    \ 0004ae 86..                 stx     dp:.tiny _Dp
+    \ 0004b0 3b                   tsc
+    \ 0004b1 18                   clc
+    \ 0004b2 690d02               adc     ##525
+    \ 0004b5 22......             jsl     long:addTrack
+    \ 0004b9 8305                 sta     5,s
+    \ 0004bb a305                 lda     5,s
+0130                  	resetSID(); 	
+    \ 0004bd 22......             jsl     long:resetSID
 0131                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-    \ 000514 f48c00               pea     ##140
-    \ 000517 a309                 lda     9,s
-    \ 000519 85..                 sta     dp:.tiny (_Dp+2)
-    \ 00051b a307                 lda     7,s
-    \ 00051d 85..                 sta     dp:.tiny _Dp
-    \ 00051f a303                 lda     3,s
-    \ 000521 22......             jsl     long:playSongSID
-0132                  // Play Tune w/piano
-0133                  	printf("\rPlaying with Xylophone\r");	
-    \ 000525 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,88,121,108,111,112,104,111,110,101,13]`
-    \ 000528 22......             jsl     long:`?L73`
-0134                  	trk1[1]='a';
-    \ 00052c a961                 lda     #97
-    \ 00052e 830c                 sta     12,s
-    \ 000530 c220                 rep     #32
-0135                  	trk2[1]='a';
-    \ 000532 3b                   tsc
-    \ 000533 18                   clc
-    \ 000534 690c01               adc     ##268
-    \ 000537 aa                   tax
-    \ 000538 e220                 sep     #32
-    \ 00053a a961                 lda     #97
-    \ 00053c 9d0000               sta     0,x
-    \ 00053f c220                 rep     #32
-0136                  	trk3[1]='a';
-    \ 000541 3b                   tsc
-    \ 000542 18                   clc
-    \ 000543 690c02               adc     ##524
-    \ 000546 aa                   tax
-    \ 000547 e220                 sep     #32
-    \ 000549 a961                 lda     #97
+    \ 0004c1 f48c00               pea     ##140
+    \ 0004c4 a30d                 lda     13,s
+    \ 0004c6 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0004c8 a30b                 lda     11,s
+    \ 0004ca 85..                 sta     dp:.tiny _Dp
+    \ 0004cc a307                 lda     7,s
+    \ 0004ce 22......             jsl     long:playSongSID
+0132                  // Play Tune w/Oboe
+0133                  	printf("\rPlaying with Oboe\r");	
+    \ 0004d2 a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,79,98,111,101,13]`
+    \ 0004d5 22......             jsl     long:`?L83`
+0134                  	trk1[1]='9';
+    \ 0004d9 a939                 lda     #57
+    \ 0004db 8310                 sta     16,s
+    \ 0004dd c220                 rep     #32
+0135                  	trk2[1]='9';
+    \ 0004df 3b                   tsc
+    \ 0004e0 18                   clc
+    \ 0004e1 691001               adc     ##272
+    \ 0004e4 aa                   tax
+    \ 0004e5 e220                 sep     #32
+    \ 0004e7 a939                 lda     #57
+    \ 0004e9 9d0000               sta     0,x
+    \ 0004ec c220                 rep     #32
+0136                  	trk3[1]='9';
+    \ 0004ee 3b                   tsc
+    \ 0004ef 18                   clc
+    \ 0004f0 691002               adc     ##528
+    \ 0004f3 aa                   tax
+    \ 0004f4 e220                 sep     #32
+    \ 0004f6 a939                 lda     #57
 0137                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
-    \ 00054b 22......             jsl     long:`?L72`
+    \ 0004f8 22......             jsl     long:`?L85`
 0138                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 00054f a309                 lda     9,s
-    \ 000551 48                   pha
-    \ 000552 a309                 lda     9,s
-    \ 000554 48                   pha
-    \ 000555 a309                 lda     9,s
-    \ 000557 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000559 a20100               ldx     ##1
-    \ 00055c 86..                 stx     dp:.tiny _Dp
-    \ 00055e 3b                   tsc
-    \ 00055f 22......             jsl     long:`?L78`
-    \ 000563 8307                 sta     7,s
+    \ 0004fc a30d                 lda     13,s
+    \ 0004fe 48                   pha
+    \ 0004ff a30d                 lda     13,s
+    \ 000501 48                   pha
+    \ 000502 a30d                 lda     13,s
+    \ 000504 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000506 a20100               ldx     ##1
+    \ 000509 86..                 stx     dp:.tiny _Dp
+    \ 00050b 3b                   tsc
+    \ 00050c 22......             jsl     long:`?L89`
+    \ 000510 830b                 sta     11,s
 0139                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 000565 a30d                 lda     13,s
-    \ 000567 48                   pha
-    \ 000568 a30d                 lda     13,s
-    \ 00056a 48                   pha
-    \ 00056b a30d                 lda     13,s
-    \ 00056d 85..                 sta     dp:.tiny (_Dp+2)
-    \ 00056f a20200               ldx     ##2
-    \ 000572 86..                 stx     dp:.tiny _Dp
-    \ 000574 3b                   tsc
-    \ 000575 22......             jsl     long:`?L80`
-    \ 000579 830b                 sta     11,s
+    \ 000512 a311                 lda     17,s
+    \ 000514 48                   pha
+    \ 000515 a311                 lda     17,s
+    \ 000517 48                   pha
+    \ 000518 a311                 lda     17,s
+    \ 00051a 85..                 sta     dp:.tiny (_Dp+2)
+    \ 00051c a20200               ldx     ##2
+    \ 00051f 86..                 stx     dp:.tiny _Dp
+    \ 000521 3b                   tsc
+    \ 000522 22......             jsl     long:`?L91`
+    \ 000526 830f                 sta     15,s
 0140                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
-    \ 00057b a311                 lda     17,s
-    \ 00057d 48                   pha
-    \ 00057e a311                 lda     17,s
-    \ 000580 48                   pha
-    \ 000581 a311                 lda     17,s
-    \ 000583 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000585 a20300               ldx     ##3
-    \ 000588 86..                 stx     dp:.tiny _Dp
-    \ 00058a 3b                   tsc
-    \ 00058b 22......             jsl     long:`?L82`
-    \ 00058f 830f                 sta     15,s
-0141                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-    \ 000591 f48c00               pea     ##140
-    \ 000594 a317                 lda     23,s
-    \ 000596 85..                 sta     dp:.tiny (_Dp+2)
-    \ 000598 a315                 lda     21,s
-    \ 00059a 85..                 sta     dp:.tiny _Dp
-    \ 00059c a311                 lda     17,s
-    \ 00059e 22......             jsl     long:playSongSID
-0142                  	
-0143                  // Clean up audio from the SID Chip
-0144                  	resetSID(); 										
-    \ 0005a2 3b                   tsc
-    \ 0005a3 18                   clc
-    \ 0005a4 691000               adc     ##16
-    \ 0005a7 1b                   tcs
-    \ 0005a8 22......             jsl     long:resetSID
-0145                  // Show 'n' rows of Track music as is stored in memory	
-0146                  //	showTracks (usedRows,cols,Tracker);						
-0147                  // Return Memory requested to malloc	
-0148                  	free (Tracker);	
-    \ 0005ac a307                 lda     7,s
-    \ 0005ae 22......             jsl     long:free
-0149                  // End Program	
-0150                  	return (0);
-    \ 0005b2 a90000               lda     ##0
-0151                  }	
-    \ 0005b5 a8                   tay
-    \ 0005b6 3b                   tsc
-    \ 0005b7 18                   clc
-    \ 0005b8 690803               adc     ##776
-    \ 0005bb 1b                   tcs
-    \ 0005bc 98                   tya
-    \ 0005bd 6b                   rtl
+    \ 000528 a315                 lda     21,s
+    \ 00052a 48                   pha
+    \ 00052b a315                 lda     21,s
+    \ 00052d 48                   pha
+    \ 00052e a315                 lda     21,s
+    \ 000530 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000532 a20300               ldx     ##3
+    \ 000535 86..                 stx     dp:.tiny _Dp
+    \ 000537 3b                   tsc
+    \ 000538 22......             jsl     long:`?L93`
+    \ 00053c 8313                 sta     19,s
+    \ 00053e 3b                   tsc
+    \ 00053f 18                   clc
+    \ 000540 691200               adc     ##18
+    \ 000543 1b                   tcs
+    \ 000544 a301                 lda     1,s
+0141                  	resetSID(); 	
+    \ 000546 22......             jsl     long:resetSID
+0142                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
+    \ 00054a f48c00               pea     ##140
+    \ 00054d a309                 lda     9,s
+    \ 00054f 85..                 sta     dp:.tiny (_Dp+2)
+    \ 000551 a307                 lda     7,s
+    \ 000553 85..                 sta     dp:.tiny _Dp
+    \ 000555 a303                 lda     3,s
+    \ 000557 22......             jsl     long:playSongSID
+0143                  // Play Tune w/Xylophone
+0144                  	printf("\rPlaying with Xylophone\r");	
+    \ 00055b a9....               lda     ##`_StringLiteral_[13,80,108,97,121,105,110,103,32,119,105,116,104,32,88,121,108,111,112,104,111,110,101,13]`
+    \ 00055e 22......             jsl     long:`?L83`
+0145                  	trk1[1]='a';
+    \ 000562 a961                 lda     #97
+    \ 000564 830c                 sta     12,s
+    \ 000566 c220                 rep     #32
+0146                  	trk2[1]='a';
+    \ 000568 3b                   tsc
+    \ 000569 18                   clc
+    \ 00056a 690c01               adc     ##268
+    \ 00056d aa                   tax
+    \ 00056e e220                 sep     #32
+    \ 000570 a961                 lda     #97
+    \ 000572 9d0000               sta     0,x
+    \ 000575 c220                 rep     #32
+0147                  	trk3[1]='a';
+    \ 000577 3b                   tsc
+    \ 000578 18                   clc
+    \ 000579 690c02               adc     ##524
+    \ 00057c aa                   tax
+    \ 00057d e220                 sep     #32
+    \ 00057f a961                 lda     #97
+0148                  	cleanTracks(rows,cols,Tracker); // Clean memory before rendering the music data
+    \ 000581 22......             jsl     long:`?L82`
+0149                  	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 000585 a309                 lda     9,s
+    \ 000587 48                   pha
+    \ 000588 a309                 lda     9,s
+    \ 00058a 48                   pha
+    \ 00058b a309                 lda     9,s
+    \ 00058d 85..                 sta     dp:.tiny (_Dp+2)
+    \ 00058f a20100               ldx     ##1
+    \ 000592 86..                 stx     dp:.tiny _Dp
+    \ 000594 3b                   tsc
+    \ 000595 22......             jsl     long:`?L88`
+    \ 000599 8307                 sta     7,s
+0150                  	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 00059b a30d                 lda     13,s
+    \ 00059d 48                   pha
+    \ 00059e a30d                 lda     13,s
+    \ 0005a0 48                   pha
+    \ 0005a1 a30d                 lda     13,s
+    \ 0005a3 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0005a5 a20200               ldx     ##2
+    \ 0005a8 86..                 stx     dp:.tiny _Dp
+    \ 0005aa 3b                   tsc
+    \ 0005ab 22......             jsl     long:`?L90`
+    \ 0005af 830b                 sta     11,s
+0151                  	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+    \ 0005b1 a311                 lda     17,s
+    \ 0005b3 48                   pha
+    \ 0005b4 a311                 lda     17,s
+    \ 0005b6 48                   pha
+    \ 0005b7 a311                 lda     17,s
+    \ 0005b9 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0005bb a20300               ldx     ##3
+    \ 0005be 86..                 stx     dp:.tiny _Dp
+    \ 0005c0 3b                   tsc
+    \ 0005c1 22......             jsl     long:`?L92`
+    \ 0005c5 830f                 sta     15,s
+    \ 0005c7 a30f                 lda     15,s
+0152                  	resetSID(); 	
+    \ 0005c9 22......             jsl     long:resetSID
+0153                  	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
+    \ 0005cd f48c00               pea     ##140
+    \ 0005d0 a317                 lda     23,s
+    \ 0005d2 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0005d4 a315                 lda     21,s
+    \ 0005d6 85..                 sta     dp:.tiny _Dp
+    \ 0005d8 a311                 lda     17,s
+    \ 0005da 22......             jsl     long:playSongSID
+0154
+0155                  // Clean up audio from the SID Chip
+0156                  	resetSID(); 										
+    \ 0005de 3b                   tsc
+    \ 0005df 18                   clc
+    \ 0005e0 691000               adc     ##16
+    \ 0005e3 1b                   tcs
+    \ 0005e4 22......             jsl     long:resetSID
+0157                  // Show 'n' rows of Track music as is stored in memory	
+0158                  //	showTracks (usedRows,cols,Tracker);						
+0159                  // Return Memory requested to malloc	
+0160                  	free (Tracker);	
+    \ 0005e8 a307                 lda     7,s
+    \ 0005ea 22......             jsl     long:free
+0161                  // End Program	
+0162                  	return (0);
+    \ 0005ee a90000               lda     ##0
+0163                  }	
+    \ 0005f1 a8                   tay
+    \ 0005f2 3b                   tsc
+    \ 0005f3 18                   clc
+    \ 0005f4 690803               adc     ##776
+    \ 0005f7 1b                   tcs
+    \ 0005f8 98                   tya
+    \ 0005f9 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 9d0000   `?L72`:     sta     0,x
+    \ 000000 9d0000   `?L82`:     sta     0,x
     \ 000003 c220                 rep     #32
     \ 000005 a30c                 lda     12,s
     \ 000007 85..                 sta     dp:.tiny (_Dp+2)
@@ -904,12 +936,12 @@
     \ 00000d a308                 lda     8,s
     \ 00000f 5c......             jmp     long:cleanTracks
     \ 000000                      .section farcode,text
-    \ 000000          `?L73`:
+    \ 000000          `?L83`:
     \ 000000 22......             jsl     long:printf
     \ 000004 e220                 sep     #32
     \ 000006 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 9d0000   `?L75`:     sta     0,x
+    \ 000000 9d0000   `?L85`:     sta     0,x
     \ 000003 c220                 rep     #32
     \ 000005 a310                 lda     16,s
     \ 000007 85..                 sta     dp:.tiny (_Dp+2)
@@ -918,7 +950,7 @@
     \ 00000d a30c                 lda     12,s
     \ 00000f 5c......             jmp     long:cleanTracks
     \ 000000                      .section farcode,text
-    \ 000000 9d0000   `?L76`:     sta     0,x
+    \ 000000 9d0000   `?L86`:     sta     0,x
     \ 000003 c220                 rep     #32
     \ 000005 a314                 lda     20,s
     \ 000007 85..                 sta     dp:.tiny (_Dp+2)
@@ -927,7 +959,7 @@
     \ 00000d a310                 lda     16,s
     \ 00000f 5c......             jmp     long:cleanTracks
     \ 000000                      .section farcode,text
-    \ 000000 9d0000   `?L77`:     sta     0,x
+    \ 000000 9d0000   `?L87`:     sta     0,x
     \ 000003 c220                 rep     #32
     \ 000005 a31a                 lda     26,s
     \ 000007 85..                 sta     dp:.tiny (_Dp+2)
@@ -936,27 +968,27 @@
     \ 00000d a316                 lda     22,s
     \ 00000f 5c......             jmp     long:cleanTracks
     \ 000000                      .section farcode,text
-    \ 000000 18       `?L78`:     clc
+    \ 000000 18       `?L88`:     clc
     \ 000001 690f00               adc     ##15
     \ 000004 5c......             jmp     long:addTrack
     \ 000000                      .section farcode,text
-    \ 000000 18       `?L79`:     clc
+    \ 000000 18       `?L89`:     clc
     \ 000001 691300               adc     ##19
     \ 000004 5c......             jmp     long:addTrack
     \ 000000                      .section farcode,text
-    \ 000000 18       `?L80`:     clc
+    \ 000000 18       `?L90`:     clc
     \ 000001 691301               adc     ##275
     \ 000004 5c......             jmp     long:addTrack
     \ 000000                      .section farcode,text
-    \ 000000 18       `?L81`:     clc
+    \ 000000 18       `?L91`:     clc
     \ 000001 691701               adc     ##279
     \ 000004 5c......             jmp     long:addTrack
     \ 000000                      .section farcode,text
-    \ 000000 18       `?L82`:     clc
+    \ 000000 18       `?L92`:     clc
     \ 000001 691702               adc     ##535
     \ 000004 5c......             jmp     long:addTrack
     \ 000000                      .section farcode,text
-    \ 000000 18       `?L83`:     clc
+    \ 000000 18       `?L93`:     clc
     \ 000001 691b02               adc     ##539
     \ 000004 5c......             jmp     long:addTrack
     \ 000000                      .section cdata,rodata
@@ -1143,5 +1175,5 @@
 #                        #
 ##########################
 
-Executable  (Text): 1601 bytes
+Executable  (Text): 1661 bytes
 Constant          :  513 bytes

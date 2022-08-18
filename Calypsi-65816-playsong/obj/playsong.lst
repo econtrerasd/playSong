@@ -1,7 +1,7 @@
 ###############################################################################
 #                                                                             #
 # Calypsi ISO C compiler for 65816                              version 3.6.6 #
-#                                                       17/Aug/2022  16:27:07 #
+#                                                       17/Aug/2022  23:46:32 #
 # Command line: --core=65816 --code-model=large --data-model=small            #
 #               --target=Foenix -I ./include --speed -O2 --debug              #
 #               --list-file=obj/playsong.lst -o obj/playsong.o                #
@@ -423,30 +423,30 @@
     \ 000014 06000100
     \ 000018 02000000
     \ 00001c 03000000
-    \ 000020 00000300             .word   0,3,10,1,5,2048,1,0
-    \ 000024 0a000100
-    \ 000028 05000008
-    \ 00002c 01000000
+    \ 000020 05000800             .word   5,8,13,2,4,128,3,0
+    \ 000024 0d000200
+    \ 000028 04008000
+    \ 00002c 03000000
     \ 000030 00000500             .word   0,5,5,0,8,0,1,0
     \ 000034 05000000
     \ 000038 08000000
     \ 00003c 01000000
-    \ 000040 08000300             .word   8,3,4,0,1,0,1,0
-    \ 000044 04000000
+    \ 000040 05000200             .word   5,2,15,0,1,0,1,0
+    \ 000044 0f000000
     \ 000048 01000000
     \ 00004c 01000000
-    \ 000050 00000800             .word   0,8,2,3,2,0,3,0
-    \ 000054 02000300
+    \ 000050 00000800             .word   0,8,3,4,2,0,3,0
+    \ 000054 03000400
     \ 000058 02000000
     \ 00005c 03000000
     \ 000060 00000900             .word   0,9,0,0,4,512,2,0
     \ 000064 00000000
     \ 000068 04000002
     \ 00006c 02000000
-    \ 000070 03000a00             .word   3,10,10,1,4,2560,2,0
-    \ 000074 0a000100
+    \ 000070 00000300             .word   0,3,15,0,4,2560,1,0
+    \ 000074 0f000000
     \ 000078 0400000a
-    \ 00007c 02000000
+    \ 00007c 01000000
     \ 000080 07000700             .word   7,7,3,1,4,768,3,0
     \ 000084 03000100
     \ 000088 04000003
@@ -483,12 +483,12 @@
 0091                  	// note it's rarely used but you can add wave numbers to produce a more complex wave!! - see Distorted Synth, it has 5 as wave value (4 pulse + 1 triangle)
 0092                  	{0,9,0,0,4,2048,2},  // 1.Piano
 0093                  	{8,2,6,1,2,0,3},    // 2.Accordion
-0094                  	{0,3,10,1,5,2048,1},  // 3.Distorted Synth
+0094                  	{5,8,13,2,4,128,3},  // 3.Distorted Synth
 0095                  	{0,5,5,0,8,0,1},     // 4.GunShots
-0096                  	{8,3,4,0,1,0,1},     // 5.Flute
-0097                  	{0,8,2,3,2,0,3},     // 6.Guitar
+0096                  	{5,2,15,0,1,0,1},     // 5.Flute
+0097                  	{0,8,3,4,2,0,3},     // 6.Guitar
 0098                  	{0,9,0,0,4,512,2},   // 7.Harpsichord
-0099                  	{3,10,10,1,4,2560,2},  // 8.Organ
+0099                  	{0,3,15,0,4,2560,1},  // 8.Organ
 0100                  	{7,7,3,1,4,768,3},   // 9.Oboe
 0101                  	{0,8,0,0,1,0,3}      // 10.Xylophone
 0102                  };
@@ -559,15 +559,15 @@
     \ 000041 a30d                 lda     13,s
     \ 000043 8303                 sta     3,s
     \ 000045 a307                 lda     7,s
-    \ 000047 830d     `?L270`:    sta     13,s
+    \ 000047 830d     `?L281`:    sta     13,s
     \ 000049 a317                 lda     23,s
     \ 00004b 38                   sec
     \ 00004c e311                 sbc     17,s
-    \ 00004e 5003                 bvc     `?L203`
+    \ 00004e 5003                 bvc     `?L215`
     \ 000050 490080               eor     ##-32768
-    \ 000053 3003     `?L203`:    bmi     `?L339`
+    \ 000053 3003     `?L215`:    bmi     `?L357`
     \ 000055 4c....               jmp     .kbank `?L5`
-    \ 000058          `?L339`:
+    \ 000058          `?L357`:
 0126                  	{
 0127                  		pos=0;
     \ 000058 a90000               lda     ##0
@@ -585,10 +585,10 @@
 0133                  		// 2. has a specified Octave?
 0134                  		// 3. has a duration?
 0135                  		if ((tune[c]>='A' && tune[c]<='G') || (tune[c]=='R'))
-    \ 000065 22......             jsl     long:`?L289`
+    \ 000065 22......             jsl     long:`?L303`
     \ 000069 c941                 cmp     #65
     \ 00006b c220                 rep     #32
-    \ 00006d 900e                 bcc     `?L182`
+    \ 00006d 900e                 bcc     `?L194`
     \ 00006f a324                 lda     36,s
     \ 000071 a8                   tay
     \ 000072 a94700               lda     ##71
@@ -596,13 +596,13 @@
     \ 000077 d317                 cmp     (23,s),y
     \ 000079 c220                 rep     #32
     \ 00007b b00d                 bcs     `?L9`
-    \ 00007d          `?L182`:
-    \ 00007d 22......             jsl     long:`?L289`
+    \ 00007d          `?L194`:
+    \ 00007d 22......             jsl     long:`?L303`
     \ 000081 c952                 cmp     #82
     \ 000083 c220                 rep     #32
-    \ 000085 f003                 beq     `?L340`
+    \ 000085 f003                 beq     `?L358`
     \ 000087 4c....               jmp     .kbank `?L7`
-    \ 00008a          `?L340`:
+    \ 00008a          `?L358`:
     \ 00008a          `?L9`:
 0136                  		{
 0137                  			noteFlag=true;
@@ -613,7 +613,7 @@
 0140                  			pos++;
 0141                  			c++;
 0142                  			if (tune[c] =='#')
-    \ 00008f 22......             jsl     long:`?L289`
+    \ 00008f 22......             jsl     long:`?L303`
     \ 000093 831d                 sta     29,s
     \ 000095 c220                 rep     #32
     \ 000097 a313                 lda     19,s
@@ -622,7 +622,7 @@
     \ 00009c a317                 lda     23,s
     \ 00009e 1a                   inc     a
     \ 00009f 8307                 sta     7,s
-    \ 0000a1 22......             jsl     long:`?L295`
+    \ 0000a1 22......             jsl     long:`?L310`
     \ 0000a5 c923                 cmp     #35
     \ 0000a7 c220                 rep     #32
     \ 0000a9 d03d                 bne     `?L10`
@@ -640,7 +640,7 @@
     \ 0000bb c220                 rep     #32
     \ 0000bd f011                 beq     `?L13`
 0146                  				{
-    \ 0000bf 22......             jsl     long:`?L295`
+    \ 0000bf 22......             jsl     long:`?L310`
 0147                  					// Make it Sharp!	
 0148                  					note[1]=tune[c];
     \ 0000c3 831e                 sta     30,s
@@ -670,7 +670,7 @@
 0152                  			}
 0153                  			else
 0154                  			if (tune[c] =='$')
-    \ 0000e8 22......             jsl     long:`?L295`
+    \ 0000e8 22......             jsl     long:`?L310`
     \ 0000ec c924                 cmp     #36
     \ 0000ee c220                 rep     #32
     \ 0000f0 d07d                 bne     `?L16`
@@ -696,15 +696,15 @@
     \ 000108 a90000               lda     ##0
     \ 00010b 38                   sec
     \ 00010c e319                 sbc     25,s
-    \ 00010e 5003                 bvc     `?L205`
+    \ 00010e 5003                 bvc     `?L217`
     \ 000110 490080               eor     ##-32768
-    \ 000113 1007     `?L205`:    bpl     `?L22`
+    \ 000113 1007     `?L217`:    bpl     `?L22`
 0162                  							{octaveSubs=1;}
     \ 000115 a90100               lda     ##1
     \ 000118 8303                 sta     3,s
-    \ 00011a 8002                 bra     `?L274`
+    \ 00011a 8002                 bra     `?L285`
     \ 00011c a309     `?L22`:     lda     9,s
-    \ 00011e 8303     `?L274`:    sta     3,s
+    \ 00011e 8303     `?L285`:    sta     3,s
     \ 000120 a303                 lda     3,s
     \ 000122 8011                 bra     `?L20`
     \ 000124          `?L19`:
@@ -774,7 +774,7 @@
     \ 000179 a324                 lda     36,s
     \ 00017b a8                   tay
     \ 00017c b307                 lda     (7,s),y
-    \ 00017e 22......             jsl     long:`?L294`
+    \ 00017e 22......             jsl     long:`?L309`
     \ 000182 9035                 bcc     `?L28`
     \ 000184 a324                 lda     36,s
     \ 000186 a8                   tay
@@ -789,7 +789,7 @@
     \ 000192 a324                 lda     36,s
     \ 000194 a8                   tay
     \ 000195 b307                 lda     (7,s),y
-    \ 000197 22......             jsl     long:`?L290`
+    \ 000197 22......             jsl     long:`?L304`
     \ 00019b 8305                 sta     5,s
 0181                  				note[pos]=48+octave-octaveSubs; // get octave & add OctaveSubs just in case!
     \ 00019d a93000               lda     ##48
@@ -799,7 +799,7 @@
     \ 0001a4 e303                 sbc     3,s
     \ 0001a6 aa                   tax
     \ 0001a7 3b                   tsc
-    \ 0001a8 22......             jsl     long:`?L291`
+    \ 0001a8 22......             jsl     long:`?L305`
 0182                  				c++;
     \ 0001ac a307                 lda     7,s
     \ 0001ae 1a                   inc     a
@@ -807,7 +807,7 @@
     \ 0001b1 a303                 lda     3,s
     \ 0001b3 8307                 sta     7,s
     \ 0001b5 a305                 lda     5,s
-    \ 0001b7 8011                 bra     `?L273`
+    \ 0001b7 8011                 bra     `?L284`
     \ 0001b9          `?L28`:
 0183                  			}
 0184                  			else
@@ -821,17 +821,17 @@
     \ 0001c0 e303                 sbc     3,s
     \ 0001c2 aa                   tax
     \ 0001c3 3b                   tsc
-    \ 0001c4 22......             jsl     long:`?L291`
+    \ 0001c4 22......             jsl     long:`?L305`
     \ 0001c8 a319                 lda     25,s
-    \ 0001ca 8303     `?L273`:    sta     3,s
+    \ 0001ca 8303     `?L284`:    sta     3,s
 0188                  			}
 0189                  			// ---------------
 0190                  			// LENGTH
 0191                  			// ---------------
 0192                  			switch (tune[c])
-    \ 0001cc a9....               lda     ##.word0 `?L188`
+    \ 0001cc a9....               lda     ##.word0 `?L200`
     \ 0001cf 85..                 sta     dp:.tiny _Dp
-    \ 0001d1 a9....               lda     ##.word2 `?L188`
+    \ 0001d1 a9....               lda     ##.word2 `?L200`
     \ 0001d4 85..                 sta     dp:.tiny (_Dp+2)
     \ 0001d6 a324                 lda     36,s
     \ 0001d8 a8                   tay
@@ -852,7 +852,7 @@
     \ 0001ec a307                 lda     7,s
     \ 0001ee 8309                 sta     9,s
     \ 0001f0 a305                 lda     5,s
-    \ 0001f2 8053                 bra     `?L272`
+    \ 0001f2 8053                 bra     `?L283`
     \ 0001f4          `?L35`:
 0198                  				case 'h': // half
 0199                  					duration=8;
@@ -874,7 +874,7 @@
     \ 0001fe a307                 lda     7,s
     \ 000200 8309                 sta     9,s
     \ 000202 a305                 lda     5,s
-    \ 000204 8041                 bra     `?L272`
+    \ 000204 8041                 bra     `?L283`
     \ 000206          `?L34`:
 0210                  				case 's': // sixteenth
 0211                  					duration=1;
@@ -888,7 +888,7 @@
     \ 000210 a307                 lda     7,s
     \ 000212 8309                 sta     9,s
     \ 000214 a305                 lda     5,s
-    \ 000216 802f                 bra     `?L272`
+    \ 000216 802f                 bra     `?L283`
     \ 000218 a90400   `?L36`:     lda     ##4
     \ 00021b 8305                 sta     5,s
     \ 00021d a307                 lda     7,s
@@ -897,7 +897,7 @@
     \ 000222 a307                 lda     7,s
     \ 000224 8309                 sta     9,s
     \ 000226 a305                 lda     5,s
-    \ 000228 801d                 bra     `?L272`
+    \ 000228 801d                 bra     `?L283`
     \ 00022a a90800   `?L37`:     lda     ##8
     \ 00022d 8305                 sta     5,s
     \ 00022f a307                 lda     7,s
@@ -906,7 +906,7 @@
     \ 000234 a307                 lda     7,s
     \ 000236 8309                 sta     9,s
     \ 000238 a305                 lda     5,s
-    \ 00023a 800b                 bra     `?L272`
+    \ 00023a 800b                 bra     `?L283`
     \ 00023c          `?L33`:
 0214                  				default:
 0215                  					// if no duration is specified use quarter
@@ -916,7 +916,7 @@
     \ 000241 a307                 lda     7,s
     \ 000243 8309                 sta     9,s
     \ 000245 a305                 lda     5,s
-    \ 000247 8307     `?L272`:    sta     7,s
+    \ 000247 8307     `?L283`:    sta     7,s
 0217                  			}
 0218                  			// Check for dotted duration
 0219                  			if (tune[c]=='.')
@@ -945,11 +945,11 @@
     \ 00026e 1a                   inc     a
     \ 00026f 8305                 sta     5,s
     \ 000271 a307                 lda     7,s
-    \ 000273 8006                 bra     `?L271`
+    \ 000273 8006                 bra     `?L282`
     \ 000275 a309     `?L44`:     lda     9,s
     \ 000277 8305                 sta     5,s
     \ 000279 a307                 lda     7,s
-    \ 00027b 8309     `?L271`:    sta     9,s
+    \ 00027b 8309     `?L282`:    sta     9,s
     \ 00027d a305                 lda     5,s
     \ 00027f 8317                 sta     23,s
     \ 000281 a313                 lda     19,s
@@ -963,9 +963,9 @@
     \ 000291 a30d                 lda     13,s
     \ 000293 8313                 sta     19,s
     \ 000295 a301                 lda     1,s
-    \ 000297 830f                 sta     15,s
+    \ 000297 830d                 sta     13,s
     \ 000299 a30b                 lda     11,s
-    \ 00029b 4c....               jmp     .kbank `?L264`
+    \ 00029b 4c....               jmp     .kbank `?L276`
     \ 00029e          `?L7`:
 0223                  			}
 0224                  		}
@@ -985,7 +985,7 @@
     \ 0002a9 8301                 sta     1,s
 0233                  			// Modify Volume
 0234                  			if (tune[c]=='V')
-    \ 0002ab 22......             jsl     long:`?L289`
+    \ 0002ab 22......             jsl     long:`?L303`
     \ 0002af c956                 cmp     #86
     \ 0002b1 c220                 rep     #32
     \ 0002b3 d07b                 bne     `?L47`
@@ -1001,7 +1001,7 @@
     \ 0002bf a324                 lda     36,s
     \ 0002c1 a8                   tay
     \ 0002c2 b309                 lda     (9,s),y
-    \ 0002c4 22......             jsl     long:`?L294`
+    \ 0002c4 22......             jsl     long:`?L309`
     \ 0002c8 9022                 bcc     `?L50`
     \ 0002ca a324                 lda     36,s
     \ 0002cc a8                   tay
@@ -1015,7 +1015,7 @@
     \ 0002d8 a324                 lda     36,s
     \ 0002da a8                   tay
     \ 0002db b309                 lda     (9,s),y
-    \ 0002dd 22......             jsl     long:`?L290`
+    \ 0002dd 22......             jsl     long:`?L304`
     \ 0002e1 8307                 sta     7,s
 0241                  						c++;
     \ 0002e3 a309                 lda     9,s
@@ -1092,7 +1092,7 @@
     \ 00034f a324                 lda     36,s
     \ 000351 a8                   tay
     \ 000352 b30b                 lda     (11,s),y
-    \ 000354 22......             jsl     long:`?L294`
+    \ 000354 22......             jsl     long:`?L309`
     \ 000358 9022                 bcc     `?L59`
     \ 00035a a324                 lda     36,s
     \ 00035c a8                   tay
@@ -1106,7 +1106,7 @@
     \ 000368 a324                 lda     36,s
     \ 00036a a8                   tay
     \ 00036b b30b                 lda     (11,s),y
-    \ 00036d 22......             jsl     long:`?L290`
+    \ 00036d 22......             jsl     long:`?L304`
     \ 000371 8307                 sta     7,s
 0257                  					c++;
     \ 000373 a30b                 lda     11,s
@@ -1138,746 +1138,766 @@
     \ 00039b e220                 sep     #32
     \ 00039d c949                 cmp     #73
     \ 00039f c220                 rep     #32
-    \ 0003a1 f003                 beq     `?L341`
-    \ 0003a3 4c....               jmp     .kbank `?L62`
-    \ 0003a6          `?L341`:
+    \ 0003a1 d07b                 bne     `?L62`
 0262                  			{
 0263                  				modFlag=true;
-    \ 0003a6 a90100               lda     ##1
-    \ 0003a9 8305                 sta     5,s
+    \ 0003a3 a90100               lda     ##1
+    \ 0003a6 8305                 sta     5,s
 0264                  				c++;
-    \ 0003ab a30d                 lda     13,s
-    \ 0003ad 1a                   inc     a
-    \ 0003ae 830d                 sta     13,s
+    \ 0003a8 a30d                 lda     13,s
+    \ 0003aa 1a                   inc     a
+    \ 0003ab 830d                 sta     13,s
 0265                  				if (tune[c]>='0' && tune[c]<='9')
-    \ 0003b0 a324                 lda     36,s
-    \ 0003b2 a8                   tay
-    \ 0003b3 b30d                 lda     (13,s),y
-    \ 0003b5 22......             jsl     long:`?L294`
-    \ 0003b9 9022                 bcc     `?L65`
-    \ 0003bb a324                 lda     36,s
-    \ 0003bd a8                   tay
-    \ 0003be a93900               lda     ##57
-    \ 0003c1 e220                 sep     #32
-    \ 0003c3 d30d                 cmp     (13,s),y
-    \ 0003c5 c220                 rep     #32
-    \ 0003c7 9014                 bcc     `?L65`
+    \ 0003ad a324                 lda     36,s
+    \ 0003af a8                   tay
+    \ 0003b0 b30d                 lda     (13,s),y
+    \ 0003b2 22......             jsl     long:`?L309`
+    \ 0003b6 9022                 bcc     `?L65`
+    \ 0003b8 a324                 lda     36,s
+    \ 0003ba a8                   tay
+    \ 0003bb a93900               lda     ##57
+    \ 0003be e220                 sep     #32
+    \ 0003c0 d30d                 cmp     (13,s),y
+    \ 0003c2 c220                 rep     #32
+    \ 0003c4 9014                 bcc     `?L65`
 0266                  				{
 0267                  					instrument=tune[c]-48;
-    \ 0003c9 a324                 lda     36,s
-    \ 0003cb a8                   tay
-    \ 0003cc b30d                 lda     (13,s),y
-    \ 0003ce 22......             jsl     long:`?L290`
-    \ 0003d2 8307                 sta     7,s
+    \ 0003c6 a324                 lda     36,s
+    \ 0003c8 a8                   tay
+    \ 0003c9 b30d                 lda     (13,s),y
+    \ 0003cb 22......             jsl     long:`?L304`
+    \ 0003cf 8307                 sta     7,s
 0268                  					c++;
-    \ 0003d4 a30d                 lda     13,s
-    \ 0003d6 1a                   inc     a
-    \ 0003d7 830d                 sta     13,s
-    \ 0003d9 a307                 lda     7,s
-    \ 0003db 8004                 bra     `?L66`
-    \ 0003dd a30f     `?L65`:     lda     15,s
-    \ 0003df 8307                 sta     7,s
-    \ 0003e1          `?L66`:
+    \ 0003d1 a30d                 lda     13,s
+    \ 0003d3 1a                   inc     a
+    \ 0003d4 830d                 sta     13,s
+    \ 0003d6 a307                 lda     7,s
+    \ 0003d8 8004                 bra     `?L66`
+    \ 0003da a30f     `?L65`:     lda     15,s
+    \ 0003dc 8307                 sta     7,s
+    \ 0003de          `?L66`:
 0269                  				}
 0270                  				if (tune[c]>='a' && tune[c]<='f')
-    \ 0003e1 a324                 lda     36,s
-    \ 0003e3 a8                   tay
-    \ 0003e4 b30d                 lda     (13,s),y
-    \ 0003e6 e220                 sep     #32
-    \ 0003e8 c961                 cmp     #97
-    \ 0003ea c220                 rep     #32
-    \ 0003ec 9029                 bcc     `?L68`
-    \ 0003ee a324                 lda     36,s
-    \ 0003f0 a8                   tay
-    \ 0003f1 a96600               lda     ##102
-    \ 0003f4 e220                 sep     #32
-    \ 0003f6 d30d                 cmp     (13,s),y
-    \ 0003f8 c220                 rep     #32
-    \ 0003fa 901b                 bcc     `?L68`
+    \ 0003de a324                 lda     36,s
+    \ 0003e0 a8                   tay
+    \ 0003e1 b30d                 lda     (13,s),y
+    \ 0003e3 e220                 sep     #32
+    \ 0003e5 c961                 cmp     #97
+    \ 0003e7 c220                 rep     #32
+    \ 0003e9 9025                 bcc     `?L68`
+    \ 0003eb a324                 lda     36,s
+    \ 0003ed a8                   tay
+    \ 0003ee a96600               lda     ##102
+    \ 0003f1 e220                 sep     #32
+    \ 0003f3 d30d                 cmp     (13,s),y
+    \ 0003f5 c220                 rep     #32
+    \ 0003f7 9017                 bcc     `?L68`
 0271                  				{
 0272                  					instrument=tune[c]-87;
-    \ 0003fc a324                 lda     36,s
-    \ 0003fe a8                   tay
-    \ 0003ff b30d                 lda     (13,s),y
-    \ 000401 29ff00               and     ##255
-    \ 000404 38                   sec
-    \ 000405 e95700               sbc     ##87
-    \ 000408 8307                 sta     7,s
+    \ 0003f9 a324                 lda     36,s
+    \ 0003fb a8                   tay
+    \ 0003fc b30d                 lda     (13,s),y
+    \ 0003fe 29ff00               and     ##255
+    \ 000401 38                   sec
+    \ 000402 e95700               sbc     ##87
+    \ 000405 8307                 sta     7,s
 0273                  					c++;
-    \ 00040a a30d                 lda     13,s
-    \ 00040c 1a                   inc     a
-    \ 00040d 830d                 sta     13,s
-    \ 00040f a30d                 lda     13,s
-    \ 000411 830f                 sta     15,s
-    \ 000413 a307                 lda     7,s
-    \ 000415 8006                 bra     `?L268`
-    \ 000417 a30d     `?L68`:     lda     13,s
-    \ 000419 830f                 sta     15,s
-    \ 00041b a307                 lda     7,s
-    \ 00041d 830d     `?L268`:    sta     13,s
-    \ 00041f a30f                 lda     15,s
-    \ 000421 8307                 sta     7,s
-    \ 000423 a30d                 lda     13,s
-    \ 000425 830f                 sta     15,s
-    \ 000427 a305                 lda     5,s
-    \ 000429 8006                 bra     `?L269`
-    \ 00042b a30d     `?L62`:     lda     13,s
-    \ 00042d 8307                 sta     7,s
-    \ 00042f a305                 lda     5,s
-    \ 000431 830d     `?L269`:    sta     13,s
-    \ 000433 a307                 lda     7,s
-    \ 000435 8317                 sta     23,s
-    \ 000437 a313                 lda     19,s
-    \ 000439 8307                 sta     7,s
-    \ 00043b a30b                 lda     11,s
-    \ 00043d 8305                 sta     5,s
-    \ 00043f a30f                 lda     15,s
-    \ 000441 831b                 sta     27,s
-    \ 000443 a303                 lda     3,s
-    \ 000445 8319                 sta     25,s
-    \ 000447 a309                 lda     9,s
-    \ 000449 8313                 sta     19,s
-    \ 00044b a301                 lda     1,s
-    \ 00044d 830f                 sta     15,s
-    \ 00044f a30d                 lda     13,s
-    \ 000451 8301     `?L264`:    sta     1,s
+    \ 000407 a30d                 lda     13,s
+    \ 000409 1a                   inc     a
+    \ 00040a 830d                 sta     13,s
+    \ 00040c a307                 lda     7,s
+    \ 00040e 8002                 bra     `?L69`
+    \ 000410 a307     `?L68`:     lda     7,s
+    \ 000412 a30d     `?L69`:     lda     13,s
+    \ 000414 8317                 sta     23,s
+    \ 000416 a307                 lda     7,s
+    \ 000418 830d                 sta     13,s
+    \ 00041a a305                 lda     5,s
+    \ 00041c 800a                 bra     `?L63`
+    \ 00041e a30d     `?L62`:     lda     13,s
+    \ 000420 8317                 sta     23,s
+    \ 000422 a30f                 lda     15,s
+    \ 000424 830d                 sta     13,s
+    \ 000426 a305                 lda     5,s
+    \ 000428          `?L63`:
 0274                  				}
 0275                  			}
-0276                  		}
-0277                  			note[++pos]='\0';
-    \ 000453 a307                 lda     7,s
-    \ 000455 1a                   inc     a
-    \ 000456 8303                 sta     3,s
-    \ 000458 3b                   tsc
-    \ 000459 18                   clc
-    \ 00045a 691d00               adc     ##29
-    \ 00045d a8                   tay
-    \ 00045e e220                 sep     #32
-    \ 000460 a900                 lda     #0
-    \ 000462 9303                 sta     (3,s),y
-    \ 000464 c220                 rep     #32
-0278                  		//-------------------------------
-0279                  		// Output Note in Track notation
-0280                  		//-------------------------------
-0281                  		if (noteFlag==true)
-    \ 000466 a30f                 lda     15,s
-    \ 000468 c90100               cmp     ##1
-    \ 00046b f003                 beq     `?L342`
-    \ 00046d 4c....               jmp     .kbank `?L71`
-    \ 000470          `?L342`:
-0282                  		{	
-0283                  			t++;
-    \ 000470 a315                 lda     21,s
-    \ 000472 1a                   inc     a
-    \ 000473 830d                 sta     13,s
-0284                  			
-0285                  			// Calculate normal, legatto or staccato duration of note 
-0286                  			lengthNote=SID_envelope[instrument-1][6];
-    \ 000475 a31b                 lda     27,s
-    \ 000477 3a                   dec     a
-    \ 000478 0a                   asl     a
-    \ 000479 0a                   asl     a
-    \ 00047a 0a                   asl     a
-    \ 00047b 0a                   asl     a
-    \ 00047c 18                   clc
-    \ 00047d 69....               adc     ##SID_envelope
-    \ 000480 aa                   tax
-    \ 000481 bd0c00               lda     12,x
-    \ 000484 8303                 sta     3,s
-0287                  			gateOff= (int) (duration*noteLen[lengthNote-1]);
-    \ 000486 a319                 lda     25,s
-    \ 000488 a20000               ldx     ##0
-    \ 00048b a8                   tay
-    \ 00048c 1001                 bpl     `?L208`
-    \ 00048e ca                   dex
-    \ 00048f          `?L208`:
-    \ 00048f 22......             jsl     long:_SInt32ToFloat32
-    \ 000493 da                   phx
-    \ 000494 48                   pha
-    \ 000495 a307                 lda     7,s
-    \ 000497 3a                   dec     a
-    \ 000498 0a                   asl     a
-    \ 000499 0a                   asl     a
-    \ 00049a aa                   tax
-    \ 00049b bc....               ldy     noteLen+2,x
-    \ 00049e 84..                 sty     dp:.tiny (_Dp+2)
-    \ 0004a0 bc....               ldy     noteLen,x
-    \ 0004a3 84..                 sty     dp:.tiny _Dp
-    \ 0004a5 68                   pla
-    \ 0004a6 fa                   plx
-    \ 0004a7 22......             jsl     long:_Float32Mul
-    \ 0004ab 22......             jsl     long:_Float32ToSInt32
-    \ 0004af 8303                 sta     3,s
-0288                  			if (gateOff<=1)
-    \ 0004b1 a90100               lda     ##1
-    \ 0004b4 38                   sec
-    \ 0004b5 e303                 sbc     3,s
-    \ 0004b7 5003                 bvc     `?L213`
-    \ 0004b9 490080               eor     ##-32768
-    \ 0004bc 3009     `?L213`:    bmi     `?L74`
-0289                  				gateOff=2; // if gateoff is calculated on the same 1/16th period as gateon we won't use parameter.
-    \ 0004be a90200               lda     ##2
-    \ 0004c1 8303                 sta     3,s
-    \ 0004c3 8303                 sta     3,s
-    \ 0004c5 8002                 bra     `?L75`
-    \ 0004c7 a303     `?L74`:     lda     3,s
-    \ 0004c9          `?L75`:
-0290                  			//printf("Duration:%d lengthNote:%d factor:%f calc:%d GateOff: %d\r",duration,lengthNote,noteLen[lengthNote-1],(int) (duration*noteLen[lengthNote-1]),gateOff);
-0291                  			
-0292                  			index=0;
-    \ 0004c9 a90000               lda     ##0
-    \ 0004cc 8307                 sta     7,s
-0293                  			if (note[0]=='R') // Rest
-    \ 0004ce a31d                 lda     29,s
-    \ 0004d0 e220                 sep     #32
-    \ 0004d2 c952                 cmp     #82
-    \ 0004d4 c220                 rep     #32
-    \ 0004d6 f003                 beq     `?L343`
-    \ 0004d8 4c....               jmp     .kbank `?L77`
-    \ 0004db          `?L343`:
-0294                  			{
-0295                  				Tracker[t][(trackNumber*3)]=100;
-    \ 0004db a322                 lda     34,s
-    \ 0004dd 8307                 sta     7,s
-    \ 0004df 8303                 sta     3,s
-    \ 0004e1 a307                 lda     7,s
-    \ 0004e3 0a                   asl     a
+0276                  			// spaces are accepted but they do nothing
+0277                  			if (tune[c]==' ')
+    \ 000428 a324                 lda     36,s
+    \ 00042a a8                   tay
+    \ 00042b b317                 lda     (23,s),y
+    \ 00042d e220                 sep     #32
+    \ 00042f c920                 cmp     #32
+    \ 000431 c220                 rep     #32
+    \ 000433 d00e                 bne     `?L71`
+0278                  			{
+0279                  				modFlag=true;
+    \ 000435 a90100               lda     ##1
+    \ 000438 8305                 sta     5,s
+0280                  				c++;
+    \ 00043a a317                 lda     23,s
+    \ 00043c 1a                   inc     a
+    \ 00043d 8307                 sta     7,s
+    \ 00043f a305                 lda     5,s
+    \ 000441 8006                 bra     `?L280`
+    \ 000443 a317     `?L71`:     lda     23,s
+    \ 000445 8307                 sta     7,s
+    \ 000447 a305                 lda     5,s
+    \ 000449 830f     `?L280`:    sta     15,s
+    \ 00044b a307                 lda     7,s
+    \ 00044d 8317                 sta     23,s
+    \ 00044f a313                 lda     19,s
+    \ 000451 8307                 sta     7,s
+    \ 000453 a30b                 lda     11,s
+    \ 000455 8305                 sta     5,s
+    \ 000457 a30d                 lda     13,s
+    \ 000459 831b                 sta     27,s
+    \ 00045b a303                 lda     3,s
+    \ 00045d 8319                 sta     25,s
+    \ 00045f a309                 lda     9,s
+    \ 000461 8313                 sta     19,s
+    \ 000463 a301                 lda     1,s
+    \ 000465 830d                 sta     13,s
+    \ 000467 a30f                 lda     15,s
+    \ 000469 8301     `?L276`:    sta     1,s
+0281                  			}
+0282                  		}
+0283                  			note[++pos]='\0';
+    \ 00046b a307                 lda     7,s
+    \ 00046d 1a                   inc     a
+    \ 00046e 8303                 sta     3,s
+    \ 000470 3b                   tsc
+    \ 000471 18                   clc
+    \ 000472 691d00               adc     ##29
+    \ 000475 a8                   tay
+    \ 000476 e220                 sep     #32
+    \ 000478 a900                 lda     #0
+    \ 00047a 9303                 sta     (3,s),y
+    \ 00047c c220                 rep     #32
+0284                  		//-------------------------------
+0285                  		// Output Note in Track notation
+0286                  		//-------------------------------
+0287                  		if (noteFlag==true)
+    \ 00047e a30d                 lda     13,s
+    \ 000480 c90100               cmp     ##1
+    \ 000483 f003                 beq     `?L359`
+    \ 000485 4c....               jmp     .kbank `?L74`
+    \ 000488          `?L359`:
+0288                  		{	
+0289                  			t++;
+    \ 000488 a315                 lda     21,s
+    \ 00048a 1a                   inc     a
+    \ 00048b 830f                 sta     15,s
+0290                  			
+0291                  			// Calculate normal, legatto or staccato duration of note 
+0292                  			lengthNote=SID_envelope[instrument-1][6];
+    \ 00048d a31b                 lda     27,s
+    \ 00048f 3a                   dec     a
+    \ 000490 0a                   asl     a
+    \ 000491 0a                   asl     a
+    \ 000492 0a                   asl     a
+    \ 000493 0a                   asl     a
+    \ 000494 18                   clc
+    \ 000495 69....               adc     ##SID_envelope
+    \ 000498 aa                   tax
+    \ 000499 bd0c00               lda     12,x
+    \ 00049c 8303                 sta     3,s
+0293                  			gateOff= (int) (duration*noteLen[lengthNote-1]);
+    \ 00049e a319                 lda     25,s
+    \ 0004a0 a20000               ldx     ##0
+    \ 0004a3 a8                   tay
+    \ 0004a4 1001                 bpl     `?L220`
+    \ 0004a6 ca                   dex
+    \ 0004a7          `?L220`:
+    \ 0004a7 22......             jsl     long:_SInt32ToFloat32
+    \ 0004ab da                   phx
+    \ 0004ac 48                   pha
+    \ 0004ad a307                 lda     7,s
+    \ 0004af 3a                   dec     a
+    \ 0004b0 0a                   asl     a
+    \ 0004b1 0a                   asl     a
+    \ 0004b2 aa                   tax
+    \ 0004b3 bc....               ldy     noteLen+2,x
+    \ 0004b6 84..                 sty     dp:.tiny (_Dp+2)
+    \ 0004b8 bc....               ldy     noteLen,x
+    \ 0004bb 84..                 sty     dp:.tiny _Dp
+    \ 0004bd 68                   pla
+    \ 0004be fa                   plx
+    \ 0004bf 22......             jsl     long:_Float32Mul
+    \ 0004c3 22......             jsl     long:_Float32ToSInt32
+    \ 0004c7 8303                 sta     3,s
+0294                  			if (gateOff<=1)
+    \ 0004c9 a90100               lda     ##1
+    \ 0004cc 38                   sec
+    \ 0004cd e303                 sbc     3,s
+    \ 0004cf 5003                 bvc     `?L225`
+    \ 0004d1 490080               eor     ##-32768
+    \ 0004d4 3009     `?L225`:    bmi     `?L77`
+0295                  				gateOff=2; // if gateoff is calculated on the same 1/16th period as gateon we won't use parameter.
+    \ 0004d6 a90200               lda     ##2
+    \ 0004d9 8303                 sta     3,s
+    \ 0004db 8303                 sta     3,s
+    \ 0004dd 8002                 bra     `?L78`
+    \ 0004df a303     `?L77`:     lda     3,s
+    \ 0004e1          `?L78`:
+0296                  			//printf("Duration:%d lengthNote:%d factor:%f calc:%d GateOff: %d\r",duration,lengthNote,noteLen[lengthNote-1],(int) (duration*noteLen[lengthNote-1]),gateOff);
+0297                  			
+0298                  			index=0;
+    \ 0004e1 a90000               lda     ##0
     \ 0004e4 8307                 sta     7,s
-    \ 0004e6 18                   clc
-    \ 0004e7 6303                 adc     3,s
-    \ 0004e9 8303                 sta     3,s
-    \ 0004eb a32a                 lda     42,s
-    \ 0004ed 08                   php
-    \ 0004ee 78                   sei
-    \ 0004ef 8d0201               sta     258
-    \ 0004f2 a30e                 lda     14,s
-    \ 0004f4 8d0001               sta     256
-    \ 0004f7 ad0401               lda     260
-    \ 0004fa 28                   plp
-0296                  				Tracker[t][(trackNumber*3)+1]=volume;
-0297                  				Tracker[t][(trackNumber*3)+2]=instrument;
-0298                  				while (--duration>0)
-    \ 0004fb 22......             jsl     long:`?L292`
-    \ 0004ff a964                 lda     #100
-    \ 000501 9303                 sta     (3,s),y
-    \ 000503 c220                 rep     #32
-    \ 000505 a322                 lda     34,s
-    \ 000507 8307                 sta     7,s
-    \ 000509 8303                 sta     3,s
-    \ 00050b a307                 lda     7,s
-    \ 00050d 0a                   asl     a
-    \ 00050e 8307                 sta     7,s
-    \ 000510 18                   clc
-    \ 000511 6303                 adc     3,s
-    \ 000513 8303                 sta     3,s
-    \ 000515 a32a                 lda     42,s
-    \ 000517 08                   php
-    \ 000518 78                   sei
-    \ 000519 8d0201               sta     258
-    \ 00051c a30e                 lda     14,s
-    \ 00051e 8d0001               sta     256
-    \ 000521 ad0401               lda     260
-    \ 000524 28                   plp
-    \ 000525 18                   clc
-    \ 000526 632c                 adc     44,s
-    \ 000528 85..                 sta     dp:.tiny _Dp
-    \ 00052a a303                 lda     3,s
-    \ 00052c 22......             jsl     long:`?L283`
-    \ 000530 8307                 sta     7,s
-    \ 000532 8303                 sta     3,s
-    \ 000534 a307                 lda     7,s
-    \ 000536 0a                   asl     a
-    \ 000537 8307                 sta     7,s
-    \ 000539 18                   clc
-    \ 00053a 6303                 adc     3,s
-    \ 00053c 8303                 sta     3,s
-    \ 00053e a32a                 lda     42,s
-    \ 000540 08                   php
-    \ 000541 78                   sei
-    \ 000542 8d0201               sta     258
-    \ 000545 a30e                 lda     14,s
-    \ 000547 8d0001               sta     256
-    \ 00054a ad0401               lda     260
-    \ 00054d 28                   plp
-    \ 00054e 18                   clc
-    \ 00054f 632c                 adc     44,s
-    \ 000551 85..                 sta     dp:.tiny _Dp
-    \ 000553 a303                 lda     3,s
-    \ 000555 1a                   inc     a
-    \ 000556 22......             jsl     long:`?L288`
-    \ 00055a 8307                 sta     7,s
-    \ 00055c a319                 lda     25,s
-    \ 00055e          `?L266`:
-0299                  				{
-    \ 00055e 8303                 sta     3,s
-    \ 000560 a303                 lda     3,s
-    \ 000562 3a                   dec     a
-    \ 000563 8309                 sta     9,s
-    \ 000565 a90000               lda     ##0
-    \ 000568 38                   sec
-    \ 000569 e309                 sbc     9,s
-    \ 00056b 5003                 bvc     `?L215`
-    \ 00056d 490080               eor     ##-32768
-    \ 000570 3003     `?L215`:    bmi     `?L344`
-    \ 000572 4c....               jmp     .kbank `?L81`
-    \ 000575          `?L344`:
-0300                  					t+=1;
-    \ 000575 a307                 lda     7,s
-    \ 000577 1a                   inc     a
-    \ 000578 830b                 sta     11,s
-0301                  					Tracker[t][(trackNumber*3)]=0;
-    \ 00057a a322                 lda     34,s
-    \ 00057c 8307                 sta     7,s
-    \ 00057e 8303                 sta     3,s
-    \ 000580 a307                 lda     7,s
-    \ 000582 0a                   asl     a
-    \ 000583 8307                 sta     7,s
-    \ 000585 18                   clc
-    \ 000586 6303                 adc     3,s
-    \ 000588 8303                 sta     3,s
-    \ 00058a a32a                 lda     42,s
-    \ 00058c 08                   php
-    \ 00058d 78                   sei
-    \ 00058e 8d0201               sta     258
-    \ 000591 a30c                 lda     12,s
-    \ 000593 8d0001               sta     256
-    \ 000596 ad0401               lda     260
-    \ 000599 28                   plp
-    \ 00059a 22......             jsl     long:`?L292`
-    \ 00059e a900                 lda     #0
-    \ 0005a0 9303                 sta     (3,s),y
-    \ 0005a2 c220                 rep     #32
-0302                  					Tracker[t][(trackNumber*3)+1]=0;
-    \ 0005a4 a322                 lda     34,s
-    \ 0005a6 8307                 sta     7,s
-    \ 0005a8 8303                 sta     3,s
-    \ 0005aa a307                 lda     7,s
-    \ 0005ac 0a                   asl     a
-    \ 0005ad 8307                 sta     7,s
-    \ 0005af 18                   clc
-    \ 0005b0 6303                 adc     3,s
-    \ 0005b2 8303                 sta     3,s
-    \ 0005b4 a32a                 lda     42,s
-    \ 0005b6 08                   php
-    \ 0005b7 78                   sei
-    \ 0005b8 8d0201               sta     258
-    \ 0005bb a30c                 lda     12,s
-    \ 0005bd 8d0001               sta     256
-    \ 0005c0 ad0401               lda     260
-    \ 0005c3 28                   plp
-    \ 0005c4 18                   clc
-    \ 0005c5 632c                 adc     44,s
-    \ 0005c7 85..                 sta     dp:.tiny _Dp
-    \ 0005c9 a303                 lda     3,s
-    \ 0005cb 22......             jsl     long:`?L286`
-0303                  					Tracker[t][(trackNumber*3)+2]=0;
-    \ 0005cf a322                 lda     34,s
-    \ 0005d1 8307                 sta     7,s
-    \ 0005d3 8303                 sta     3,s
-    \ 0005d5 a307                 lda     7,s
-    \ 0005d7 0a                   asl     a
-    \ 0005d8 8307                 sta     7,s
-    \ 0005da 18                   clc
-    \ 0005db 6303                 adc     3,s
-    \ 0005dd 8303                 sta     3,s
-    \ 0005df a32a                 lda     42,s
-    \ 0005e1 08                   php
-    \ 0005e2 78                   sei
-    \ 0005e3 8d0201               sta     258
-    \ 0005e6 a30c                 lda     12,s
-    \ 0005e8 8d0001               sta     256
-    \ 0005eb ad0401               lda     260
-    \ 0005ee 28                   plp
-    \ 0005ef 18                   clc
-    \ 0005f0 632c                 adc     44,s
-    \ 0005f2 85..                 sta     dp:.tiny _Dp
-    \ 0005f4 a303                 lda     3,s
-    \ 0005f6 1a                   inc     a
-    \ 0005f7 22......             jsl     long:`?L286`
-    \ 0005fb a30b                 lda     11,s
-    \ 0005fd 8307                 sta     7,s
-    \ 0005ff a309                 lda     9,s
-    \ 000601 4c....               jmp     .kbank `?L266`
-    \ 000604 a309     `?L81`:     lda     9,s
-    \ 000606 4c....               jmp     .kbank `?L267`
-    \ 000609          `?L77`:
-0304                  				}
-0305                  			}
-0306                  			else 
-0307                  			{ 
-0308                  				// search for Note
-0309                  				while (index<=96)
-    \ 000609 a307                 lda     7,s
-    \ 00060b          `?L265`:
-0310                  				{
-    \ 00060b 830b                 sta     11,s
-    \ 00060d a96000               lda     ##96
-    \ 000610 38                   sec
-    \ 000611 e30b                 sbc     11,s
-    \ 000613 5003                 bvc     `?L217`
-    \ 000615 490080               eor     ##-32768
-    \ 000618 3020     `?L217`:    bmi     `?L84`
-0311                  					if (strcmp(note,notes[index])==0)
-    \ 00061a a30b                 lda     11,s
-    \ 00061c 0a                   asl     a
-    \ 00061d 0a                   asl     a
-    \ 00061e 18                   clc
-    \ 00061f 69....               adc     ##notes
-    \ 000622 85..                 sta     dp:.tiny _Dp
-    \ 000624 3b                   tsc
-    \ 000625 18                   clc
-    \ 000626 691d00               adc     ##29
-    \ 000629 22......             jsl     long:strcmp
-    \ 00062d 1a                   inc     a
-    \ 00062e 3a                   dec     a
-    \ 00062f f009                 beq     `?L84`
-0312                  						break;
-0313                  					index++;
-    \ 000631 a30b                 lda     11,s
-    \ 000633 1a                   inc     a
-    \ 000634 8307                 sta     7,s
-    \ 000636 a307                 lda     7,s
-    \ 000638 80d1                 bra     `?L265`
-    \ 00063a          `?L84`:
-0314                  				}
-0315                  				Tracker[t][(trackNumber*3)]=index;
-    \ 00063a a322                 lda     34,s
-    \ 00063c 8309                 sta     9,s
-    \ 00063e 8307                 sta     7,s
-    \ 000640 a309                 lda     9,s
-    \ 000642 0a                   asl     a
-    \ 000643 8309                 sta     9,s
-    \ 000645 18                   clc
-    \ 000646 6307                 adc     7,s
-    \ 000648 8307                 sta     7,s
-    \ 00064a a32a                 lda     42,s
-    \ 00064c 08                   php
-    \ 00064d 78                   sei
-    \ 00064e 8d0201               sta     258
-    \ 000651 a30e                 lda     14,s
-    \ 000653 8d0001               sta     256
-    \ 000656 ad0401               lda     260
-    \ 000659 28                   plp
-0316                  				Tracker[t][(trackNumber*3)+1]=volume;
-0317                  				Tracker[t][(trackNumber*3)+2]=instrument;
-0318                  				
-0319                  				while (--duration>0)
-    \ 00065a 22......             jsl     long:`?L292`
-    \ 00065e a30b                 lda     11,s
-    \ 000660 9307                 sta     (7,s),y
-    \ 000662 c220                 rep     #32
-    \ 000664 a322                 lda     34,s
-    \ 000666 8309                 sta     9,s
-    \ 000668 8307                 sta     7,s
-    \ 00066a a309                 lda     9,s
-    \ 00066c 0a                   asl     a
-    \ 00066d 8309                 sta     9,s
-    \ 00066f 18                   clc
-    \ 000670 6307                 adc     7,s
-    \ 000672 8307                 sta     7,s
-    \ 000674 a32a                 lda     42,s
-    \ 000676 08                   php
-    \ 000677 78                   sei
-    \ 000678 8d0201               sta     258
-    \ 00067b a30e                 lda     14,s
-    \ 00067d 8d0001               sta     256
-    \ 000680 ad0401               lda     260
-    \ 000683 28                   plp
-    \ 000684 18                   clc
-    \ 000685 632c                 adc     44,s
-    \ 000687 85..                 sta     dp:.tiny _Dp
-    \ 000689 a307                 lda     7,s
-    \ 00068b 22......             jsl     long:`?L283`
-    \ 00068f 8309                 sta     9,s
-    \ 000691 8307                 sta     7,s
-    \ 000693 a309                 lda     9,s
-    \ 000695 0a                   asl     a
-    \ 000696 8309                 sta     9,s
-    \ 000698 18                   clc
-    \ 000699 6307                 adc     7,s
-    \ 00069b 8307                 sta     7,s
-    \ 00069d a32a                 lda     42,s
-    \ 00069f 08                   php
-    \ 0006a0 78                   sei
-    \ 0006a1 8d0201               sta     258
-    \ 0006a4 a30e                 lda     14,s
-    \ 0006a6 8d0001               sta     256
-    \ 0006a9 ad0401               lda     260
-    \ 0006ac 28                   plp
-    \ 0006ad 18                   clc
-    \ 0006ae 632c                 adc     44,s
-    \ 0006b0 85..                 sta     dp:.tiny _Dp
-    \ 0006b2 a307                 lda     7,s
-    \ 0006b4 1a                   inc     a
-    \ 0006b5 22......             jsl     long:`?L288`
-    \ 0006b9 8309                 sta     9,s
-    \ 0006bb a319                 lda     25,s
-    \ 0006bd          `?L263`:
-0320                  				{
-    \ 0006bd 8307                 sta     7,s
-    \ 0006bf a307                 lda     7,s
-    \ 0006c1 3a                   dec     a
-    \ 0006c2 830b                 sta     11,s
-    \ 0006c4 a90000               lda     ##0
-    \ 0006c7 38                   sec
-    \ 0006c8 e30b                 sbc     11,s
-    \ 0006ca 5003                 bvc     `?L220`
-    \ 0006cc 490080               eor     ##-32768
-    \ 0006cf 3003     `?L220`:    bmi     `?L345`
-    \ 0006d1 4c....               jmp     .kbank `?L91`
-    \ 0006d4          `?L345`:
-0321                  					t+=1;
-    \ 0006d4 a309                 lda     9,s
-    \ 0006d6 1a                   inc     a
-    \ 0006d7 830d                 sta     13,s
-0322                  					if (gateOff==duration)
-    \ 0006d9 a30b                 lda     11,s
-    \ 0006db c303                 cmp     3,s
-    \ 0006dd f003                 beq     `?L346`
-    \ 0006df 4c....               jmp     .kbank `?L93`
-    \ 0006e2          `?L346`:
-0323                  					{
-0324                  						Tracker[t][(trackNumber*3)]=101;
-    \ 0006e2 a322                 lda     34,s
-    \ 0006e4 8309                 sta     9,s
-    \ 0006e6 8307                 sta     7,s
-    \ 0006e8 a309                 lda     9,s
-    \ 0006ea 0a                   asl     a
-    \ 0006eb 8309                 sta     9,s
-    \ 0006ed 18                   clc
-    \ 0006ee 6307                 adc     7,s
-    \ 0006f0 8307                 sta     7,s
-    \ 0006f2 a32a                 lda     42,s
-    \ 0006f4 08                   php
-    \ 0006f5 78                   sei
-    \ 0006f6 8d0201               sta     258
-    \ 0006f9 a30e                 lda     14,s
-    \ 0006fb 8d0001               sta     256
-    \ 0006fe ad0401               lda     260
-    \ 000701 28                   plp
-0325                  						Tracker[t][(trackNumber*3)+1]=volume;
-0326                  						Tracker[t][(trackNumber*3)+2]=instrument;
-    \ 000702 22......             jsl     long:`?L292`
-    \ 000706 a965                 lda     #101
-    \ 000708 9307                 sta     (7,s),y
-    \ 00070a c220                 rep     #32
-    \ 00070c a322                 lda     34,s
-    \ 00070e 8309                 sta     9,s
-    \ 000710 8307                 sta     7,s
-    \ 000712 a309                 lda     9,s
-    \ 000714 0a                   asl     a
-    \ 000715 8309                 sta     9,s
-    \ 000717 18                   clc
-    \ 000718 6307                 adc     7,s
-    \ 00071a 8307                 sta     7,s
-    \ 00071c a32a                 lda     42,s
-    \ 00071e 08                   php
-    \ 00071f 78                   sei
-    \ 000720 8d0201               sta     258
-    \ 000723 a30e                 lda     14,s
-    \ 000725 8d0001               sta     256
-    \ 000728 ad0401               lda     260
-    \ 00072b 28                   plp
-    \ 00072c 18                   clc
-    \ 00072d 632c                 adc     44,s
-    \ 00072f 85..                 sta     dp:.tiny _Dp
-    \ 000731 a307                 lda     7,s
-    \ 000733 22......             jsl     long:`?L283`
-    \ 000737 8309                 sta     9,s
-    \ 000739 8307                 sta     7,s
-    \ 00073b a309                 lda     9,s
-    \ 00073d 0a                   asl     a
-    \ 00073e 8309                 sta     9,s
-    \ 000740 18                   clc
-    \ 000741 6307                 adc     7,s
-    \ 000743 8307                 sta     7,s
-    \ 000745 a32a                 lda     42,s
-    \ 000747 08                   php
-    \ 000748 78                   sei
-    \ 000749 8d0201               sta     258
-    \ 00074c a30e                 lda     14,s
-    \ 00074e 8d0001               sta     256
-    \ 000751 ad0401               lda     260
-    \ 000754 28                   plp
-    \ 000755 18                   clc
-    \ 000756 632c                 adc     44,s
-    \ 000758 85..                 sta     dp:.tiny _Dp
-    \ 00075a a307                 lda     7,s
-    \ 00075c 1a                   inc     a
-    \ 00075d 1a                   inc     a
-    \ 00075e 18                   clc
-    \ 00075f 65..                 adc     dp:.tiny _Dp
-    \ 000761 aa                   tax
-    \ 000762 a31b                 lda     27,s
-    \ 000764 e220                 sep     #32
-    \ 000766 4c....               jmp     .kbank `?L262`
-    \ 000769          `?L93`:
-0327                  					}
-0328                  					else
+0299                  			if (note[0]=='R') // Rest
+    \ 0004e6 a31d                 lda     29,s
+    \ 0004e8 e220                 sep     #32
+    \ 0004ea c952                 cmp     #82
+    \ 0004ec c220                 rep     #32
+    \ 0004ee f003                 beq     `?L360`
+    \ 0004f0 4c....               jmp     .kbank `?L80`
+    \ 0004f3          `?L360`:
+0300                  			{
+0301                  				Tracker[t][(trackNumber*3)]=100;
+    \ 0004f3 a322                 lda     34,s
+    \ 0004f5 8307                 sta     7,s
+    \ 0004f7 8303                 sta     3,s
+    \ 0004f9 a307                 lda     7,s
+    \ 0004fb 0a                   asl     a
+    \ 0004fc 8307                 sta     7,s
+    \ 0004fe 18                   clc
+    \ 0004ff 6303                 adc     3,s
+    \ 000501 8303                 sta     3,s
+    \ 000503 a32a                 lda     42,s
+    \ 000505 08                   php
+    \ 000506 78                   sei
+    \ 000507 8d0201               sta     258
+    \ 00050a a310                 lda     16,s
+    \ 00050c 8d0001               sta     256
+    \ 00050f ad0401               lda     260
+    \ 000512 28                   plp
+0302                  				Tracker[t][(trackNumber*3)+1]=volume;
+0303                  				Tracker[t][(trackNumber*3)+2]=instrument;
+0304                  				while (--duration>0)
+    \ 000513 22......             jsl     long:`?L306`
+    \ 000517 a964                 lda     #100
+    \ 000519 9303                 sta     (3,s),y
+    \ 00051b c220                 rep     #32
+    \ 00051d a322                 lda     34,s
+    \ 00051f 8307                 sta     7,s
+    \ 000521 8303                 sta     3,s
+    \ 000523 a307                 lda     7,s
+    \ 000525 0a                   asl     a
+    \ 000526 8307                 sta     7,s
+    \ 000528 18                   clc
+    \ 000529 6303                 adc     3,s
+    \ 00052b 8303                 sta     3,s
+    \ 00052d a32a                 lda     42,s
+    \ 00052f 08                   php
+    \ 000530 78                   sei
+    \ 000531 8d0201               sta     258
+    \ 000534 a310                 lda     16,s
+    \ 000536 8d0001               sta     256
+    \ 000539 ad0401               lda     260
+    \ 00053c 28                   plp
+    \ 00053d 18                   clc
+    \ 00053e 632c                 adc     44,s
+    \ 000540 85..                 sta     dp:.tiny _Dp
+    \ 000542 a303                 lda     3,s
+    \ 000544 22......             jsl     long:`?L297`
+    \ 000548 8307                 sta     7,s
+    \ 00054a 8303                 sta     3,s
+    \ 00054c a307                 lda     7,s
+    \ 00054e 0a                   asl     a
+    \ 00054f 8307                 sta     7,s
+    \ 000551 18                   clc
+    \ 000552 6303                 adc     3,s
+    \ 000554 8303                 sta     3,s
+    \ 000556 a32a                 lda     42,s
+    \ 000558 08                   php
+    \ 000559 78                   sei
+    \ 00055a 8d0201               sta     258
+    \ 00055d a310                 lda     16,s
+    \ 00055f 8d0001               sta     256
+    \ 000562 ad0401               lda     260
+    \ 000565 28                   plp
+    \ 000566 18                   clc
+    \ 000567 632c                 adc     44,s
+    \ 000569 85..                 sta     dp:.tiny _Dp
+    \ 00056b a303                 lda     3,s
+    \ 00056d 1a                   inc     a
+    \ 00056e 22......             jsl     long:`?L302`
+    \ 000572 8307                 sta     7,s
+    \ 000574 a319                 lda     25,s
+    \ 000576          `?L278`:
+0305                  				{
+    \ 000576 8303                 sta     3,s
+    \ 000578 a303                 lda     3,s
+    \ 00057a 3a                   dec     a
+    \ 00057b 8309                 sta     9,s
+    \ 00057d a90000               lda     ##0
+    \ 000580 38                   sec
+    \ 000581 e309                 sbc     9,s
+    \ 000583 5003                 bvc     `?L227`
+    \ 000585 490080               eor     ##-32768
+    \ 000588 3003     `?L227`:    bmi     `?L361`
+    \ 00058a 4c....               jmp     .kbank `?L84`
+    \ 00058d          `?L361`:
+0306                  					t+=1;
+    \ 00058d a307                 lda     7,s
+    \ 00058f 1a                   inc     a
+    \ 000590 830b                 sta     11,s
+0307                  					Tracker[t][(trackNumber*3)]=0;
+    \ 000592 a322                 lda     34,s
+    \ 000594 8307                 sta     7,s
+    \ 000596 8303                 sta     3,s
+    \ 000598 a307                 lda     7,s
+    \ 00059a 0a                   asl     a
+    \ 00059b 8307                 sta     7,s
+    \ 00059d 18                   clc
+    \ 00059e 6303                 adc     3,s
+    \ 0005a0 8303                 sta     3,s
+    \ 0005a2 a32a                 lda     42,s
+    \ 0005a4 08                   php
+    \ 0005a5 78                   sei
+    \ 0005a6 8d0201               sta     258
+    \ 0005a9 a30c                 lda     12,s
+    \ 0005ab 8d0001               sta     256
+    \ 0005ae ad0401               lda     260
+    \ 0005b1 28                   plp
+    \ 0005b2 22......             jsl     long:`?L306`
+    \ 0005b6 a900                 lda     #0
+    \ 0005b8 9303                 sta     (3,s),y
+    \ 0005ba c220                 rep     #32
+0308                  					Tracker[t][(trackNumber*3)+1]=0;
+    \ 0005bc a322                 lda     34,s
+    \ 0005be 8307                 sta     7,s
+    \ 0005c0 8303                 sta     3,s
+    \ 0005c2 a307                 lda     7,s
+    \ 0005c4 0a                   asl     a
+    \ 0005c5 8307                 sta     7,s
+    \ 0005c7 18                   clc
+    \ 0005c8 6303                 adc     3,s
+    \ 0005ca 8303                 sta     3,s
+    \ 0005cc a32a                 lda     42,s
+    \ 0005ce 08                   php
+    \ 0005cf 78                   sei
+    \ 0005d0 8d0201               sta     258
+    \ 0005d3 a30c                 lda     12,s
+    \ 0005d5 8d0001               sta     256
+    \ 0005d8 ad0401               lda     260
+    \ 0005db 28                   plp
+    \ 0005dc 18                   clc
+    \ 0005dd 632c                 adc     44,s
+    \ 0005df 85..                 sta     dp:.tiny _Dp
+    \ 0005e1 a303                 lda     3,s
+    \ 0005e3 22......             jsl     long:`?L300`
+0309                  					Tracker[t][(trackNumber*3)+2]=0;
+    \ 0005e7 a322                 lda     34,s
+    \ 0005e9 8307                 sta     7,s
+    \ 0005eb 8303                 sta     3,s
+    \ 0005ed a307                 lda     7,s
+    \ 0005ef 0a                   asl     a
+    \ 0005f0 8307                 sta     7,s
+    \ 0005f2 18                   clc
+    \ 0005f3 6303                 adc     3,s
+    \ 0005f5 8303                 sta     3,s
+    \ 0005f7 a32a                 lda     42,s
+    \ 0005f9 08                   php
+    \ 0005fa 78                   sei
+    \ 0005fb 8d0201               sta     258
+    \ 0005fe a30c                 lda     12,s
+    \ 000600 8d0001               sta     256
+    \ 000603 ad0401               lda     260
+    \ 000606 28                   plp
+    \ 000607 18                   clc
+    \ 000608 632c                 adc     44,s
+    \ 00060a 85..                 sta     dp:.tiny _Dp
+    \ 00060c a303                 lda     3,s
+    \ 00060e 1a                   inc     a
+    \ 00060f 22......             jsl     long:`?L300`
+    \ 000613 a30b                 lda     11,s
+    \ 000615 8307                 sta     7,s
+    \ 000617 a309                 lda     9,s
+    \ 000619 4c....               jmp     .kbank `?L278`
+    \ 00061c a309     `?L84`:     lda     9,s
+    \ 00061e 4c....               jmp     .kbank `?L279`
+    \ 000621          `?L80`:
+0310                  				}
+0311                  			}
+0312                  			else 
+0313                  			{ 
+0314                  				// search for Note
+0315                  				while (index<=96)
+    \ 000621 a307                 lda     7,s
+    \ 000623          `?L277`:
+0316                  				{
+    \ 000623 830b                 sta     11,s
+    \ 000625 a96000               lda     ##96
+    \ 000628 38                   sec
+    \ 000629 e30b                 sbc     11,s
+    \ 00062b 5003                 bvc     `?L229`
+    \ 00062d 490080               eor     ##-32768
+    \ 000630 3020     `?L229`:    bmi     `?L87`
+0317                  					if (strcmp(note,notes[index])==0)
+    \ 000632 a30b                 lda     11,s
+    \ 000634 0a                   asl     a
+    \ 000635 0a                   asl     a
+    \ 000636 18                   clc
+    \ 000637 69....               adc     ##notes
+    \ 00063a 85..                 sta     dp:.tiny _Dp
+    \ 00063c 3b                   tsc
+    \ 00063d 18                   clc
+    \ 00063e 691d00               adc     ##29
+    \ 000641 22......             jsl     long:strcmp
+    \ 000645 1a                   inc     a
+    \ 000646 3a                   dec     a
+    \ 000647 f009                 beq     `?L87`
+0318                  						break;
+0319                  					index++;
+    \ 000649 a30b                 lda     11,s
+    \ 00064b 1a                   inc     a
+    \ 00064c 8307                 sta     7,s
+    \ 00064e a307                 lda     7,s
+    \ 000650 80d1                 bra     `?L277`
+    \ 000652          `?L87`:
+0320                  				}
+0321                  				Tracker[t][(trackNumber*3)]=index;
+    \ 000652 a322                 lda     34,s
+    \ 000654 8309                 sta     9,s
+    \ 000656 8307                 sta     7,s
+    \ 000658 a309                 lda     9,s
+    \ 00065a 0a                   asl     a
+    \ 00065b 8309                 sta     9,s
+    \ 00065d 18                   clc
+    \ 00065e 6307                 adc     7,s
+    \ 000660 8307                 sta     7,s
+    \ 000662 a32a                 lda     42,s
+    \ 000664 08                   php
+    \ 000665 78                   sei
+    \ 000666 8d0201               sta     258
+    \ 000669 a310                 lda     16,s
+    \ 00066b 8d0001               sta     256
+    \ 00066e ad0401               lda     260
+    \ 000671 28                   plp
+0322                  				Tracker[t][(trackNumber*3)+1]=volume;
+0323                  				Tracker[t][(trackNumber*3)+2]=instrument;
+0324                  				
+0325                  				while (--duration>0)
+    \ 000672 22......             jsl     long:`?L306`
+    \ 000676 a30b                 lda     11,s
+    \ 000678 9307                 sta     (7,s),y
+    \ 00067a c220                 rep     #32
+    \ 00067c a322                 lda     34,s
+    \ 00067e 8309                 sta     9,s
+    \ 000680 8307                 sta     7,s
+    \ 000682 a309                 lda     9,s
+    \ 000684 0a                   asl     a
+    \ 000685 8309                 sta     9,s
+    \ 000687 18                   clc
+    \ 000688 6307                 adc     7,s
+    \ 00068a 8307                 sta     7,s
+    \ 00068c a32a                 lda     42,s
+    \ 00068e 08                   php
+    \ 00068f 78                   sei
+    \ 000690 8d0201               sta     258
+    \ 000693 a310                 lda     16,s
+    \ 000695 8d0001               sta     256
+    \ 000698 ad0401               lda     260
+    \ 00069b 28                   plp
+    \ 00069c 18                   clc
+    \ 00069d 632c                 adc     44,s
+    \ 00069f 85..                 sta     dp:.tiny _Dp
+    \ 0006a1 a307                 lda     7,s
+    \ 0006a3 22......             jsl     long:`?L297`
+    \ 0006a7 8309                 sta     9,s
+    \ 0006a9 8307                 sta     7,s
+    \ 0006ab a309                 lda     9,s
+    \ 0006ad 0a                   asl     a
+    \ 0006ae 8309                 sta     9,s
+    \ 0006b0 18                   clc
+    \ 0006b1 6307                 adc     7,s
+    \ 0006b3 8307                 sta     7,s
+    \ 0006b5 a32a                 lda     42,s
+    \ 0006b7 08                   php
+    \ 0006b8 78                   sei
+    \ 0006b9 8d0201               sta     258
+    \ 0006bc a310                 lda     16,s
+    \ 0006be 8d0001               sta     256
+    \ 0006c1 ad0401               lda     260
+    \ 0006c4 28                   plp
+    \ 0006c5 18                   clc
+    \ 0006c6 632c                 adc     44,s
+    \ 0006c8 85..                 sta     dp:.tiny _Dp
+    \ 0006ca a307                 lda     7,s
+    \ 0006cc 1a                   inc     a
+    \ 0006cd 22......             jsl     long:`?L302`
+    \ 0006d1 8309                 sta     9,s
+    \ 0006d3 a319                 lda     25,s
+    \ 0006d5          `?L275`:
+0326                  				{
+    \ 0006d5 8307                 sta     7,s
+    \ 0006d7 a307                 lda     7,s
+    \ 0006d9 3a                   dec     a
+    \ 0006da 830b                 sta     11,s
+    \ 0006dc a90000               lda     ##0
+    \ 0006df 38                   sec
+    \ 0006e0 e30b                 sbc     11,s
+    \ 0006e2 5003                 bvc     `?L232`
+    \ 0006e4 490080               eor     ##-32768
+    \ 0006e7 3003     `?L232`:    bmi     `?L362`
+    \ 0006e9 4c....               jmp     .kbank `?L94`
+    \ 0006ec          `?L362`:
+0327                  					t+=1;
+    \ 0006ec a309                 lda     9,s
+    \ 0006ee 1a                   inc     a
+    \ 0006ef 830f                 sta     15,s
+0328                  					if (gateOff==duration)
+    \ 0006f1 a30b                 lda     11,s
+    \ 0006f3 c303                 cmp     3,s
+    \ 0006f5 f003                 beq     `?L363`
+    \ 0006f7 4c....               jmp     .kbank `?L96`
+    \ 0006fa          `?L363`:
 0329                  					{
-0330                  						Tracker[t][(trackNumber*3)]=0;
-    \ 000769 a322                 lda     34,s
-    \ 00076b 8309                 sta     9,s
-    \ 00076d 8307                 sta     7,s
-    \ 00076f a309                 lda     9,s
-    \ 000771 0a                   asl     a
-    \ 000772 8309                 sta     9,s
-    \ 000774 18                   clc
-    \ 000775 6307                 adc     7,s
-    \ 000777 8307                 sta     7,s
-    \ 000779 a32a                 lda     42,s
-    \ 00077b 08                   php
-    \ 00077c 78                   sei
-    \ 00077d 8d0201               sta     258
-    \ 000780 a30e                 lda     14,s
-    \ 000782 8d0001               sta     256
-    \ 000785 ad0401               lda     260
-    \ 000788 28                   plp
-0331                  						Tracker[t][(trackNumber*3)+1]=0;
-0332                  						Tracker[t][(trackNumber*3)+2]=0;
-    \ 000789 22......             jsl     long:`?L292`
-    \ 00078d a900                 lda     #0
-    \ 00078f 9307                 sta     (7,s),y
-    \ 000791 c220                 rep     #32
-    \ 000793 a322                 lda     34,s
-    \ 000795 8309                 sta     9,s
-    \ 000797 8307                 sta     7,s
-    \ 000799 a309                 lda     9,s
-    \ 00079b 0a                   asl     a
-    \ 00079c 8309                 sta     9,s
-    \ 00079e 18                   clc
-    \ 00079f 6307                 adc     7,s
-    \ 0007a1 8307                 sta     7,s
-    \ 0007a3 a32a                 lda     42,s
-    \ 0007a5 08                   php
-    \ 0007a6 78                   sei
-    \ 0007a7 8d0201               sta     258
-    \ 0007aa a30e                 lda     14,s
-    \ 0007ac 8d0001               sta     256
-    \ 0007af ad0401               lda     260
-    \ 0007b2 28                   plp
-    \ 0007b3 18                   clc
-    \ 0007b4 632c                 adc     44,s
-    \ 0007b6 85..                 sta     dp:.tiny _Dp
-    \ 0007b8 a307                 lda     7,s
-    \ 0007ba 22......             jsl     long:`?L286`
-    \ 0007be a322                 lda     34,s
-    \ 0007c0 8309                 sta     9,s
-    \ 0007c2 8307                 sta     7,s
-    \ 0007c4 a309                 lda     9,s
-    \ 0007c6 0a                   asl     a
-    \ 0007c7 8309                 sta     9,s
-    \ 0007c9 18                   clc
-    \ 0007ca 6307                 adc     7,s
-    \ 0007cc 8307                 sta     7,s
-    \ 0007ce a32a                 lda     42,s
-    \ 0007d0 08                   php
-    \ 0007d1 78                   sei
-    \ 0007d2 8d0201               sta     258
-    \ 0007d5 a30e                 lda     14,s
-    \ 0007d7 8d0001               sta     256
-    \ 0007da ad0401               lda     260
-    \ 0007dd 28                   plp
-    \ 0007de 18                   clc
-    \ 0007df 632c                 adc     44,s
-    \ 0007e1 85..                 sta     dp:.tiny _Dp
-    \ 0007e3 a307                 lda     7,s
-    \ 0007e5 1a                   inc     a
-    \ 0007e6 1a                   inc     a
-    \ 0007e7 18                   clc
-    \ 0007e8 65..                 adc     dp:.tiny _Dp
-    \ 0007ea aa                   tax
-    \ 0007eb e220                 sep     #32
-    \ 0007ed a900                 lda     #0
-    \ 0007ef 9d0000   `?L262`:    sta     0,x
-    \ 0007f2 c220                 rep     #32
-    \ 0007f4 a30d                 lda     13,s
-    \ 0007f6 8309                 sta     9,s
-    \ 0007f8 a30b                 lda     11,s
-    \ 0007fa 4c....               jmp     .kbank `?L263`
-    \ 0007fd a309     `?L91`:     lda     9,s
-    \ 0007ff 8307                 sta     7,s
-    \ 000801 a30b                 lda     11,s
-    \ 000803 8303     `?L267`:    sta     3,s
-    \ 000805 a303                 lda     3,s
-    \ 000807 8008                 bra     `?L72`
-    \ 000809 a315     `?L71`:     lda     21,s
-    \ 00080b 8307                 sta     7,s
-    \ 00080d a319                 lda     25,s
-    \ 00080f 8303                 sta     3,s
-    \ 000811          `?L72`:
+0330                  						Tracker[t][(trackNumber*3)]=101;
+    \ 0006fa a322                 lda     34,s
+    \ 0006fc 8309                 sta     9,s
+    \ 0006fe 8307                 sta     7,s
+    \ 000700 a309                 lda     9,s
+    \ 000702 0a                   asl     a
+    \ 000703 8309                 sta     9,s
+    \ 000705 18                   clc
+    \ 000706 6307                 adc     7,s
+    \ 000708 8307                 sta     7,s
+    \ 00070a a32a                 lda     42,s
+    \ 00070c 08                   php
+    \ 00070d 78                   sei
+    \ 00070e 8d0201               sta     258
+    \ 000711 a310                 lda     16,s
+    \ 000713 8d0001               sta     256
+    \ 000716 ad0401               lda     260
+    \ 000719 28                   plp
+0331                  						Tracker[t][(trackNumber*3)+1]=volume;
+0332                  						Tracker[t][(trackNumber*3)+2]=instrument;
+    \ 00071a 22......             jsl     long:`?L306`
+    \ 00071e a965                 lda     #101
+    \ 000720 9307                 sta     (7,s),y
+    \ 000722 c220                 rep     #32
+    \ 000724 a322                 lda     34,s
+    \ 000726 8309                 sta     9,s
+    \ 000728 8307                 sta     7,s
+    \ 00072a a309                 lda     9,s
+    \ 00072c 0a                   asl     a
+    \ 00072d 8309                 sta     9,s
+    \ 00072f 18                   clc
+    \ 000730 6307                 adc     7,s
+    \ 000732 8307                 sta     7,s
+    \ 000734 a32a                 lda     42,s
+    \ 000736 08                   php
+    \ 000737 78                   sei
+    \ 000738 8d0201               sta     258
+    \ 00073b a310                 lda     16,s
+    \ 00073d 8d0001               sta     256
+    \ 000740 ad0401               lda     260
+    \ 000743 28                   plp
+    \ 000744 18                   clc
+    \ 000745 632c                 adc     44,s
+    \ 000747 85..                 sta     dp:.tiny _Dp
+    \ 000749 a307                 lda     7,s
+    \ 00074b 22......             jsl     long:`?L297`
+    \ 00074f 8309                 sta     9,s
+    \ 000751 8307                 sta     7,s
+    \ 000753 a309                 lda     9,s
+    \ 000755 0a                   asl     a
+    \ 000756 8309                 sta     9,s
+    \ 000758 18                   clc
+    \ 000759 6307                 adc     7,s
+    \ 00075b 8307                 sta     7,s
+    \ 00075d a32a                 lda     42,s
+    \ 00075f 08                   php
+    \ 000760 78                   sei
+    \ 000761 8d0201               sta     258
+    \ 000764 a310                 lda     16,s
+    \ 000766 8d0001               sta     256
+    \ 000769 ad0401               lda     260
+    \ 00076c 28                   plp
+    \ 00076d 18                   clc
+    \ 00076e 632c                 adc     44,s
+    \ 000770 85..                 sta     dp:.tiny _Dp
+    \ 000772 a307                 lda     7,s
+    \ 000774 1a                   inc     a
+    \ 000775 1a                   inc     a
+    \ 000776 18                   clc
+    \ 000777 65..                 adc     dp:.tiny _Dp
+    \ 000779 aa                   tax
+    \ 00077a a31b                 lda     27,s
+    \ 00077c e220                 sep     #32
+    \ 00077e 4c....               jmp     .kbank `?L274`
+    \ 000781          `?L96`:
 0333                  					}
-0334                  				}
-0335                  			}
-0336                  		}
-0337                  		// Check for Errors on Song string
-0338                  		if (noteFlag==false && modFlag==false && c!=tuneSize)
-    \ 000811 a30f                 lda     15,s
-    \ 000813 d049                 bne     `?L97`
-    \ 000815 a301                 lda     1,s
-    \ 000817 d045                 bne     `?L97`
-    \ 000819 a311                 lda     17,s
-    \ 00081b c317                 cmp     23,s
-    \ 00081d f03f                 beq     `?L97`
-0339                  		{
-0340                  			// invalid character
-0341                  			for (index=0;index<=c;index++)
-    \ 00081f a90000               lda     ##0
-    \ 000822 8301                 sta     1,s
-    \ 000824 8309     `?L275`:    sta     9,s
-    \ 000826 a317                 lda     23,s
-    \ 000828 38                   sec
-    \ 000829 e309                 sbc     9,s
-    \ 00082b 5003                 bvc     `?L222`
-    \ 00082d 490080               eor     ##-32768
-    \ 000830 1010     `?L222`:    bpl     `?L99`
-0342                  				printf("%c",tune[index]);
-0343                  			printf ("<- Unexpected character\r");
-    \ 000832 a9....               lda     ##`_StringLiteral_[60,45,32,85,110,101,120,112,101,99,116,101,100,32,99,104,97,114,97,99,116,101,114,13]`
-    \ 000835 22......             jsl     long:printf
-0344                  			exit(-1);
-    \ 000839 a9ffff               lda     ##-1
-    \ 00083c 22......             jsl     long:exit
-    \ 000840 801c                 bra     `?L97`
-    \ 000842 a324     `?L99`:     lda     36,s
-    \ 000844 a8                   tay
-    \ 000845 b309                 lda     (9,s),y
-    \ 000847 29ff00               and     ##255
-    \ 00084a 48                   pha
-    \ 00084b a9....               lda     ##`_StringLiteral_%c`
-    \ 00084e 22......             jsl     long:printf
-    \ 000852 8303                 sta     3,s
-    \ 000854 68                   pla
-    \ 000855 a309                 lda     9,s
-    \ 000857 1a                   inc     a
-    \ 000858 8301                 sta     1,s
-    \ 00085a a301                 lda     1,s
-    \ 00085c 80c6                 bra     `?L275`
-    \ 00085e a307     `?L97`:     lda     7,s
-    \ 000860 8315                 sta     21,s
-    \ 000862 a305                 lda     5,s
-    \ 000864 8319                 sta     25,s
-    \ 000866 a31b                 lda     27,s
-    \ 000868 830f                 sta     15,s
-    \ 00086a a313                 lda     19,s
-    \ 00086c 4c....               jmp     .kbank `?L270`
-    \ 00086f          `?L5`:
-0345                  		}
-0346                  	}
-0347                  	return t;
-    \ 00086f a315                 lda     21,s
-0348                  }
-    \ 000871 a8                   tay
-    \ 000872 3b                   tsc
-    \ 000873 18                   clc
-    \ 000874 692600               adc     ##38
-    \ 000877 1b                   tcs
-    \ 000878 98                   tya
-    \ 000879 6b                   rtl
-0349                  
-0350                  // Clean Track Memory
-0351                  void cleanTracks(int rows,int cols,unsigned char (*Tracker)[cols])
-0352                  {
+0334                  					else
+0335                  					{
+0336                  						Tracker[t][(trackNumber*3)]=0;
+    \ 000781 a322                 lda     34,s
+    \ 000783 8309                 sta     9,s
+    \ 000785 8307                 sta     7,s
+    \ 000787 a309                 lda     9,s
+    \ 000789 0a                   asl     a
+    \ 00078a 8309                 sta     9,s
+    \ 00078c 18                   clc
+    \ 00078d 6307                 adc     7,s
+    \ 00078f 8307                 sta     7,s
+    \ 000791 a32a                 lda     42,s
+    \ 000793 08                   php
+    \ 000794 78                   sei
+    \ 000795 8d0201               sta     258
+    \ 000798 a310                 lda     16,s
+    \ 00079a 8d0001               sta     256
+    \ 00079d ad0401               lda     260
+    \ 0007a0 28                   plp
+0337                  						Tracker[t][(trackNumber*3)+1]=0;
+0338                  						Tracker[t][(trackNumber*3)+2]=0;
+    \ 0007a1 22......             jsl     long:`?L306`
+    \ 0007a5 a900                 lda     #0
+    \ 0007a7 9307                 sta     (7,s),y
+    \ 0007a9 c220                 rep     #32
+    \ 0007ab a322                 lda     34,s
+    \ 0007ad 8309                 sta     9,s
+    \ 0007af 8307                 sta     7,s
+    \ 0007b1 a309                 lda     9,s
+    \ 0007b3 0a                   asl     a
+    \ 0007b4 8309                 sta     9,s
+    \ 0007b6 18                   clc
+    \ 0007b7 6307                 adc     7,s
+    \ 0007b9 8307                 sta     7,s
+    \ 0007bb a32a                 lda     42,s
+    \ 0007bd 08                   php
+    \ 0007be 78                   sei
+    \ 0007bf 8d0201               sta     258
+    \ 0007c2 a310                 lda     16,s
+    \ 0007c4 8d0001               sta     256
+    \ 0007c7 ad0401               lda     260
+    \ 0007ca 28                   plp
+    \ 0007cb 18                   clc
+    \ 0007cc 632c                 adc     44,s
+    \ 0007ce 85..                 sta     dp:.tiny _Dp
+    \ 0007d0 a307                 lda     7,s
+    \ 0007d2 22......             jsl     long:`?L300`
+    \ 0007d6 a322                 lda     34,s
+    \ 0007d8 8309                 sta     9,s
+    \ 0007da 8307                 sta     7,s
+    \ 0007dc a309                 lda     9,s
+    \ 0007de 0a                   asl     a
+    \ 0007df 8309                 sta     9,s
+    \ 0007e1 18                   clc
+    \ 0007e2 6307                 adc     7,s
+    \ 0007e4 8307                 sta     7,s
+    \ 0007e6 a32a                 lda     42,s
+    \ 0007e8 08                   php
+    \ 0007e9 78                   sei
+    \ 0007ea 8d0201               sta     258
+    \ 0007ed a310                 lda     16,s
+    \ 0007ef 8d0001               sta     256
+    \ 0007f2 ad0401               lda     260
+    \ 0007f5 28                   plp
+    \ 0007f6 18                   clc
+    \ 0007f7 632c                 adc     44,s
+    \ 0007f9 85..                 sta     dp:.tiny _Dp
+    \ 0007fb a307                 lda     7,s
+    \ 0007fd 1a                   inc     a
+    \ 0007fe 1a                   inc     a
+    \ 0007ff 18                   clc
+    \ 000800 65..                 adc     dp:.tiny _Dp
+    \ 000802 aa                   tax
+    \ 000803 e220                 sep     #32
+    \ 000805 a900                 lda     #0
+    \ 000807 9d0000   `?L274`:    sta     0,x
+    \ 00080a c220                 rep     #32
+    \ 00080c a30f                 lda     15,s
+    \ 00080e 8309                 sta     9,s
+    \ 000810 a30b                 lda     11,s
+    \ 000812 4c....               jmp     .kbank `?L275`
+    \ 000815 a309     `?L94`:     lda     9,s
+    \ 000817 8307                 sta     7,s
+    \ 000819 a30b                 lda     11,s
+    \ 00081b 8303     `?L279`:    sta     3,s
+    \ 00081d a303                 lda     3,s
+    \ 00081f 8008                 bra     `?L75`
+    \ 000821 a315     `?L74`:     lda     21,s
+    \ 000823 8307                 sta     7,s
+    \ 000825 a319                 lda     25,s
+    \ 000827 8303                 sta     3,s
+    \ 000829          `?L75`:
+0339                  					}
+0340                  				}
+0341                  			}
+0342                  		}
+0343                  		// Check for Errors on Song string
+0344                  		
+0345                  		if (noteFlag==false && modFlag==false && c!=tuneSize)
+    \ 000829 a30d                 lda     13,s
+    \ 00082b d049                 bne     `?L100`
+    \ 00082d a301                 lda     1,s
+    \ 00082f d045                 bne     `?L100`
+    \ 000831 a311                 lda     17,s
+    \ 000833 c317                 cmp     23,s
+    \ 000835 f03f                 beq     `?L100`
+0346                  		{
+0347                  			// invalid character
+0348                  			for (index=0;index<=c;index++)
+    \ 000837 a90000               lda     ##0
+    \ 00083a 8301                 sta     1,s
+    \ 00083c 8309     `?L286`:    sta     9,s
+    \ 00083e a317                 lda     23,s
+    \ 000840 38                   sec
+    \ 000841 e309                 sbc     9,s
+    \ 000843 5003                 bvc     `?L234`
+    \ 000845 490080               eor     ##-32768
+    \ 000848 1010     `?L234`:    bpl     `?L102`
+0349                  				printf("%c",tune[index]);
+0350                  			printf ("<- Unexpected character\r");
+    \ 00084a a9....               lda     ##`_StringLiteral_[60,45,32,85,110,101,120,112,101,99,116,101,100,32,99,104,97,114,97,99,116,101,114,13]`
+    \ 00084d 22......             jsl     long:printf
+0351                  			exit(-1);
+    \ 000851 a9ffff               lda     ##-1
+    \ 000854 22......             jsl     long:exit
+    \ 000858 801c                 bra     `?L100`
+    \ 00085a a324     `?L102`:    lda     36,s
+    \ 00085c a8                   tay
+    \ 00085d b309                 lda     (9,s),y
+    \ 00085f 29ff00               and     ##255
+    \ 000862 48                   pha
+    \ 000863 a9....               lda     ##`_StringLiteral_%c`
+    \ 000866 22......             jsl     long:printf
+    \ 00086a 8303                 sta     3,s
+    \ 00086c 68                   pla
+    \ 00086d a309                 lda     9,s
+    \ 00086f 1a                   inc     a
+    \ 000870 8301                 sta     1,s
+    \ 000872 a301                 lda     1,s
+    \ 000874 80c6                 bra     `?L286`
+    \ 000876 a307     `?L100`:    lda     7,s
+    \ 000878 8315                 sta     21,s
+    \ 00087a a305                 lda     5,s
+    \ 00087c 8319                 sta     25,s
+    \ 00087e a31b                 lda     27,s
+    \ 000880 830f                 sta     15,s
+    \ 000882 a313                 lda     19,s
+    \ 000884 4c....               jmp     .kbank `?L281`
+    \ 000887          `?L5`:
+0352                  		}
+0353                  	}
+0354                  	return t;
+    \ 000887 a315                 lda     21,s
+0355                  }
+    \ 000889 a8                   tay
+    \ 00088a 3b                   tsc
+    \ 00088b 18                   clc
+    \ 00088c 692600               adc     ##38
+    \ 00088f 1b                   tcs
+    \ 000890 98                   tya
+    \ 000891 6b                   rtl
+0356                  
+0357                  // Clean Track Memory
+0358                  void cleanTracks(int rows,int cols,unsigned char (*Tracker)[cols])
+0359                  {
     \ 000000                      .section farcode,text
     \ 000000                      .public cleanTracks
     \ 000000          cleanTracks:
@@ -1888,38 +1908,38 @@
     \ 000004 8301                 sta     1,s
     \ 000006 a5..                 lda     dp:.tiny _Dp
     \ 000008 8305                 sta     5,s
-0353                  	int i,j;
-0354                  	for (i=0;i<rows;i++)
+0360                  	int i,j;
+0361                  	for (i=0;i<rows;i++)
     \ 00000a a90000               lda     ##0
-    \ 00000d 8307     `?L276`:    sta     7,s
+    \ 00000d 8307     `?L287`:    sta     7,s
     \ 00000f a307                 lda     7,s
     \ 000011 38                   sec
     \ 000012 e301                 sbc     1,s
-    \ 000014 5003                 bvc     `?L227`
+    \ 000014 5003                 bvc     `?L239`
     \ 000016 490080               eor     ##-32768
-    \ 000019 3005     `?L227`:    bmi     `?L107`
-0355                  		for (j=0;j<cols;j++)
-0356                  			Tracker[i][j]=0;
-0357                  }
+    \ 000019 3005     `?L239`:    bmi     `?L110`
+0362                  		for (j=0;j<cols;j++)
+0363                  			Tracker[i][j]=0;
+0364                  }
     \ 00001b 7a                   ply
     \ 00001c 7a                   ply
     \ 00001d 7a                   ply
     \ 00001e 7a                   ply
     \ 00001f 6b                   rtl
-    \ 000020 a90000   `?L107`:    lda     ##0
+    \ 000020 a90000   `?L110`:    lda     ##0
     \ 000023 8303                 sta     3,s
-    \ 000025 a303     `?L112`:    lda     3,s
+    \ 000025 a303     `?L115`:    lda     3,s
     \ 000027 38                   sec
     \ 000028 e305                 sbc     5,s
-    \ 00002a 5003                 bvc     `?L229`
+    \ 00002a 5003                 bvc     `?L241`
     \ 00002c 490080               eor     ##-32768
-    \ 00002f 3009     `?L229`:    bmi     `?L111`
+    \ 00002f 3009     `?L241`:    bmi     `?L114`
     \ 000031 a307                 lda     7,s
     \ 000033 1a                   inc     a
     \ 000034 8303                 sta     3,s
     \ 000036 a303                 lda     3,s
-    \ 000038 80d3                 bra     `?L276`
-    \ 00003a a305     `?L111`:    lda     5,s
+    \ 000038 80d3                 bra     `?L287`
+    \ 00003a a305     `?L114`:    lda     5,s
     \ 00003c 08                   php
     \ 00003d 78                   sei
     \ 00003e 8d0201               sta     258
@@ -1937,11 +1957,11 @@
     \ 000056 a303                 lda     3,s
     \ 000058 1a                   inc     a
     \ 000059 8303                 sta     3,s
-    \ 00005b 80c8                 bra     `?L112`
-0358                  
-0359                  // Print Track Memory
-0360                  void showTracks(int rows,int cols, unsigned char (*Tracker)[cols])
-0361                  {
+    \ 00005b 80c8                 bra     `?L115`
+0365                  
+0366                  // Print Track Memory
+0367                  void showTracks(int rows,int cols, unsigned char (*Tracker)[cols])
+0368                  {
     \ 000000                      .section farcode,text
     \ 000000                      .public showTracks
     \ 000000          showTracks:
@@ -1957,25 +1977,25 @@
     \ 00000e 8305                 sta     5,s
     \ 000010 a5..                 lda     dp:.tiny (_Dp+2)
     \ 000012 85..                 sta     dp:.tiny (_Dp+8)
-0362                  	int i,j;
-0363                  	for (i=0;i<=rows;i++)
+0369                  	int i,j;
+0370                  	for (i=0;i<=rows;i++)
     \ 000014 a90000               lda     ##0
-    \ 000017 8309     `?L278`:    sta     9,s
+    \ 000017 8309     `?L289`:    sta     9,s
     \ 000019 a303                 lda     3,s
     \ 00001b 38                   sec
     \ 00001c e309                 sbc     9,s
-    \ 00001e 5003                 bvc     `?L231`
+    \ 00001e 5003                 bvc     `?L243`
     \ 000020 490080               eor     ##-32768
-    \ 000023 100a     `?L231`:    bpl     `?L118`
-0364                  	{
-0365                  		printf("%d-",i);
-0366                  		for (j=0;j<cols;j++)
-0367                  		{
-0368                  			printf("%d ",Tracker[i][j]);
-0369                  		}
-0370                  		printf("\r");
-0371                  	}
-0372                  }
+    \ 000023 100a     `?L243`:    bpl     `?L121`
+0371                  	{
+0372                  		printf("%d-",i);
+0373                  		for (j=0;j<cols;j++)
+0374                  		{
+0375                  			printf("%d ",Tracker[i][j]);
+0376                  		}
+0377                  		printf("\r");
+0378                  	}
+0379                  }
     \ 000025 3b                   tsc
     \ 000026 18                   clc
     \ 000027 690a00               adc     ##10
@@ -1983,7 +2003,7 @@
     \ 00002b 7a                   ply
     \ 00002c 84..                 sty     dp:.tiny (_Dp+8)
     \ 00002e 6b                   rtl
-    \ 00002f a309     `?L118`:    lda     9,s
+    \ 00002f a309     `?L121`:    lda     9,s
     \ 000031 48                   pha
     \ 000032 a9....               lda     ##`_StringLiteral_%d-`
     \ 000035 22......             jsl     long:printf
@@ -1991,21 +2011,21 @@
     \ 00003b 68                   pla
     \ 00003c a90000               lda     ##0
     \ 00003f 8301                 sta     1,s
-    \ 000041 8307     `?L277`:    sta     7,s
+    \ 000041 8307     `?L288`:    sta     7,s
     \ 000043 a307                 lda     7,s
     \ 000045 38                   sec
     \ 000046 e305                 sbc     5,s
-    \ 000048 5003                 bvc     `?L234`
+    \ 000048 5003                 bvc     `?L246`
     \ 00004a 490080               eor     ##-32768
-    \ 00004d 3010     `?L234`:    bmi     `?L122`
+    \ 00004d 3010     `?L246`:    bmi     `?L125`
     \ 00004f a9....               lda     ##`_StringLiteral_[13]`
     \ 000052 22......             jsl     long:printf
     \ 000056 a309                 lda     9,s
     \ 000058 1a                   inc     a
     \ 000059 8301                 sta     1,s
     \ 00005b a301                 lda     1,s
-    \ 00005d 80b8                 bra     `?L278`
-    \ 00005f a305     `?L122`:    lda     5,s
+    \ 00005d 80b8                 bra     `?L289`
+    \ 00005f a305     `?L125`:    lda     5,s
     \ 000061 08                   php
     \ 000062 78                   sei
     \ 000063 8d0201               sta     258
@@ -2027,29 +2047,29 @@
     \ 000085 1a                   inc     a
     \ 000086 8301                 sta     1,s
     \ 000088 a301                 lda     1,s
-    \ 00008a 80b5                 bra     `?L277`
-0373                  
-0374                  // Play Trak in Track Memory
-0375                  void playSongSID(int rows,int cols, unsigned char (*Tracker)[cols], int tempo)
-0376                  {
+    \ 00008a 80b5                 bra     `?L288`
+0380                  
+0381                  // Play Trak in Track Memory
+0382                  void playSongSID(int rows,int cols, unsigned char (*Tracker)[cols], int tempo)
+0383                  {
     \ 000000                      .section farcode,text
     \ 000000                      .public playSongSID
     \ 000000          playSongSID:
     \ 000000 a8                   tay
     \ 000001 3b                   tsc
     \ 000002 38                   sec
-    \ 000003 e91e00               sbc     ##30
+    \ 000003 e91c00               sbc     ##28
     \ 000006 1b                   tcs
     \ 000007 98                   tya
     \ 000008 8301                 sta     1,s
     \ 00000a a5..                 lda     dp:.tiny _Dp
-    \ 00000c 8311                 sta     17,s
+    \ 00000c 830f                 sta     15,s
     \ 00000e a5..                 lda     dp:.tiny (_Dp+2)
     \ 000010 830d                 sta     13,s
-0377                  	int i,j,note,volume,instrument,wave1,wave2,wave3;
-0378                  	unsigned char hiFreq, loFreq;
-0379                  	int tracks=cols/3;
-    \ 000012 a311                 lda     17,s
+0384                  	int i,j,note,volume,instrument,wave1,wave2,wave3;
+0385                  	unsigned char hiFreq, loFreq;
+0386                  	int tracks=cols/3;
+    \ 000012 a30f                 lda     15,s
     \ 000014 08                   php
     \ 000015 78                   sei
     \ 000016 8d1a01               sta     282
@@ -2058,394 +2078,446 @@
     \ 00001f ad1c01               lda     284
     \ 000022 28                   plp
     \ 000023 8303                 sta     3,s
-0380                  	
-0381                  	// Initialize SID CHIP
-0382                  	resetSID();
+0387                  	
+0388                  	// Initialize SID CHIP
+0389                  	resetSID();
     \ 000025 22......             jsl     long:resetSID
-0383                  	
-0384                  	// set the Default Instrument to Piano for the 3 voices
-0385                  	 wave1=setInstrumentSID(1, 1);
+0390                  	
+0391                  	// set the Default Instrument to Piano for the 3 voices
+0392                  	 wave1=setInstrumentSID(1, 1);
     \ 000029 a20100               ldx     ##1
     \ 00002c 86..                 stx     dp:.tiny _Dp
     \ 00002e 8a                   txa
     \ 00002f 22......             jsl     long:setInstrumentSID
     \ 000033 8305                 sta     5,s
-0386                  	 wave2=setInstrumentSID(2, 1);
+0393                  	 wave2=setInstrumentSID(2, 1);
     \ 000035 a20100               ldx     ##1
     \ 000038 86..                 stx     dp:.tiny _Dp
     \ 00003a a90200               lda     ##2
     \ 00003d 22......             jsl     long:setInstrumentSID
     \ 000041 8307                 sta     7,s
-0387                  	 wave3=setInstrumentSID(3, 1);
+0394                  	 wave3=setInstrumentSID(3, 1);
     \ 000043 a20100               ldx     ##1
     \ 000046 86..                 stx     dp:.tiny _Dp
     \ 000048 a90300               lda     ##3
     \ 00004b 22......             jsl     long:setInstrumentSID
     \ 00004f 8309                 sta     9,s
-0388                  	
-0389                  	// Init Music playing
-0390                  	for (i=0;i<=rows;i++)
-    \ 000051 a90000               lda     ##0
+0395                  	
+0396                  	// Init Music playing
+0397                  	for (i=1;i<=rows;i++)
+    \ 000051 a90100               lda     ##1
     \ 000054 830b                 sta     11,s
-    \ 000056 8313                 sta     19,s
+    \ 000056 8311                 sta     17,s
     \ 000058 a305                 lda     5,s
     \ 00005a 830b                 sta     11,s
     \ 00005c a309                 lda     9,s
-    \ 00005e 8305     `?L281`:    sta     5,s
+    \ 00005e 8305     `?L295`:    sta     5,s
     \ 000060 a301                 lda     1,s
     \ 000062 38                   sec
-    \ 000063 e313                 sbc     19,s
-    \ 000065 5003                 bvc     `?L242`
+    \ 000063 e311                 sbc     17,s
+    \ 000065 5003                 bvc     `?L254`
     \ 000067 490080               eor     ##-32768
-    \ 00006a 1028     `?L242`:    bpl     `?L129`
-0391                  	{
-0392                  		for (j=0;j<tracks;j++)
-0393                  		{
-0394                  			// read parameters to play from Memory
-0395                  			note=Tracker[i][(j*3)]; 
-0396                  			volume = Tracker[i][(j*3)+1];
-0397                  			instrument=Tracker[i][(j*3)+2];
-0398                  			
-0399                  			// If there is a note to play
-0400                  			if (note != 0)
-0401                  			{
-0402                  				hiFreq=SidNotes[note][0];
-0403                  				loFreq=SidNotes[note][1];
-0404                  				switch (j)
-0405                  				{
-0406                  					case 0: // play voice 1
-0407                  						// Gate Out previous note
-0408                  						SID0_V1_CTRL = wave1-1;  
-0409                  						// Set Volume 
-0410                  						SID0_MODE_VOL=volume;  // Set sid chip volume, note! volume can only be controlled in track 1! 
-0411                  						// if there's a new instrument change it before playing note
-0412                  						wave1=setInstrumentSID(1, instrument);
-0413                  
-0414                  						if (note<=100)
-0415                  						{
-0416                  							// play new note 							
-0417                  							SID0_V1_FREQ_LO = loFreq; 
-0418                  							SID0_V1_FREQ_HI = hiFreq;
-0419                  						}
-0420                  							SID0_V1_CTRL=wave1; // Gate in New note!						
-0421                  					break;
-0422                  					case 1:  // play voice 2
-0423                  						// Gate Out previous note
-0424                  						SID0_V2_CTRL = wave2-1;
-0425                  						// if there's a new instrument change it before playing note
-0426                  						wave2=setInstrumentSID(2, instrument);
-0427                  						if (note<=100)
-0428                  						{
-0429                  							// play new note 
-0430                  							SID0_V2_FREQ_LO = loFreq; 
-0431                  							SID0_V2_FREQ_HI = hiFreq;
+    \ 00006a 1028     `?L254`:    bpl     `?L132`
+0398                  	{
+0399                  		for (j=0;j<tracks;j++)
+0400                  		{
+0401                  			// read parameters to play from Memory
+0402                  			note=Tracker[i][(j*3)]; 
+0403                  			volume = Tracker[i][(j*3)+1];
+0404                  			instrument=Tracker[i][(j*3)+2];
+0405                  			
+0406                  			// If there is a note to play
+0407                  			if (note != 0)
+0408                  			{
+0409                  				hiFreq=SidNotes[note][0];
+0410                  				loFreq=SidNotes[note][1];
+0411                  				switch (j)
+0412                  				{
+0413                  					case 0: // play voice 1
+0414                  						// Gate Out previous note
+0415                  						SID0_V1_CTRL = wave1-1;  
+0416                  						// Set Volume 
+0417                  						SID0_MODE_VOL=volume;  // Set sid chip volume, note! volume can only be controlled in track 1! 
+0418                  						// if there's a new instrument change it before playing note
+0419                  						wave1=setInstrumentSID(1, instrument);
+0420                  
+0421                  						if (note<100)
+0422                  						{
+0423                  							// play new note 							
+0424                  							SID0_V1_FREQ_LO = loFreq; 
+0425                  							SID0_V1_FREQ_HI = hiFreq;
+0426                  							if (instrument==3)
+0427                  							{
+0428                  								SID0_V1_PW_LO = loFreq;
+0429                  								SID0_V1_PW_HI = hiFreq;
+0430                  							}
+0431                  							SID0_V1_CTRL=wave1; // Gate in New note!						
 0432                  						}
-0433                  							SID0_V2_CTRL=wave2; // Gate in New note!						
-0434                  					break;
-0435                  					case 2: // play voice 3
-0436                  						// Gate Out previous note
-0437                  						SID0_V3_CTRL = wave3-1;  
-0438                  						// if there's a new instrument change it before playing note
-0439                  						wave3=setInstrumentSID(3, instrument);
-0440                  						if (note<100)
-0441                  						{
-0442                  							// play new note 
-0443                  							SID0_V3_FREQ_LO = loFreq; 
-0444                  							SID0_V3_FREQ_HI = hiFreq;
-0445                  						}
-0446                  							SID0_V3_CTRL=wave3; // Gate in New note!
-0447                  					break; 
-0448                  				}
-0449                  			}
-0450                  		}
-0451                  		delay( (65535*5)/tempo); // wait for 1/16th
-0452                  	}
-0453                  	SID0_V1_CTRL=wave1-1; // Gate out last note!
+0433                  						else
+0434                  							SID0_V1_CTRL=wave1-1; // Gate out note!						
+0435                  					break;
+0436                  					case 1:  // play voice 2
+0437                  						// Gate Out previous note
+0438                  						SID0_V2_CTRL = wave2-1;
+0439                  						// if there's a new instrument change it before playing note
+0440                  						wave2=setInstrumentSID(2, instrument);
+0441                  						if (note<100)
+0442                  						{
+0443                  							// play new note 
+0444                  							SID0_V2_FREQ_LO = loFreq; 
+0445                  							SID0_V2_FREQ_HI = hiFreq;
+0446                  							if (instrument==3)
+0447                  							{
+0448                  								SID0_V2_PW_LO = loFreq;
+0449                  								SID0_V2_PW_HI = hiFreq;
+0450                  							}
+0451                  
+0452                  							SID0_V2_CTRL=wave2; // Gate in New note!
+0453                  						}
+0454                  						else
+0455                  							SID0_V2_CTRL=wave2-1; // Gate out note!						
+0456                  					break;
+0457                  					case 2: // play voice 3
+0458                  						// Gate Out previous note
+0459                  						SID0_V3_CTRL = wave3-1;  
+0460                  						// if there's a new instrument change it before playing note
+0461                  						wave3=setInstrumentSID(3, instrument);
+0462                  						if (note<100)
+0463                  						{
+0464                  							// play new note 
+0465                  							SID0_V3_FREQ_LO = loFreq; 
+0466                  							SID0_V3_FREQ_HI = hiFreq;
+0467                  							if (instrument==3)
+0468                  							{
+0469                  								SID0_V3_PW_LO = loFreq;
+0470                  								SID0_V3_PW_HI = hiFreq;
+0471                  							}
+0472                  
+0473                  							SID0_V3_CTRL=wave3; // Gate in New note!
+0474                  						}
+0475                  						else
+0476                  							SID0_V3_CTRL=wave3-1; // Gate out note!
+0477                  					break; 
+0478                  				}
+0479                  			}
+0480                  		}
+0481                  		delay( (65535*5)/tempo); // wait for 1/16th
+0482                  	}
+0483                  	SID0_V1_CTRL=wave1-1; // Gate out last note!
     \ 00006c a30b                 lda     11,s
     \ 00006e 3a                   dec     a
     \ 00006f e220                 sep     #32
     \ 000071 8f04e4af             sta     long:11527172
     \ 000075 c220                 rep     #32
-0454                  	SID0_V2_CTRL=wave2-1; // Gate out last note!
+0484                  	SID0_V2_CTRL=wave2-1; // Gate out last note!
     \ 000077 a307                 lda     7,s
     \ 000079 3a                   dec     a
     \ 00007a e220                 sep     #32
     \ 00007c 8f0be4af             sta     long:11527179
     \ 000080 c220                 rep     #32
-0455                  	SID0_V3_CTRL=wave3-1; // Gate out last note!
+0485                  	SID0_V3_CTRL=wave3-1; // Gate out last note!
     \ 000082 a305                 lda     5,s
     \ 000084 3a                   dec     a
     \ 000085 e220                 sep     #32
     \ 000087 8f12e4af             sta     long:11527186
     \ 00008b c220                 rep     #32
-0456                  }
+0486                  }
     \ 00008d 3b                   tsc
     \ 00008e 18                   clc
-    \ 00008f 691e00               adc     ##30
+    \ 00008f 691c00               adc     ##28
     \ 000092 1b                   tcs
     \ 000093 6b                   rtl
-    \ 000094 a90000   `?L129`:    lda     ##0
-    \ 000097 831b                 sta     27,s
-    \ 000099 a30b                 lda     11,s
-    \ 00009b 8319                 sta     25,s
-    \ 00009d a307                 lda     7,s
-    \ 00009f 8317                 sta     23,s
-    \ 0000a1 a305                 lda     5,s
-    \ 0000a3 8315     `?L280`:    sta     21,s
-    \ 0000a5 a31b                 lda     27,s
-    \ 0000a7 38                   sec
-    \ 0000a8 e303                 sbc     3,s
-    \ 0000aa 5003                 bvc     `?L244`
-    \ 0000ac 490080               eor     ##-32768
-    \ 0000af 3039     `?L244`:    bmi     `?L133`
-    \ 0000b1 a9fbff               lda     ##65531
-    \ 0000b4 85..                 sta     dp:.tiny _Dp
-    \ 0000b6 a90400               lda     ##4
-    \ 0000b9 85..                 sta     dp:.tiny (_Dp+2)
-    \ 0000bb a322                 lda     34,s
-    \ 0000bd a20000               ldx     ##0
-    \ 0000c0 a8                   tay
-    \ 0000c1 1001                 bpl     `?L246`
-    \ 0000c3 ca                   dex
-    \ 0000c4          `?L246`:
-    \ 0000c4 86..                 stx     dp:.tiny (_Dp+6)
-    \ 0000c6 85..                 sta     dp:.tiny (_Dp+4)
-    \ 0000c8 22......             jsl     long:_Div32
-    \ 0000cc 22......             jsl     long:_SInt32ToFloat32
-    \ 0000d0 22......             jsl     long:delay
-    \ 0000d4 a313                 lda     19,s
-    \ 0000d6 1a                   inc     a
-    \ 0000d7 8305                 sta     5,s
-    \ 0000d9 a305                 lda     5,s
-    \ 0000db 8313                 sta     19,s
-    \ 0000dd a319                 lda     25,s
-    \ 0000df 830b                 sta     11,s
-    \ 0000e1 a317                 lda     23,s
-    \ 0000e3 8307                 sta     7,s
-    \ 0000e5 a315                 lda     21,s
-    \ 0000e7 4c....               jmp     .kbank `?L281`
-    \ 0000ea a31b     `?L133`:    lda     27,s
-    \ 0000ec 8307                 sta     7,s
-    \ 0000ee 8305                 sta     5,s
-    \ 0000f0 a307                 lda     7,s
-    \ 0000f2 0a                   asl     a
-    \ 0000f3 8307                 sta     7,s
-    \ 0000f5 18                   clc
-    \ 0000f6 6305                 adc     5,s
-    \ 0000f8 8305                 sta     5,s
-    \ 0000fa a311                 lda     17,s
-    \ 0000fc 08                   php
-    \ 0000fd 78                   sei
-    \ 0000fe 8d0201               sta     258
-    \ 000101 a314                 lda     20,s
-    \ 000103 8d0001               sta     256
-    \ 000106 ad0401               lda     260
-    \ 000109 28                   plp
-    \ 00010a 18                   clc
-    \ 00010b 630d                 adc     13,s
-    \ 00010d a8                   tay
-    \ 00010e b305                 lda     (5,s),y
-    \ 000110 29ff00               and     ##255
-    \ 000113 831d                 sta     29,s
-    \ 000115 a31b                 lda     27,s
-    \ 000117 8307                 sta     7,s
-    \ 000119 8305                 sta     5,s
-    \ 00011b a307                 lda     7,s
-    \ 00011d 0a                   asl     a
-    \ 00011e 8307                 sta     7,s
-    \ 000120 18                   clc
-    \ 000121 6305                 adc     5,s
-    \ 000123 8305                 sta     5,s
-    \ 000125 a311                 lda     17,s
-    \ 000127 08                   php
-    \ 000128 78                   sei
-    \ 000129 8d0201               sta     258
-    \ 00012c a314                 lda     20,s
-    \ 00012e 8d0001               sta     256
-    \ 000131 ad0401               lda     260
-    \ 000134 28                   plp
-    \ 000135 18                   clc
-    \ 000136 630d                 adc     13,s
-    \ 000138 85..                 sta     dp:.tiny _Dp
-    \ 00013a a305                 lda     5,s
-    \ 00013c 22......             jsl     long:`?L293`
-    \ 000140 8305                 sta     5,s
-    \ 000142 a31b                 lda     27,s
-    \ 000144 8309                 sta     9,s
-    \ 000146 8307                 sta     7,s
-    \ 000148 a309                 lda     9,s
-    \ 00014a 0a                   asl     a
-    \ 00014b 8309                 sta     9,s
-    \ 00014d 18                   clc
-    \ 00014e 6307                 adc     7,s
-    \ 000150 8307                 sta     7,s
-    \ 000152 a311                 lda     17,s
-    \ 000154 08                   php
-    \ 000155 78                   sei
-    \ 000156 8d0201               sta     258
-    \ 000159 a314                 lda     20,s
-    \ 00015b 8d0001               sta     256
-    \ 00015e ad0401               lda     260
-    \ 000161 28                   plp
-    \ 000162 18                   clc
-    \ 000163 630d                 adc     13,s
-    \ 000165 85..                 sta     dp:.tiny _Dp
-    \ 000167 a307                 lda     7,s
-    \ 000169 1a                   inc     a
-    \ 00016a 22......             jsl     long:`?L293`
-    \ 00016e 8307                 sta     7,s
-    \ 000170 a31d                 lda     29,s
-    \ 000172 d003                 bne     `?L347`
-    \ 000174 4c....               jmp     .kbank `?L137`
-    \ 000177 1a       `?L347`:    inc     a
-    \ 000178 3a                   dec     a
-    \ 000179 0a                   asl     a
-    \ 00017a aa                   tax
-    \ 00017b e220                 sep     #32
-    \ 00017d bd....               lda     SidNotes,x
-    \ 000180 8309                 sta     9,s
-    \ 000182 c220                 rep     #32
-    \ 000184 a31d                 lda     29,s
-    \ 000186 0a                   asl     a
-    \ 000187 18                   clc
-    \ 000188 69....               adc     ##SidNotes
-    \ 00018b aa                   tax
-    \ 00018c e220                 sep     #32
-    \ 00018e bd0100               lda     1,x
-    \ 000191 830b                 sta     11,s
-    \ 000193 c220                 rep     #32
-    \ 000195 a31b                 lda     27,s
-    \ 000197 830f                 sta     15,s
-    \ 000199 d003                 bne     `?L348`
-    \ 00019b 4c....               jmp     .kbank `?L144`
-    \ 00019e a30f     `?L348`:    lda     15,s
-    \ 0001a0 c90100               cmp     ##1
-    \ 0001a3 f05a                 beq     `?L143`
-    \ 0001a5 1a                   inc     a
-    \ 0001a6 3a                   dec     a
-    \ 0001a7 c90200               cmp     ##2
-    \ 0001aa f009                 beq     `?L142`
-    \ 0001ac a319                 lda     25,s
-    \ 0001ae 8309                 sta     9,s
-    \ 0001b0 a317                 lda     23,s
-    \ 0001b2 4c....               jmp     .kbank `?L279`
-    \ 0001b5 a315     `?L142`:    lda     21,s
-    \ 0001b7 3a                   dec     a
-    \ 0001b8 e220                 sep     #32
-    \ 0001ba 8f12e4af             sta     long:11527186
-    \ 0001be c220                 rep     #32
-    \ 0001c0 a307                 lda     7,s
-    \ 0001c2 85..                 sta     dp:.tiny _Dp
-    \ 0001c4 a90300               lda     ##3
-    \ 0001c7 22......             jsl     long:setInstrumentSID
-    \ 0001cb 8305                 sta     5,s
-    \ 0001cd a31d                 lda     29,s
-    \ 0001cf 38                   sec
-    \ 0001d0 e96400               sbc     ##100
-    \ 0001d3 5003                 bvc     `?L252`
-    \ 0001d5 490080               eor     ##-32768
-    \ 0001d8 1010     `?L252`:    bpl     `?L154`
-    \ 0001da e220                 sep     #32
-    \ 0001dc a30b                 lda     11,s
-    \ 0001de 8f0ee4af             sta     long:11527182
-    \ 0001e2 a309                 lda     9,s
-    \ 0001e4 8f0fe4af             sta     long:11527183
-    \ 0001e8 c220                 rep     #32
-    \ 0001ea e220     `?L154`:    sep     #32
-    \ 0001ec a305                 lda     5,s
-    \ 0001ee 8f12e4af             sta     long:11527186
-    \ 0001f2 c220                 rep     #32
-    \ 0001f4 a319                 lda     25,s
-    \ 0001f6 8309                 sta     9,s
-    \ 0001f8 a317                 lda     23,s
-    \ 0001fa 8307                 sta     7,s
-    \ 0001fc 4c....               jmp     .kbank `?L135`
-    \ 0001ff a317     `?L143`:    lda     23,s
-    \ 000201 3a                   dec     a
-    \ 000202 e220                 sep     #32
-    \ 000204 8f0be4af             sta     long:11527179
-    \ 000208 c220                 rep     #32
-    \ 00020a a307                 lda     7,s
-    \ 00020c 85..                 sta     dp:.tiny _Dp
-    \ 00020e a90200               lda     ##2
-    \ 000211 22......             jsl     long:setInstrumentSID
-    \ 000215 8305                 sta     5,s
-    \ 000217 a96400               lda     ##100
-    \ 00021a 38                   sec
-    \ 00021b e31d                 sbc     29,s
-    \ 00021d 5003                 bvc     `?L255`
-    \ 00021f 490080               eor     ##-32768
-    \ 000222 3010     `?L255`:    bmi     `?L150`
-    \ 000224 e220                 sep     #32
-    \ 000226 a30b                 lda     11,s
-    \ 000228 8f07e4af             sta     long:11527175
-    \ 00022c a309                 lda     9,s
-    \ 00022e 8f08e4af             sta     long:11527176
-    \ 000232 c220                 rep     #32
-    \ 000234 e220     `?L150`:    sep     #32
-    \ 000236 a305                 lda     5,s
-    \ 000238 8f0be4af             sta     long:11527179
-    \ 00023c c220                 rep     #32
-    \ 00023e a319                 lda     25,s
-    \ 000240 8309                 sta     9,s
-    \ 000242 a305                 lda     5,s
-    \ 000244 804b                 bra     `?L279`
-    \ 000246 a319     `?L144`:    lda     25,s
-    \ 000248 3a                   dec     a
-    \ 000249 e220                 sep     #32
-    \ 00024b 8f04e4af             sta     long:11527172
-    \ 00024f a305                 lda     5,s
-    \ 000251 8f18e4af             sta     long:11527192
-    \ 000255 c220                 rep     #32
-    \ 000257 a307                 lda     7,s
-    \ 000259 85..                 sta     dp:.tiny _Dp
-    \ 00025b a90100               lda     ##1
-    \ 00025e 22......             jsl     long:setInstrumentSID
-    \ 000262 8305                 sta     5,s
-    \ 000264 a96400               lda     ##100
-    \ 000267 38                   sec
-    \ 000268 e31d                 sbc     29,s
-    \ 00026a 5003                 bvc     `?L258`
-    \ 00026c 490080               eor     ##-32768
-    \ 00026f 3010     `?L258`:    bmi     `?L146`
-    \ 000271 e220                 sep     #32
-    \ 000273 a30b                 lda     11,s
-    \ 000275 8f00e4af             sta     long:11527168
-    \ 000279 a309                 lda     9,s
-    \ 00027b 8f01e4af             sta     long:11527169
-    \ 00027f c220                 rep     #32
-    \ 000281 e220     `?L146`:    sep     #32
-    \ 000283 a305                 lda     5,s
-    \ 000285 8f04e4af             sta     long:11527172
-    \ 000289 c220                 rep     #32
-    \ 00028b a305                 lda     5,s
-    \ 00028d 8309                 sta     9,s
-    \ 00028f a317                 lda     23,s
-    \ 000291 8307     `?L279`:    sta     7,s
-    \ 000293 a315                 lda     21,s
-    \ 000295 8305                 sta     5,s
-    \ 000297 800c                 bra     `?L135`
-    \ 000299 a319     `?L137`:    lda     25,s
-    \ 00029b 8309                 sta     9,s
-    \ 00029d a317                 lda     23,s
-    \ 00029f 8307                 sta     7,s
-    \ 0002a1 a315                 lda     21,s
-    \ 0002a3 8305                 sta     5,s
-    \ 0002a5 a31b     `?L135`:    lda     27,s
-    \ 0002a7 1a                   inc     a
-    \ 0002a8 830b                 sta     11,s
-    \ 0002aa a30b                 lda     11,s
-    \ 0002ac 831b                 sta     27,s
-    \ 0002ae a309                 lda     9,s
-    \ 0002b0 8319                 sta     25,s
-    \ 0002b2 a307                 lda     7,s
-    \ 0002b4 8317                 sta     23,s
-    \ 0002b6 a305                 lda     5,s
-    \ 0002b8 4c....               jmp     .kbank `?L280`
-0457                  
-0458                  
-0459                  int setInstrumentSID(int voice, int instrument)
-0460                  {
+    \ 000094 a90000   `?L132`:    lda     ##0
+    \ 000097 8317                 sta     23,s
+    \ 000099 a307                 lda     7,s
+    \ 00009b 8315                 sta     21,s
+    \ 00009d a305                 lda     5,s
+    \ 00009f 8313     `?L294`:    sta     19,s
+    \ 0000a1 a317                 lda     23,s
+    \ 0000a3 38                   sec
+    \ 0000a4 e303                 sbc     3,s
+    \ 0000a6 5003                 bvc     `?L256`
+    \ 0000a8 490080               eor     ##-32768
+    \ 0000ab 3035     `?L256`:    bmi     `?L136`
+    \ 0000ad a9fbff               lda     ##65531
+    \ 0000b0 85..                 sta     dp:.tiny _Dp
+    \ 0000b2 a90400               lda     ##4
+    \ 0000b5 85..                 sta     dp:.tiny (_Dp+2)
+    \ 0000b7 a320                 lda     32,s
+    \ 0000b9 a20000               ldx     ##0
+    \ 0000bc a8                   tay
+    \ 0000bd 1001                 bpl     `?L258`
+    \ 0000bf ca                   dex
+    \ 0000c0          `?L258`:
+    \ 0000c0 86..                 stx     dp:.tiny (_Dp+6)
+    \ 0000c2 85..                 sta     dp:.tiny (_Dp+4)
+    \ 0000c4 22......             jsl     long:_Div32
+    \ 0000c8 22......             jsl     long:_SInt32ToFloat32
+    \ 0000cc 22......             jsl     long:delay
+    \ 0000d0 a311                 lda     17,s
+    \ 0000d2 1a                   inc     a
+    \ 0000d3 8305                 sta     5,s
+    \ 0000d5 a305                 lda     5,s
+    \ 0000d7 8311                 sta     17,s
+    \ 0000d9 a315                 lda     21,s
+    \ 0000db 8307                 sta     7,s
+    \ 0000dd a313                 lda     19,s
+    \ 0000df 4c....               jmp     .kbank `?L295`
+    \ 0000e2 a317     `?L136`:    lda     23,s
+    \ 0000e4 8307                 sta     7,s
+    \ 0000e6 8305                 sta     5,s
+    \ 0000e8 a307                 lda     7,s
+    \ 0000ea 0a                   asl     a
+    \ 0000eb 8307                 sta     7,s
+    \ 0000ed 18                   clc
+    \ 0000ee 6305                 adc     5,s
+    \ 0000f0 8305                 sta     5,s
+    \ 0000f2 a30f                 lda     15,s
+    \ 0000f4 08                   php
+    \ 0000f5 78                   sei
+    \ 0000f6 8d0201               sta     258
+    \ 0000f9 a312                 lda     18,s
+    \ 0000fb 8d0001               sta     256
+    \ 0000fe ad0401               lda     260
+    \ 000101 28                   plp
+    \ 000102 18                   clc
+    \ 000103 630d                 adc     13,s
+    \ 000105 a8                   tay
+    \ 000106 b305                 lda     (5,s),y
+    \ 000108 29ff00               and     ##255
+    \ 00010b 8319                 sta     25,s
+    \ 00010d a317                 lda     23,s
+    \ 00010f 8307                 sta     7,s
+    \ 000111 8305                 sta     5,s
+    \ 000113 a307                 lda     7,s
+    \ 000115 0a                   asl     a
+    \ 000116 8307                 sta     7,s
+    \ 000118 18                   clc
+    \ 000119 6305                 adc     5,s
+    \ 00011b 8305                 sta     5,s
+    \ 00011d a30f                 lda     15,s
+    \ 00011f 08                   php
+    \ 000120 78                   sei
+    \ 000121 8d0201               sta     258
+    \ 000124 a312                 lda     18,s
+    \ 000126 8d0001               sta     256
+    \ 000129 ad0401               lda     260
+    \ 00012c 28                   plp
+    \ 00012d 18                   clc
+    \ 00012e 630d                 adc     13,s
+    \ 000130 85..                 sta     dp:.tiny _Dp
+    \ 000132 a305                 lda     5,s
+    \ 000134 22......             jsl     long:`?L307`
+    \ 000138 8305                 sta     5,s
+    \ 00013a a317                 lda     23,s
+    \ 00013c 8309                 sta     9,s
+    \ 00013e 8307                 sta     7,s
+    \ 000140 a309                 lda     9,s
+    \ 000142 0a                   asl     a
+    \ 000143 8309                 sta     9,s
+    \ 000145 18                   clc
+    \ 000146 6307                 adc     7,s
+    \ 000148 8307                 sta     7,s
+    \ 00014a a30f                 lda     15,s
+    \ 00014c 08                   php
+    \ 00014d 78                   sei
+    \ 00014e 8d0201               sta     258
+    \ 000151 a312                 lda     18,s
+    \ 000153 8d0001               sta     256
+    \ 000156 ad0401               lda     260
+    \ 000159 28                   plp
+    \ 00015a 18                   clc
+    \ 00015b 630d                 adc     13,s
+    \ 00015d 85..                 sta     dp:.tiny _Dp
+    \ 00015f a307                 lda     7,s
+    \ 000161 1a                   inc     a
+    \ 000162 22......             jsl     long:`?L307`
+    \ 000166 8309                 sta     9,s
+    \ 000168 a319                 lda     25,s
+    \ 00016a d003                 bne     `?L364`
+    \ 00016c 4c....               jmp     .kbank `?L140`
+    \ 00016f 1a       `?L364`:    inc     a
+    \ 000170 3a                   dec     a
+    \ 000171 0a                   asl     a
+    \ 000172 aa                   tax
+    \ 000173 e220                 sep     #32
+    \ 000175 bd....               lda     SidNotes,x
+    \ 000178 831b                 sta     27,s
+    \ 00017a c220                 rep     #32
+    \ 00017c a319                 lda     25,s
+    \ 00017e 0a                   asl     a
+    \ 00017f 18                   clc
+    \ 000180 69....               adc     ##SidNotes
+    \ 000183 aa                   tax
+    \ 000184 e220                 sep     #32
+    \ 000186 bd0100               lda     1,x
+    \ 000189 831c                 sta     28,s
+    \ 00018b c220                 rep     #32
+    \ 00018d a317                 lda     23,s
+    \ 00018f 8307                 sta     7,s
+    \ 000191 d003                 bne     `?L365`
+    \ 000193 4c....               jmp     .kbank `?L147`
+    \ 000196 a307     `?L365`:    lda     7,s
+    \ 000198 c90100               cmp     ##1
+    \ 00019b f075                 beq     `?L146`
+    \ 00019d 1a                   inc     a
+    \ 00019e 3a                   dec     a
+    \ 00019f c90200               cmp     ##2
+    \ 0001a2 f009                 beq     `?L145`
+    \ 0001a4 a30b                 lda     11,s
+    \ 0001a6 8309                 sta     9,s
+    \ 0001a8 a315                 lda     21,s
+    \ 0001aa 4c....               jmp     .kbank `?L293`
+    \ 0001ad a313     `?L145`:    lda     19,s
+    \ 0001af 3a                   dec     a
+    \ 0001b0 e220                 sep     #32
+    \ 0001b2 8f12e4af             sta     long:11527186
+    \ 0001b6 c220                 rep     #32
+    \ 0001b8 a309                 lda     9,s
+    \ 0001ba 85..                 sta     dp:.tiny _Dp
+    \ 0001bc a90300               lda     ##3
+    \ 0001bf 22......             jsl     long:setInstrumentSID
+    \ 0001c3 8305                 sta     5,s
+    \ 0001c5 a319                 lda     25,s
+    \ 0001c7 38                   sec
+    \ 0001c8 e96400               sbc     ##100
+    \ 0001cb 5003                 bvc     `?L264`
+    \ 0001cd 490080               eor     ##-32768
+    \ 0001d0 102a     `?L264`:    bpl     `?L162`
+    \ 0001d2 e220                 sep     #32
+    \ 0001d4 a31c                 lda     28,s
+    \ 0001d6 8f0ee4af             sta     long:11527182
+    \ 0001da a31b                 lda     27,s
+    \ 0001dc 8f0fe4af             sta     long:11527183
+    \ 0001e0 22......             jsl     long:`?L308`
+    \ 0001e4 d010                 bne     `?L166`
+    \ 0001e6 e220                 sep     #32
+    \ 0001e8 a31c                 lda     28,s
+    \ 0001ea 8f10e4af             sta     long:11527184
+    \ 0001ee a31b                 lda     27,s
+    \ 0001f0 8f11e4af             sta     long:11527185
+    \ 0001f4 c220                 rep     #32
+    \ 0001f6 e220     `?L166`:    sep     #32
+    \ 0001f8 a305                 lda     5,s
+    \ 0001fa 8005                 bra     `?L290`
+    \ 0001fc a305     `?L162`:    lda     5,s
+    \ 0001fe 3a                   dec     a
+    \ 0001ff e220                 sep     #32
+    \ 000201 8f12e4af `?L290`:    sta     long:11527186
+    \ 000205 c220                 rep     #32
+    \ 000207 a30b                 lda     11,s
+    \ 000209 8309                 sta     9,s
+    \ 00020b a315                 lda     21,s
+    \ 00020d 8307                 sta     7,s
+    \ 00020f 4c....               jmp     .kbank `?L138`
+    \ 000212 a315     `?L146`:    lda     21,s
+    \ 000214 3a                   dec     a
+    \ 000215 e220                 sep     #32
+    \ 000217 8f0be4af             sta     long:11527179
+    \ 00021b c220                 rep     #32
+    \ 00021d a309                 lda     9,s
+    \ 00021f 85..                 sta     dp:.tiny _Dp
+    \ 000221 a90200               lda     ##2
+    \ 000224 22......             jsl     long:setInstrumentSID
+    \ 000228 8305                 sta     5,s
+    \ 00022a a319                 lda     25,s
+    \ 00022c 38                   sec
+    \ 00022d e96400               sbc     ##100
+    \ 000230 5003                 bvc     `?L267`
+    \ 000232 490080               eor     ##-32768
+    \ 000235 102a     `?L267`:    bpl     `?L155`
+    \ 000237 e220                 sep     #32
+    \ 000239 a31c                 lda     28,s
+    \ 00023b 8f07e4af             sta     long:11527175
+    \ 00023f a31b                 lda     27,s
+    \ 000241 8f08e4af             sta     long:11527176
+    \ 000245 22......             jsl     long:`?L308`
+    \ 000249 d010                 bne     `?L159`
+    \ 00024b e220                 sep     #32
+    \ 00024d a31c                 lda     28,s
+    \ 00024f 8f09e4af             sta     long:11527177
+    \ 000253 a31b                 lda     27,s
+    \ 000255 8f0ae4af             sta     long:11527178
+    \ 000259 c220                 rep     #32
+    \ 00025b e220     `?L159`:    sep     #32
+    \ 00025d a305                 lda     5,s
+    \ 00025f 8005                 bra     `?L291`
+    \ 000261 a305     `?L155`:    lda     5,s
+    \ 000263 3a                   dec     a
+    \ 000264 e220                 sep     #32
+    \ 000266 8f0be4af `?L291`:    sta     long:11527179
+    \ 00026a c220                 rep     #32
+    \ 00026c a30b                 lda     11,s
+    \ 00026e 8309                 sta     9,s
+    \ 000270 a305                 lda     5,s
+    \ 000272 8066                 bra     `?L293`
+    \ 000274 a30b     `?L147`:    lda     11,s
+    \ 000276 3a                   dec     a
+    \ 000277 e220                 sep     #32
+    \ 000279 8f04e4af             sta     long:11527172
+    \ 00027d a305                 lda     5,s
+    \ 00027f 8f18e4af             sta     long:11527192
+    \ 000283 c220                 rep     #32
+    \ 000285 a309                 lda     9,s
+    \ 000287 85..                 sta     dp:.tiny _Dp
+    \ 000289 a90100               lda     ##1
+    \ 00028c 22......             jsl     long:setInstrumentSID
+    \ 000290 8305                 sta     5,s
+    \ 000292 a319                 lda     25,s
+    \ 000294 38                   sec
+    \ 000295 e96400               sbc     ##100
+    \ 000298 5003                 bvc     `?L270`
+    \ 00029a 490080               eor     ##-32768
+    \ 00029d 102a     `?L270`:    bpl     `?L148`
+    \ 00029f e220                 sep     #32
+    \ 0002a1 a31c                 lda     28,s
+    \ 0002a3 8f00e4af             sta     long:11527168
+    \ 0002a7 a31b                 lda     27,s
+    \ 0002a9 8f01e4af             sta     long:11527169
+    \ 0002ad 22......             jsl     long:`?L308`
+    \ 0002b1 d010                 bne     `?L152`
+    \ 0002b3 e220                 sep     #32
+    \ 0002b5 a31c                 lda     28,s
+    \ 0002b7 8f02e4af             sta     long:11527170
+    \ 0002bb a31b                 lda     27,s
+    \ 0002bd 8f03e4af             sta     long:11527171
+    \ 0002c1 c220                 rep     #32
+    \ 0002c3 e220     `?L152`:    sep     #32
+    \ 0002c5 a305                 lda     5,s
+    \ 0002c7 8005                 bra     `?L292`
+    \ 0002c9 a305     `?L148`:    lda     5,s
+    \ 0002cb 3a                   dec     a
+    \ 0002cc e220                 sep     #32
+    \ 0002ce 8f04e4af `?L292`:    sta     long:11527172
+    \ 0002d2 c220                 rep     #32
+    \ 0002d4 a305                 lda     5,s
+    \ 0002d6 8309                 sta     9,s
+    \ 0002d8 a315                 lda     21,s
+    \ 0002da 8307     `?L293`:    sta     7,s
+    \ 0002dc a313                 lda     19,s
+    \ 0002de 8305                 sta     5,s
+    \ 0002e0 800c                 bra     `?L138`
+    \ 0002e2 a30b     `?L140`:    lda     11,s
+    \ 0002e4 8309                 sta     9,s
+    \ 0002e6 a315                 lda     21,s
+    \ 0002e8 8307                 sta     7,s
+    \ 0002ea a313                 lda     19,s
+    \ 0002ec 8305                 sta     5,s
+    \ 0002ee a317     `?L138`:    lda     23,s
+    \ 0002f0 1a                   inc     a
+    \ 0002f1 830b                 sta     11,s
+    \ 0002f3 a30b                 lda     11,s
+    \ 0002f5 8317                 sta     23,s
+    \ 0002f7 a309                 lda     9,s
+    \ 0002f9 830b                 sta     11,s
+    \ 0002fb a307                 lda     7,s
+    \ 0002fd 8315                 sta     21,s
+    \ 0002ff a305                 lda     5,s
+    \ 000301 4c....               jmp     .kbank `?L294`
+0487                  
+0488                  
+0489                  int setInstrumentSID(int voice, int instrument)
+0490                  {
     \ 000000                      .section farcode,text
     \ 000000                      .public setInstrumentSID
     \ 000000          setInstrumentSID:
@@ -2456,14 +2528,14 @@
     \ 000006 1b                   tcs
     \ 000007 98                   tya
     \ 000008 8301                 sta     1,s
-0461                  	int attack,decay,sustain,release,waveform,pulseWidth;
-0462                  	
-0463                  	instrument-=1;
+0491                  	int attack,decay,sustain,release,waveform,pulseWidth;
+0492                  	
+0493                  	instrument-=1;
     \ 00000a a5..                 lda     dp:.tiny _Dp
     \ 00000c 3a                   dec     a
     \ 00000d a8                   tay
-0464                  	
-0465                  	attack = SID_envelope[instrument][0];
+0494                  	
+0495                  	attack = SID_envelope[instrument][0];
     \ 00000e 98                   tya
     \ 00000f 0a                   asl     a
     \ 000010 0a                   asl     a
@@ -2472,86 +2544,86 @@
     \ 000013 aa                   tax
     \ 000014 bd....               lda     SID_envelope,x
     \ 000017 8303                 sta     3,s
-0466                  	decay=SID_envelope[instrument][1];
-0467                  	sustain=SID_envelope[instrument][2];
-0468                  	release=SID_envelope[instrument][3];
-0469                  	waveform=SID_envelope[instrument][4];
-0470                  	pulseWidth=SID_envelope[instrument][5];		
-0471                  
-0472                  	//printf(".");
-0473                  	//printf("Voice %d - A:%d D:%d S:%d R:%d WF:%d PWL:%d PWH:%d\r",voice,attack,decay,sustain,release,waveform,pulseWidth & 0x00FF, (pulseWidth - (pulseWidth & 0x00FF))/256);
-0474                  	
-0475                  	// configure selected Voice
-0476                  	switch (voice)
-    \ 000019 22......             jsl     long:`?L287`
+0496                  	decay=SID_envelope[instrument][1];
+0497                  	sustain=SID_envelope[instrument][2];
+0498                  	release=SID_envelope[instrument][3];
+0499                  	waveform=SID_envelope[instrument][4];
+0500                  	pulseWidth=SID_envelope[instrument][5];		
+0501                  
+0502                  	//printf(".");
+0503                  	//printf("Voice %d - A:%d D:%d S:%d R:%d WF:%d PWL:%d PWH:%d\r",voice,attack,decay,sustain,release,waveform,pulseWidth & 0x00FF, (pulseWidth - (pulseWidth & 0x00FF))/256);
+0504                  	
+0505                  	// configure selected Voice
+0506                  	switch (voice)
+    \ 000019 22......             jsl     long:`?L301`
     \ 00001d aa                   tax
     \ 00001e bd0200               lda     2,x
     \ 000021 8305                 sta     5,s
-    \ 000023 22......             jsl     long:`?L287`
+    \ 000023 22......             jsl     long:`?L301`
     \ 000027 aa                   tax
     \ 000028 bd0400               lda     4,x
     \ 00002b 8307                 sta     7,s
-    \ 00002d 22......             jsl     long:`?L287`
+    \ 00002d 22......             jsl     long:`?L301`
     \ 000031 aa                   tax
     \ 000032 bd0600               lda     6,x
     \ 000035 8309                 sta     9,s
-    \ 000037 22......             jsl     long:`?L287`
+    \ 000037 22......             jsl     long:`?L301`
     \ 00003b aa                   tax
     \ 00003c bd0800               lda     8,x
     \ 00003f 830b                 sta     11,s
-    \ 000041 22......             jsl     long:`?L287`
+    \ 000041 22......             jsl     long:`?L301`
     \ 000045 a8                   tay
     \ 000046 be0a00               ldx     10,y
     \ 000049 a301                 lda     1,s
     \ 00004b c90100               cmp     ##1
-    \ 00004e f07c                 beq     `?L164`
+    \ 00004e f07c                 beq     `?L176`
     \ 000050 a301                 lda     1,s
     \ 000052 c90200               cmp     ##2
-    \ 000055 f040                 beq     `?L163`
+    \ 000055 f040                 beq     `?L175`
     \ 000057 c90300               cmp     ##3
-    \ 00005a f006                 beq     `?L162`
-0477                  	{
-0478                  		case 1:
-0479                  			// SET VOICE 1 Parameters
-0480                  			// set Attack/Decay /Sustain/release parameters	
-0481                  			SID0_V1_ATCK_DECY = attack*16+decay;
-0482                  			SID0_V1_SSTN_RLSE = sustain*16+release;
-0483                  			// Set PulseWidth
-0484                  			SID0_V1_PW_LO = pulseWidth & 0x00FF;
-0485                  			SID0_V1_PW_HI = (int) pulseWidth /256;
-0486                  			//Control Register (Write Only) [Noise Wave (bit 7), Pulse Wave (bit 6), Saw Wave (bit 5), Triangle Wave (bit 4), Test (bit 3), Ring Modulate Osc1->Osc2 (bit 2), Sync Osc1->Osc2 (bit 1), Gate Bit (bit 0, 1-initiate Atk/sus/Dec, 0 - Initiate Rel)]
-0487                  			return waveform*16+1;
-0488                  			break;
-0489                  		case 2:
-0490                  			// SET VOICE 2 Parameters
-0491                  			// set Attack/Decay /Sustain/release parameters	
-0492                  			SID0_V2_ATCK_DECY = attack*16+decay;
-0493                  			SID0_V2_SSTN_RLSE = sustain*16+release;
-0494                  			// Set PulseWidth
-0495                  			SID0_V2_PW_LO = pulseWidth & 0x00FF;
-0496                  			SID0_V2_PW_HI = (int) pulseWidth /256;
-0497                  			//Control Register (Write Only) [Noise Wave (bit 7), Pulse Wave (bit 6), Saw Wave (bit 5), Triangle Wave (bit 4), Test (bit 3), Ring Modulate Osc1->Osc2 (bit 2), Sync Osc1->Osc2 (bit 1), Gate Bit (bit 0, 1-initiate Atk/sus/Dec, 0 - Initiate Rel)]
-0498                  			return waveform*16+1;
-0499                  			break;
-0500                  		case 3:
-0501                  			// SET VOICE 3 Parameters
-0502                  			// set Attack/Decay /Sustain/release parameters	
-0503                  			SID0_V3_ATCK_DECY = attack*16+decay;
-0504                  			SID0_V3_SSTN_RLSE = sustain*16+release;
-0505                  			// Set PulseWidth
-0506                  			SID0_V3_PW_LO = pulseWidth & 0x00FF;
-0507                  			SID0_V3_PW_HI = (int) pulseWidth /256;
-0508                  			//Control Register (Write Only) [Noise Wave (bit 7), Pulse Wave (bit 6), Saw Wave (bit 5), Triangle Wave (bit 4), Test (bit 3), Ring Modulate Osc1->Osc2 (bit 2), Sync Osc1->Osc2 (bit 1), Gate Bit (bit 0, 1-initiate Atk/sus/Dec, 0 - Initiate Rel)]
-0509                  			return waveform*16+1;
-0510                  			break;
-0511                  	}
-0512                  	return 0;
+    \ 00005a f006                 beq     `?L174`
+0507                  	{
+0508                  		case 1:
+0509                  			// SET VOICE 1 Parameters
+0510                  			// set Attack/Decay /Sustain/release parameters	
+0511                  			SID0_V1_ATCK_DECY = attack*16+decay;
+0512                  			SID0_V1_SSTN_RLSE = sustain*16+release;
+0513                  			// Set PulseWidth
+0514                  			SID0_V1_PW_LO = pulseWidth & 0x00FF;
+0515                  			SID0_V1_PW_HI = (int) pulseWidth /256;
+0516                  			//Control Register (Write Only) [Noise Wave (bit 7), Pulse Wave (bit 6), Saw Wave (bit 5), Triangle Wave (bit 4), Test (bit 3), Ring Modulate Osc1->Osc2 (bit 2), Sync Osc1->Osc2 (bit 1), Gate Bit (bit 0, 1-initiate Atk/sus/Dec, 0 - Initiate Rel)]
+0517                  			return waveform*16+1;
+0518                  			break;
+0519                  		case 2:
+0520                  			// SET VOICE 2 Parameters
+0521                  			// set Attack/Decay /Sustain/release parameters	
+0522                  			SID0_V2_ATCK_DECY = attack*16+decay;
+0523                  			SID0_V2_SSTN_RLSE = sustain*16+release;
+0524                  			// Set PulseWidth
+0525                  			SID0_V2_PW_LO = pulseWidth & 0x00FF;
+0526                  			SID0_V2_PW_HI = (int) pulseWidth /256;
+0527                  			//Control Register (Write Only) [Noise Wave (bit 7), Pulse Wave (bit 6), Saw Wave (bit 5), Triangle Wave (bit 4), Test (bit 3), Ring Modulate Osc1->Osc2 (bit 2), Sync Osc1->Osc2 (bit 1), Gate Bit (bit 0, 1-initiate Atk/sus/Dec, 0 - Initiate Rel)]
+0528                  			return waveform*16+1;
+0529                  			break;
+0530                  		case 3:
+0531                  			// SET VOICE 3 Parameters
+0532                  			// set Attack/Decay /Sustain/release parameters	
+0533                  			SID0_V3_ATCK_DECY = attack*16+decay;
+0534                  			SID0_V3_SSTN_RLSE = sustain*16+release;
+0535                  			// Set PulseWidth
+0536                  			SID0_V3_PW_LO = pulseWidth & 0x00FF;
+0537                  			SID0_V3_PW_HI = (int) pulseWidth /256;
+0538                  			//Control Register (Write Only) [Noise Wave (bit 7), Pulse Wave (bit 6), Saw Wave (bit 5), Triangle Wave (bit 4), Test (bit 3), Ring Modulate Osc1->Osc2 (bit 2), Sync Osc1->Osc2 (bit 1), Gate Bit (bit 0, 1-initiate Atk/sus/Dec, 0 - Initiate Rel)]
+0539                  			return waveform*16+1;
+0540                  			break;
+0541                  	}
+0542                  	return 0;
     \ 00005c a90000               lda     ##0
-    \ 00005f 4c....               jmp     .kbank `?L159`
-    \ 000062          `?L162`:
-    \ 000062 22......             jsl     long:`?L284`
+    \ 00005f 4c....               jmp     .kbank `?L171`
+    \ 000062          `?L174`:
+    \ 000062 22......             jsl     long:`?L298`
     \ 000066 8f13e4af             sta     long:11527187
-    \ 00006a 22......             jsl     long:`?L285`
+    \ 00006a 22......             jsl     long:`?L299`
     \ 00006e e220                 sep     #32
     \ 000070 8f14e4af             sta     long:11527188
     \ 000074 c220                 rep     #32
@@ -2569,11 +2641,11 @@
     \ 00008e 28                   plp
     \ 00008f e220                 sep     #32
     \ 000091 8f11e4af             sta     long:11527185
-    \ 000095 8068                 bra     `?L282`
-    \ 000097          `?L163`:
-    \ 000097 22......             jsl     long:`?L284`
+    \ 000095 8068                 bra     `?L296`
+    \ 000097          `?L175`:
+    \ 000097 22......             jsl     long:`?L298`
     \ 00009b 8f0ce4af             sta     long:11527180
-    \ 00009f 22......             jsl     long:`?L285`
+    \ 00009f 22......             jsl     long:`?L299`
     \ 0000a3 e220                 sep     #32
     \ 0000a5 8f0de4af             sta     long:11527181
     \ 0000a9 c220                 rep     #32
@@ -2591,11 +2663,11 @@
     \ 0000c3 28                   plp
     \ 0000c4 e220                 sep     #32
     \ 0000c6 8f0ae4af             sta     long:11527178
-    \ 0000ca 8033                 bra     `?L282`
-    \ 0000cc          `?L164`:
-    \ 0000cc 22......             jsl     long:`?L284`
+    \ 0000ca 8033                 bra     `?L296`
+    \ 0000cc          `?L176`:
+    \ 0000cc 22......             jsl     long:`?L298`
     \ 0000d0 8f05e4af             sta     long:11527173
-    \ 0000d4 22......             jsl     long:`?L285`
+    \ 0000d4 22......             jsl     long:`?L299`
     \ 0000d8 e220                 sep     #32
     \ 0000da 8f06e4af             sta     long:11527174
     \ 0000de c220                 rep     #32
@@ -2613,15 +2685,15 @@
     \ 0000f8 28                   plp
     \ 0000f9 e220                 sep     #32
     \ 0000fb 8f03e4af             sta     long:11527171
-    \ 0000ff c220     `?L282`:    rep     #32
+    \ 0000ff c220     `?L296`:    rep     #32
     \ 000101 a30b                 lda     11,s
     \ 000103 0a                   asl     a
     \ 000104 0a                   asl     a
     \ 000105 0a                   asl     a
     \ 000106 0a                   asl     a
     \ 000107 1a                   inc     a
-    \ 000108          `?L159`:
-0513                  }
+    \ 000108          `?L171`:
+0543                  }
     \ 000108 a8                   tay
     \ 000109 3b                   tsc
     \ 00010a 18                   clc
@@ -2629,9 +2701,9 @@
     \ 00010e 1b                   tcs
     \ 00010f 98                   tya
     \ 000110 6b                   rtl
-0514                  
-0515                  void delay (float value)
-0516                  {
+0544                  
+0545                  void delay (float value)
+0546                  {
     \ 000000                      .section farcode,text
     \ 000000                      .public delay
     \ 000000          delay:
@@ -2639,13 +2711,13 @@
     \ 000002 d4..                 pei     dp:.tiny (_Dp+10)
     \ 000004 86..                 stx     dp:.tiny (_Dp+10)
     \ 000006 85..                 sta     dp:.tiny (_Dp+8)
-0517                  	// Just a Busy loop to waste time!
-0518                  	float i;
-0519                  	for (i=0;i<value;i++)
+0547                  	// Just a Busy loop to waste time!
+0548                  	float i;
+0549                  	for (i=0;i<value;i++)
     \ 000008 a90000               lda     ##0
     \ 00000b 85..                 sta     dp:.tiny (_Dp+4)
     \ 00000d 85..                 sta     dp:.tiny (_Dp+6)
-    \ 00000f          `?L176`:
+    \ 00000f          `?L188`:
     \ 00000f a6..                 ldx     dp:.tiny (_Dp+6)
     \ 000011 a5..                 lda     dp:.tiny (_Dp+4)
     \ 000013 a4..                 ldy     dp:.tiny (_Dp+8)
@@ -2653,15 +2725,15 @@
     \ 000017 a4..                 ldy     dp:.tiny (_Dp+10)
     \ 000019 84..                 sty     dp:.tiny (_Dp+2)
     \ 00001b 22......             jsl     long:_Float32LT
-    \ 00001f 9007                 bcc     `?L177`
-0520                  		;
-0521                  }
+    \ 00001f 9007                 bcc     `?L189`
+0550                  		;
+0551                  }
     \ 000021 7a                   ply
     \ 000022 84..                 sty     dp:.tiny (_Dp+10)
     \ 000024 7a                   ply
     \ 000025 84..                 sty     dp:.tiny (_Dp+8)
     \ 000027 6b                   rtl
-    \ 000028          `?L177`:
+    \ 000028          `?L189`:
     \ 000028 a5..                 lda     dp:.tiny (_Dp+4)
     \ 00002a 85..                 sta     dp:.tiny _Dp
     \ 00002c a5..                 lda     dp:.tiny (_Dp+6)
@@ -2671,70 +2743,70 @@
     \ 000036 22......             jsl     long:_Float32Add
     \ 00003a 86..                 stx     dp:.tiny (_Dp+6)
     \ 00003c 85..                 sta     dp:.tiny (_Dp+4)
-    \ 00003e 80cf                 bra     `?L176`
-0522                  
-0523                  void resetSID()
-0524                  {
+    \ 00003e 80cf                 bra     `?L188`
+0552                  
+0553                  void resetSID()
+0554                  {
     \ 000000                      .section farcode,text
     \ 000000                      .public resetSID
     \ 000000          resetSID:
-0525                  	SID0_V1_FREQ_LO=0;
+0555                  	SID0_V1_FREQ_LO=0;
     \ 000000 e220                 sep     #32
     \ 000002 a900                 lda     #0
     \ 000004 8f00e4af             sta     long:11527168
-0526                  	SID0_V1_FREQ_HI=0;
+0556                  	SID0_V1_FREQ_HI=0;
     \ 000008 8f01e4af             sta     long:11527169
-0527                  	SID0_V1_PW_LO=0;
+0557                  	SID0_V1_PW_LO=0;
     \ 00000c 8f02e4af             sta     long:11527170
-0528                  	SID0_V1_PW_HI=0;
+0558                  	SID0_V1_PW_HI=0;
     \ 000010 8f03e4af             sta     long:11527171
-0529                  	SID0_V1_CTRL=0;
+0559                  	SID0_V1_CTRL=0;
     \ 000014 8f04e4af             sta     long:11527172
-0530                  	SID0_V1_ATCK_DECY=0;
+0560                  	SID0_V1_ATCK_DECY=0;
     \ 000018 8f05e4af             sta     long:11527173
-0531                  	SID0_V1_SSTN_RLSE=0;
+0561                  	SID0_V1_SSTN_RLSE=0;
     \ 00001c 8f06e4af             sta     long:11527174
-0532                  	SID0_V2_FREQ_LO=0;
+0562                  	SID0_V2_FREQ_LO=0;
     \ 000020 8f07e4af             sta     long:11527175
-0533                  	SID0_V2_FREQ_HI=0;
+0563                  	SID0_V2_FREQ_HI=0;
     \ 000024 8f08e4af             sta     long:11527176
-0534                  	SID0_V2_PW_LO=0;
+0564                  	SID0_V2_PW_LO=0;
     \ 000028 8f09e4af             sta     long:11527177
-0535                  	SID0_V2_PW_HI=0;
+0565                  	SID0_V2_PW_HI=0;
     \ 00002c 8f0ae4af             sta     long:11527178
-0536                  	SID0_V2_CTRL=0;
+0566                  	SID0_V2_CTRL=0;
     \ 000030 8f0be4af             sta     long:11527179
-0537                  	SID0_V2_ATCK_DECY=0;
+0567                  	SID0_V2_ATCK_DECY=0;
     \ 000034 8f0ce4af             sta     long:11527180
-0538                  	SID0_V2_SSTN_RLSE=0;
+0568                  	SID0_V2_SSTN_RLSE=0;
     \ 000038 8f0de4af             sta     long:11527181
-0539                  	SID0_V3_FREQ_LO=0;
+0569                  	SID0_V3_FREQ_LO=0;
     \ 00003c 8f0ee4af             sta     long:11527182
-0540                  	SID0_V3_FREQ_HI=0;
+0570                  	SID0_V3_FREQ_HI=0;
     \ 000040 8f0fe4af             sta     long:11527183
-0541                  	SID0_V3_PW_LO=0;
+0571                  	SID0_V3_PW_LO=0;
     \ 000044 8f10e4af             sta     long:11527184
-0542                  	SID0_V3_PW_HI=0;
+0572                  	SID0_V3_PW_HI=0;
     \ 000048 8f11e4af             sta     long:11527185
-0543                  	SID0_V3_CTRL=0;
+0573                  	SID0_V3_CTRL=0;
     \ 00004c 8f12e4af             sta     long:11527186
-0544                  	SID0_V3_ATCK_DECY=0;
+0574                  	SID0_V3_ATCK_DECY=0;
     \ 000050 8f13e4af             sta     long:11527187
-0545                  	SID0_V3_SSTN_RLSE=0;
+0575                  	SID0_V3_SSTN_RLSE=0;
     \ 000054 8f14e4af             sta     long:11527188
-0546                  	SID0_FC_LO=0;
+0576                  	SID0_FC_LO=0;
     \ 000058 8f15e4af             sta     long:11527189
-0547                  	SID0_FC_HI=0;
+0577                  	SID0_FC_HI=0;
     \ 00005c 8f16e4af             sta     long:11527190
-0548                  	SID0_RES_FILT=0;
+0578                  	SID0_RES_FILT=0;
     \ 000060 8f17e4af             sta     long:11527191
-0549                  	SID0_MODE_VOL=0;
+0579                  	SID0_MODE_VOL=0;
     \ 000064 8f18e4af             sta     long:11527192
     \ 000068 c220                 rep     #32
-0550                  }
+0580                  }
     \ 00006a 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 1a       `?L283`:    inc     a
+    \ 000000 1a       `?L297`:    inc     a
     \ 000001 18                   clc
     \ 000002 65..                 adc     dp:.tiny _Dp
     \ 000004 aa                   tax
@@ -2745,7 +2817,7 @@
     \ 00000e a325                 lda     37,s
     \ 000010 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 a306     `?L284`:    lda     6,s
+    \ 000000 a306     `?L298`:    lda     6,s
     \ 000002 e220                 sep     #32
     \ 000004 0a                   asl     a
     \ 000005 0a                   asl     a
@@ -2757,7 +2829,7 @@
     \ 00000d e220                 sep     #32
     \ 00000f 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 c220     `?L285`:    rep     #32
+    \ 000000 c220     `?L299`:    rep     #32
     \ 000002 a30a                 lda     10,s
     \ 000004 e220                 sep     #32
     \ 000006 0a                   asl     a
@@ -2769,7 +2841,7 @@
     \ 00000d 630c                 adc     12,s
     \ 00000f 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 1a       `?L286`:    inc     a
+    \ 000000 1a       `?L300`:    inc     a
     \ 000001 18                   clc
     \ 000002 65..                 adc     dp:.tiny _Dp
     \ 000004 aa                   tax
@@ -2779,7 +2851,7 @@
     \ 00000c c220                 rep     #32
     \ 00000e 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 98       `?L287`:    tya
+    \ 000000 98       `?L301`:    tya
     \ 000001 0a                   asl     a
     \ 000002 0a                   asl     a
     \ 000003 0a                   asl     a
@@ -2788,7 +2860,7 @@
     \ 000006 69....               adc     ##SID_envelope
     \ 000009 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 1a       `?L288`:    inc     a
+    \ 000000 1a       `?L302`:    inc     a
     \ 000001 18                   clc
     \ 000002 65..                 adc     dp:.tiny _Dp
     \ 000004 aa                   tax
@@ -2796,21 +2868,21 @@
     \ 000007 e220                 sep     #32
     \ 000009 9d0000               sta     0,x
     \ 00000c c220                 rep     #32
-    \ 00000e a310                 lda     16,s
+    \ 00000e a312                 lda     18,s
     \ 000010 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 a327     `?L289`:    lda     39,s
+    \ 000000 a327     `?L303`:    lda     39,s
     \ 000002 a8                   tay
     \ 000003 b31a                 lda     (26,s),y
     \ 000005 e220                 sep     #32
     \ 000007 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 29ff00   `?L290`:    and     ##255
+    \ 000000 29ff00   `?L304`:    and     ##255
     \ 000003 38                   sec
     \ 000004 e93000               sbc     ##48
     \ 000007 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 18       `?L291`:    clc
+    \ 000000 18       `?L305`:    clc
     \ 000001 691d00               adc     ##29
     \ 000004 a8                   tay
     \ 000005 8a                   txa
@@ -2819,13 +2891,13 @@
     \ 00000a c220                 rep     #32
     \ 00000c 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 18       `?L292`:    clc
+    \ 000000 18       `?L306`:    clc
     \ 000001 632f                 adc     47,s
     \ 000003 a8                   tay
     \ 000004 e220                 sep     #32
     \ 000006 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 1a       `?L293`:    inc     a
+    \ 000000 1a       `?L307`:    inc     a
     \ 000001 18                   clc
     \ 000002 65..                 adc     dp:.tiny _Dp
     \ 000004 aa                   tax
@@ -2833,18 +2905,23 @@
     \ 000008 29ff00               and     ##255
     \ 00000b 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 e220     `?L294`:    sep     #32
+    \ 000000 c220     `?L308`:    rep     #32
+    \ 000002 a30c                 lda     12,s
+    \ 000004 c90300               cmp     ##3
+    \ 000007 6b                   rtl
+    \ 000000                      .section farcode,text
+    \ 000000 e220     `?L309`:    sep     #32
     \ 000002 c930                 cmp     #48
     \ 000004 c220                 rep     #32
     \ 000006 6b                   rtl
     \ 000000                      .section farcode,text
-    \ 000000 a327     `?L295`:    lda     39,s
+    \ 000000 a327     `?L310`:    lda     39,s
     \ 000002 a8                   tay
     \ 000003 b30a                 lda     (10,s),y
     \ 000005 e220                 sep     #32
     \ 000007 6b                   rtl
     \ 000000                      .section switch,rodata
-    \ 000000 0400     `?L188`:    .word   4
+    \ 000000 0400     `?L200`:    .word   4
     \ 000002 ....                 .word   .word0 (`?L33`-1)
     \ 000004 6800                 .word   104
     \ 000006 ....                 .word   .word0 (`?L37`-1)
@@ -2889,6 +2966,6 @@
 #                        #
 ##########################
 
-Executable        (Text): 3700 bytes
+Executable        (Text): 3805 bytes
 Constant                : 1270 bytes
 Constant   __far        :   24 bytes

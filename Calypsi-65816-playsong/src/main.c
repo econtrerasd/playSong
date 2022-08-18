@@ -48,8 +48,9 @@ unsigned char (*Tracker)[cols];
 	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+	resetSID(); 	
 	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-// Play Tune w/piano
+// Play Tune w/Accordion
 	printf("\rPlaying with Accordion\r");	
 	trk1[1]='2';
 	trk2[1]='2';
@@ -58,8 +59,10 @@ unsigned char (*Tracker)[cols];
 	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+	resetSID(); 	
 	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-// Play Tune w/piano	
+// Play Tune w/Distorted Synth	
+
 	printf("\rPlaying with Distorted Synth\r");	
 	trk1[1]='3';
 	trk2[1]='3';
@@ -68,8 +71,10 @@ unsigned char (*Tracker)[cols];
 	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+	resetSID(); 	
 	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-// Play Tune w/piano
+
+// Play Tune w/Gun Shots
 	printf("\rPlaying with Gun Shots!\r");	
 	trk1[1]='4';
 	trk2[1]='4';
@@ -78,8 +83,9 @@ unsigned char (*Tracker)[cols];
 	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+	resetSID(); 	
 	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-// Play Tune w/piano
+// Play Tune w/Flute
 	printf("\rPlaying with Flute\r");	
 	trk1[1]='5';
 	trk2[1]='5';
@@ -88,8 +94,9 @@ unsigned char (*Tracker)[cols];
 	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+	resetSID(); 	
 	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-// Play Tune w/piano
+// Play Tune w/Guitar
 	printf("\rPlaying with Guitar\r");	
 	trk1[1]='6';
 	trk2[1]='6';
@@ -98,8 +105,9 @@ unsigned char (*Tracker)[cols];
 	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+	resetSID(); 	
 	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-// Play Tune w/piano
+// Play Tune w/Harpsichord
 	printf("\rPlaying with Harpsichord\r");	
 	trk1[1]='7';
 	trk2[1]='7';
@@ -108,8 +116,9 @@ unsigned char (*Tracker)[cols];
 	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+	resetSID(); 	
 	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-// Play Tune w/piano
+// Play Tune w/Organ
 	printf("\rPlaying with Organ\r");	
 	trk1[1]='8';
 	trk2[1]='8';
@@ -118,8 +127,9 @@ unsigned char (*Tracker)[cols];
 	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+	resetSID(); 	
 	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-// Play Tune w/piano
+// Play Tune w/Oboe
 	printf("\rPlaying with Oboe\r");	
 	trk1[1]='9';
 	trk2[1]='9';
@@ -128,8 +138,9 @@ unsigned char (*Tracker)[cols];
 	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+	resetSID(); 	
 	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-// Play Tune w/piano
+// Play Tune w/Xylophone
 	printf("\rPlaying with Xylophone\r");	
 	trk1[1]='a';
 	trk2[1]='a';
@@ -138,8 +149,9 @@ unsigned char (*Tracker)[cols];
 	usedRows = addTrack (trk1,1,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk2,2,rows,cols,Tracker); 	// Add simple tune in Track 1
 	usedRows = addTrack (trk3,3,rows,cols,Tracker); 	// Add simple tune in Track 1
+	resetSID(); 	
 	playSongSID(usedRows,cols,Tracker,140);				// Play the song stored in Tracks @ Tempo 140
-	
+
 // Clean up audio from the SID Chip
 	resetSID(); 										
 // Show 'n' rows of Track music as is stored in memory	

@@ -91,12 +91,12 @@ const int SID_envelope[16][8]={
 	// note it's rarely used but you can add wave numbers to produce a more complex wave!! - see Distorted Synth, it has 5 as wave value (4 pulse + 1 triangle)
 	{0,9,0,0,4,2048,2},  // 1.Piano
 	{8,2,6,1,2,0,3},    // 2.Accordion
-	{0,3,10,1,5,2048,1},  // 3.Distorted Synth
+	{5,8,13,2,4,128,3},  // 3.Distorted Synth
 	{0,5,5,0,8,0,1},     // 4.GunShots
-	{8,3,4,0,1,0,1},     // 5.Flute
-	{0,8,2,3,2,0,3},     // 6.Guitar
+	{5,2,15,0,1,0,1},     // 5.Flute
+	{0,8,3,4,2,0,3},     // 6.Guitar
 	{0,9,0,0,4,512,2},   // 7.Harpsichord
-	{3,10,10,1,4,2560,2},  // 8.Organ
+	{0,3,15,0,4,2560,1},  // 8.Organ
 	{7,7,3,1,4,768,3},   // 9.Oboe
 	{0,8,0,0,1,0,3}      // 10.Xylophone
 };
@@ -273,6 +273,12 @@ int addTrack(char tune[], int trackNumber, int rows, int cols, unsigned char (*T
 					c++;
 				}
 			}
+			// spaces are accepted but they do nothing
+			if (tune[c]==' ')
+			{
+				modFlag=true;
+				c++;
+			}
 		}
 			note[++pos]='\0';
 		//-------------------------------
@@ -335,6 +341,7 @@ int addTrack(char tune[], int trackNumber, int rows, int cols, unsigned char (*T
 			}
 		}
 		// Check for Errors on Song string
+		
 		if (noteFlag==false && modFlag==false && c!=tuneSize)
 		{
 			// invalid character
@@ -387,7 +394,7 @@ void playSongSID(int rows,int cols, unsigned char (*Tracker)[cols], int tempo)
 	 wave3=setInstrumentSID(3, 1);
 	
 	// Init Music playing
-	for (i=0;i<=rows;i++)
+	for (i=1;i<=rows;i++)
 	{
 		for (j=0;j<tracks;j++)
 		{
@@ -411,26 +418,41 @@ void playSongSID(int rows,int cols, unsigned char (*Tracker)[cols], int tempo)
 						// if there's a new instrument change it before playing note
 						wave1=setInstrumentSID(1, instrument);
 
-						if (note<=100)
+						if (note<100)
 						{
 							// play new note 							
 							SID0_V1_FREQ_LO = loFreq; 
 							SID0_V1_FREQ_HI = hiFreq;
-						}
+							if (instrument==3)
+							{
+								SID0_V1_PW_LO = loFreq;
+								SID0_V1_PW_HI = hiFreq;
+							}
 							SID0_V1_CTRL=wave1; // Gate in New note!						
+						}
+						else
+							SID0_V1_CTRL=wave1-1; // Gate out note!						
 					break;
 					case 1:  // play voice 2
 						// Gate Out previous note
 						SID0_V2_CTRL = wave2-1;
 						// if there's a new instrument change it before playing note
 						wave2=setInstrumentSID(2, instrument);
-						if (note<=100)
+						if (note<100)
 						{
 							// play new note 
 							SID0_V2_FREQ_LO = loFreq; 
 							SID0_V2_FREQ_HI = hiFreq;
+							if (instrument==3)
+							{
+								SID0_V2_PW_LO = loFreq;
+								SID0_V2_PW_HI = hiFreq;
+							}
+
+							SID0_V2_CTRL=wave2; // Gate in New note!
 						}
-							SID0_V2_CTRL=wave2; // Gate in New note!						
+						else
+							SID0_V2_CTRL=wave2-1; // Gate out note!						
 					break;
 					case 2: // play voice 3
 						// Gate Out previous note
@@ -442,8 +464,16 @@ void playSongSID(int rows,int cols, unsigned char (*Tracker)[cols], int tempo)
 							// play new note 
 							SID0_V3_FREQ_LO = loFreq; 
 							SID0_V3_FREQ_HI = hiFreq;
-						}
+							if (instrument==3)
+							{
+								SID0_V3_PW_LO = loFreq;
+								SID0_V3_PW_HI = hiFreq;
+							}
+
 							SID0_V3_CTRL=wave3; // Gate in New note!
+						}
+						else
+							SID0_V3_CTRL=wave3-1; // Gate out note!
 					break; 
 				}
 			}
